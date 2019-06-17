@@ -10,7 +10,102 @@
 <p>https://github.com/Meshcloud/gate-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-gate-resource" class="anchor" aria-hidden="true" href="#gate-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>gate-resource</h1>
+<p><a href="https://hub.docker.com/r/meshcloud/gate-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/01aa165f66111d1d321ca0812ec66ca204176905/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f6275696c642f6d657368636c6f75642f676174652d7265736f757263652e737667" alt="Build Status" data-canonical-src="https://img.shields.io/docker/build/meshcloud/gate-resource.svg" style="max-width:100%;"></a>
+<a href="https://hub.docker.com/r/meshcloud/gate-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/7c7f598c307443ab8476a1ef4c661af34b932861/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6d657368636c6f75642f676174652d7265736f757263652e7376673f6d61784167653d32353932303030" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/meshcloud/gate-resource.svg?maxAge=2592000" style="max-width:100%;"></a></p>
+<p>A generic gate resource for Concourse CI.</p>
+<p>Allows you to model quality gates and pipeline control flow.</p>
+<p>This resource is backed by a Git repository and wraps <a href="https://github.com/concourse/git-resource">git-resource</a>.</p>
+<blockquote>
+<p>Contributors Welcome: This resource is new and hot off the press. We welcome your feedback and contributions!</p>
+</blockquote>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<p>To see an example pipeline using gate-resource, head over to <a href="https://github.com/Meshcloud/gate-resource-example">gate-resource-example</a>.</p>
+<h2><a id="user-content-git-repository-structure" class="anchor" aria-hidden="true" href="#git-repository-structure"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Git Repository Structure</h2>
+<pre lang="text"><code>.
+├── my-gate
+│   ├── 1
+│   └── 2
+└── my-autogate
+    ├── a
+    └── b.autogate
+</code></pre>
+<blockquote>
+<p>note: The gate repository is currently append-only. Files are not expected to be deleted or cleaned.</p>
+</blockquote>
+<p>The gate-resource supports two types of gates: simple-gates and auto-gates.</p>
+<h3><a id="user-content-simple-gates" class="anchor" aria-hidden="true" href="#simple-gates"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Simple-gates</h3>
+<p>Each folder in the repository represents a gate. Files in each gate-folder represent items that successfully passed the gate. The files may be empty or contain any metadata that you whish to track. In the example above, <code>my-gate</code> is a simple-gate</p>
+<h3><a id="user-content-auto-gates" class="anchor" aria-hidden="true" href="#auto-gates"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Auto-gates</h3>
+<p>Auto-gates are gates that automatically close depending on items passing through other gates. An auto-gate contains <code>.autoclose</code> items, which is a simple text file that contains dependant items, one on each line ("autoclose spec"). For example, <code>b.autoclose</code> depends on these two items passing through <code>my-gate</code>:</p>
+<pre lang="b.autoclose"><code>my-gate/2
+my-gate/3
+# metadata after this line
+arbitrary content goes here
+</code></pre>
+<p>When all dependant items passed, the autoclose item closes and drops the <code>.autoclose</code> extension from its filename. Autoclose files can also contain additional metadata. To separate the autoclose spec from additional metadata, gate-resource looks for a line starting with <code>#</code> and stops interpreting any lines after this.</p>
+<h4><a id="user-content-the-none-version" class="anchor" aria-hidden="true" href="#the-none-version"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The "none" version</h4>
+<p>Unfortunately Concourse does not support emitting an empty set of versions from <code>out</code>. However, this is necessary for gate-resource as it may not find any autoclose items to close in a particular update. As a workaround, gate-resource emits the <code>none</code> version. <code>in</code> will no-op on encountering this version.</p>
+<p>Since concourse detects that the <code>none</code> version already exists after the first time it's generated, it will only trigger a single build when an auto-gate is used with <code>trigger: true</code>. You can detect that the <code>none</code> version was fetched  when no <code>passed</code> and <code>metadata</code> files were created by the <code>get</code> step (see below).</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>git</code>: <em>Required.</em> Configuration of the repository. See <a href="https://github.com/concourse/git-resource">git-resource</a> for options.</p>
+<ul>
+<li><strong>note:</strong> the <code>paths</code> and <code>ignore_path</code> parameters are not supported</li>
+</ul>
+</li>
+<li>
+<p><code>gate</code>: <em>Optional.</em> The gate to track.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-changes-to-the-gate" class="anchor" aria-hidden="true" href="#check-check-for-changes-to-the-gate"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for changes to the gate</h3>
+<p>The repository is cloned (or pulled if already present), and any commits made to the specified <code>gate</code> from the given version on are checked for items passing through the gate.</p>
+<blockquote>
+<p>note: If you want to ensure the resource triggers for every item that passed the gate, use the resource with <code>version: every</code></p>
+</blockquote>
+<h3><a id="user-content-in-fetch-an-item-that-passed-a-gate" class="anchor" aria-hidden="true" href="#in-fetch-an-item-that-passed-a-gate"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch an item that passed a gate</h3>
+<p>Outputs 2 files:</p>
+<ul>
+<li><code>passed</code>: Contains the name of the item that passed the gate</li>
+<li><code>metadata</code>: Contains the contents of whatever was in your gate item. This is
+useful for environment configuration settings or documenting approval workflows.</li>
+</ul>
+<h3><a id="user-content-out-pass-an-item-through-a-gate" class="anchor" aria-hidden="true" href="#out-pass-an-item-through-a-gate"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Pass an item through a gate</h3>
+<p>Performs one of the following actions to change the state of a gate.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>One of the following is required.</p>
+<ul>
+<li><code>item_file</code>: Path to a file containing an item to pass through the gate. Wildcards are allowed, but should match only a single item. This file may also be a <code>.autogate</code> file.</li>
+<li><code>update_autoclose</code>: Process pending autoclose items in the repository</li>
+</ul>
+<blockquote>
+<p>Note: Gate puts are idempotent. When putting a new gate item or <code>.autoclose</code> spec, the resource checks if a matching item already passed the gate. When this is the case, <code>out</code> will emit the version that previously produced this item.</p>
+</blockquote>
+<h4><a id="user-content-creating-autoclose-items" class="anchor" aria-hidden="true" href="#creating-autoclose-items"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating .autoclose items</h4>
+<p><code>.autoclose</code> items can be put to the gate just like regular items. However, the version that gate-resource will emmit for this item may vary:</p>
+<ul>
+<li>when a matching target item (i.e. the filename without <code>.autoclose</code> extension) already
+exists, emits the version that produced this target item.</li>
+<li>when the <code>.autoclose</code> item is immediately closable (all dependent items alreday passed
+their gates), close the item and emit the version</li>
+<li>otherwise emit a <code>none</code> version (see above)</li>
+</ul>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+work.</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following command:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t gate-resource <span class="pl-c1">.</span></pre></div>
+</article></div>
 </div>
 
 </body>

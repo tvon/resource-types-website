@@ -10,7 +10,68 @@
 <p>https://github.com/carlo-colombo/telegram-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-telegram-resource" class="anchor" aria-hidden="true" href="#telegram-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>telegram-resource</h1>
+<p>Act as a telegram bot tracking and sending messages</p>
+<h2><a id="user-content-add-to-a-pipeline-configuration" class="anchor" aria-hidden="true" href="#add-to-a-pipeline-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Add to a pipeline configuration</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">telegram</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">carlocolombo/telegram-resource</span></pre></div>
+<h3><a id="user-content-tags" class="anchor" aria-hidden="true" href="#tags"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tags</h3>
+<ul>
+<li><code>latest</code> stable build</li>
+<li><code>latest-dev</code> build from the latest commit</li>
+</ul>
+<p><a href="https://hub.docker.com/r/carlocolombo/telegram-resource/tags/" rel="nofollow">https://hub.docker.com/r/carlocolombo/telegram-resource/tags/</a></p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>telegram_key</code> <em>Required</em> . Ask it to the <a href="https://telegram.me/BotFather" rel="nofollow">BotFather</a></li>
+<li><code>filter</code> <em>Optional</em>. A regex string eg <code>"/start"</code></li>
+<li><code>flags</code> <em>Optional</em>. String of flags eg <code>"mi"</code> for multiline and case insensitive. Check more on <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags" rel="nofollow">mdn</a></li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">start</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">telegram</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">filter</span>: <span class="pl-s"><span class="pl-pds">'</span>/start<span class="pl-pds">'</span></span>
+    <span class="pl-ent">flags</span>: <span class="pl-s">i</span>
+    <span class="pl-ent">telegram_key</span>: <span class="pl-s">{{telegram_bot_token}}</span></pre></div>
+<p>Fetching messages:</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">start</span>
+  <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span></pre></div>
+<p>Send a full featured <a href="https://core.telegram.org/bots/api#sendmessage" rel="nofollow">message</a>:</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">answer</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">message</span>: <span class="pl-s">answer/message</span></pre></div>
+<p>Send a simple message:</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">answer</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">chat_id</span>: <span class="pl-s">answer/chat_id</span>
+    <span class="pl-ent">text</span>: <span class="pl-s">answer/text</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-messages" class="anchor" aria-hidden="true" href="#check-check-for-new-messages"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new messages</h3>
+<p>Returns the recent messages sent to the telegram bot, if filter is defined it will return only the messages matching the regex</p>
+<h3><a id="user-content-in-read-a-message" class="anchor" aria-hidden="true" href="#in-read-a-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Read a message</h3>
+<p>Outputs 1 file:</p>
+<ul>
+<li><code>message</code>: Contains the message as retrieved from telegram api, it is a json rappresenting an <a href="https://core.telegram.org/bots/api#update" rel="nofollow">update object</a>. Only update of type <code>message</code> are supported right now</li>
+</ul>
+<h3><a id="user-content-out-send-a-message" class="anchor" aria-hidden="true" href="#out-send-a-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Send a message</h3>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p><code>text</code> and <code>chat_id</code> or <code>message</code> are required, if all present <code>message</code> has precedence over the pair <code>chat_id</code> <code>text</code></p>
+<ul>
+<li><code>text</code>: Text of the message to be sent</li>
+<li><code>chat_id</code>: Unique identifier for the target chat or username of the target channel (in the format <code>@channelusername</code>)</li>
+<li><code>message</code>: A json rappresenting a full message to be sent using the api, <a href="https://core.telegram.org/bots/api#sendmessage" rel="nofollow">https://core.telegram.org/bots/api#sendmessage</a></li>
+</ul>
+<h2><a id="user-content-example-configurations" class="anchor" aria-hidden="true" href="#example-configurations"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configurations</h2>
+<ul>
+<li><a href="https://github.com/carlo-colombo/telegram-resource/blob/master/pipeline.yml">Example pipeline</a></li>
+<li><a href="https://github.com/carlo-colombo/telegram-resource/blob/master/ci/pipeline.yml#L134-L162">CI pipeline</a></li>
+</ul>
+</article></div>
 </div>
 
 </body>

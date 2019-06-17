@@ -10,7 +10,262 @@
 <p>https://github.com/concourse/semver-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-semver-resource" class="anchor" aria-hidden="true" href="#semver-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Semver Resource</h1>
+<p>A resource for managing a version number. Persists the version number in one of several backing stores.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>initial_version</code>: <em>Optional.</em> The version number to use when
+bootstrapping, i.e. when there is not a version number present in the source.</p>
+</li>
+<li>
+<p><code>driver</code>: <em>Optional. Default <code>s3</code>.</em> The driver to use for tracking the
+version. Determines where the version is stored.</p>
+</li>
+</ul>
+<p>There are four supported drivers, with their own sets of properties for
+configuring them.</p>
+<h3><a id="user-content-git-driver" class="anchor" aria-hidden="true" href="#git-driver"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>git</code> Driver</h3>
+<p>The <code>git</code> driver works by modifying a file in a repository with every bump. The
+<code>git</code> driver has the advantage of being able to do atomic updates.</p>
+<ul>
+<li>
+<p><code>uri</code>: <em>Required.</em> The repository URL.</p>
+</li>
+<li>
+<p><code>branch</code>: <em>Required.</em> The branch the file lives on.</p>
+</li>
+<li>
+<p><code>file</code>: <em>Required.</em> The name of the file in the repository.</p>
+</li>
+<li>
+<p><code>private_key</code>: <em>Optional.</em> The SSH private key to use when pulling from/pushing to to the repository.</p>
+</li>
+<li>
+<p><code>username</code>: <em>Optional.</em> Username for HTTP(S) auth when pulling/pushing.
+This is needed when only HTTP/HTTPS protocol for git is available (which does not support private key auth)
+and auth is required.</p>
+</li>
+<li>
+<p><code>password</code>: <em>Optional.</em> Password for HTTP(S) auth when pulling/pushing.</p>
+</li>
+<li>
+<p><code>git_user</code>: <em>Optional.</em> The git identity to use when pushing to the
+repository support RFC 5322 address of the form "Gogh Fir &lt;<a href="mailto:gf@example.com">gf@example.com</a>&gt;" or "<a href="mailto:foo@example.com">foo@example.com</a>".</p>
+</li>
+<li>
+<p><code>depth</code>: <em>Optional.</em> If a positive integer is given, shallow clone the repository using the --depth option.</p>
+</li>
+<li>
+<p><code>commit_message</code>: <em>Optional.</em> If specified overides the default commit message with the one provided. The user can use %version% and %file% to get them replaced automatically with the correct values.</p>
+</li>
+</ul>
+<h3><a id="user-content-s3-driver" class="anchor" aria-hidden="true" href="#s3-driver"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>s3</code> Driver</h3>
+<p>The <code>s3</code> driver works by modifying a file in an S3 compatible bucket.</p>
+<ul>
+<li>
+<p><code>bucket</code>: <em>Required.</em> The name of the bucket.</p>
+</li>
+<li>
+<p><code>key</code>: <em>Required.</em> The key to use for the object in the bucket tracking
+the version.</p>
+</li>
+<li>
+<p><code>access_key_id</code>: <em>Required.</em> The AWS access key to use when accessing the
+bucket.</p>
+</li>
+<li>
+<p><code>secret_access_key</code>: <em>Required.</em> The AWS secret key to use when accessing
+the bucket.</p>
+</li>
+<li>
+<p><code>region_name</code>: <em>Optional. Default <code>us-east-1</code>.</em> The region the bucket is in.</p>
+</li>
+<li>
+<p><code>endpoint</code>: <em>Optional.</em> Custom endpoint for using S3 compatible provider.</p>
+</li>
+<li>
+<p><code>disable_ssl</code>: <em>Optional.</em> Disable SSL for the endpoint, useful for S3 compatible providers without SSL.</p>
+</li>
+<li>
+<p><code>skip_ssl_verification</code>: <em>Optional.</em> Skip SSL verification for S3 endpoint. Useful for S3 compatible providers using self-signed SSL certificates.</p>
+</li>
+<li>
+<p><code>server_side_encryption</code>: <em>Optional.</em> The server-side encryption algorithm
+used when storing the version object (e.g. <code>AES256</code>, <code>aws:kms</code>).</p>
+</li>
+<li>
+<p><code>use_v2_signing</code>: <em>Optional.</em> Use v2 signing, default false.</p>
+</li>
+</ul>
+<h3><a id="user-content-swift-driver" class="anchor" aria-hidden="true" href="#swift-driver"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>swift</code> Driver</h3>
+<p>The <code>swift</code> driver works by modifying a file in a container.</p>
+<ul>
+<li>
+<p><code>openstack</code> <em>Required.</em> All openstack configuration must go under this key.</p>
+<ul>
+<li>
+<p><code>container</code>: <em>Required.</em> The name of the container.</p>
+</li>
+<li>
+<p><code>item_name</code>: <em>Required.</em> The item name to use for the object in the container tracking
+the version.</p>
+</li>
+<li>
+<p><code>region</code>: <em>Required.</em> The region the container is in.</p>
+</li>
+<li>
+<p><code>identity_endpoint</code>, <code>username</code>, <code>user_id</code>, <code>password</code>, <code>api_key</code>, <code>domain_id</code>, <code>domain_name</code>, <code>tenant_id</code>, <code>tenant_name</code>, <code>allow_reauth</code>, <code>token_id</code>: See below
+The swift driver uses <a href="http://gophercloud.io/docs/" rel="nofollow">gophercloud</a> to handle interacting
+with OpenStack. All OpenStack Identity versions are supported through this library. The
+Authentication properties will pass through to it. For detailed information about the
+individual parameters, see <a href="https://github.com/rackspace/gophercloud/blob/master/auth_options.go">https://github.com/rackspace/gophercloud/blob/master/auth_options.go</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3><a id="user-content-gcs-driver" class="anchor" aria-hidden="true" href="#gcs-driver"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>gcs</code> Driver</h3>
+<p>The <code>gcs</code> driver works by modifying a file in a Google Cloud Storage bucket.</p>
+<ul>
+<li>
+<p><code>bucket</code>: <em>Required.</em> The name of the bucket.</p>
+</li>
+<li>
+<p><code>key</code>: <em>Required.</em> The key to use for the object in the bucket tracking the version.</p>
+</li>
+<li>
+<p><code>json_key</code>: <em>Required.</em> The contents of your GCP Account JSON Key. Example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">json_key</span>: <span class="pl-s">|</span>
+<span class="pl-s">  {</span>
+<span class="pl-s">    "private_key_id": "...",</span>
+<span class="pl-s">    "private_key": "...",</span>
+<span class="pl-s">    "client_email": "...",</span>
+<span class="pl-s">    "client_id": "...",</span>
+<span class="pl-s">    "type": "service_account"</span>
+<span class="pl-s">  }</span></pre></div>
+</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>With the following resource configuration:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">version</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">semver</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">driver</span>: <span class="pl-s">git</span>
+    <span class="pl-ent">uri</span>: <span class="pl-s">git@github.com:concourse/concourse.git</span>
+    <span class="pl-ent">branch</span>: <span class="pl-s">version</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">version</span>
+    <span class="pl-ent">private_key</span>: <span class="pl-s">{{concourse-repo-private-key}}</span></pre></div>
+<p>Bumping with a <code>get</code> and then a <code>put</code>:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">plan</span>:
+- <span class="pl-ent">get</span>: <span class="pl-s">version</span>
+  <span class="pl-ent">params</span>: <span class="pl-s">{bump: minor}</span>
+- <span class="pl-ent">task</span>: <span class="pl-s">a-thing-that-needs-a-version</span>
+- <span class="pl-ent">put</span>: <span class="pl-s">version</span>
+  <span class="pl-ent">params</span>: <span class="pl-s">{file: version/version}</span></pre></div>
+<p>Or, bumping with an atomic <code>put</code>:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">plan</span>:
+- <span class="pl-ent">put</span>: <span class="pl-s">version</span>
+  <span class="pl-ent">params</span>: <span class="pl-s">{bump: minor}</span>
+- <span class="pl-ent">task</span>: <span class="pl-s">a-thing-that-needs-a-version</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-report-the-current-version-number" class="anchor" aria-hidden="true" href="#check-report-the-current-version-number"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Report the current version number.</h3>
+<p>Detects new versions by reading the file from the specified source. If the file is empty, it returns the <code>initial_version</code>. If the file is not empty, it returns the version specified in the file if it is equal to or greater than current version, otherwise it returns no versions.</p>
+<h3><a id="user-content-in-provide-the-version-as-a-file-optionally-bumping-it" class="anchor" aria-hidden="true" href="#in-provide-the-version-as-a-file-optionally-bumping-it"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Provide the version as a file, optionally bumping it.</h3>
+<p>Provides the version number to the build as a <code>version</code> file in the destination.</p>
+<p>Can be configured to bump the version locally, which can be useful for getting
+the <code>final</code> version ahead of time when building artifacts.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>bump</code> and <code>pre</code>: <em>Optional.</em> See <a href="#version-bumping-semantics">Version Bumping
+Semantics</a>.</li>
+</ul>
+<p>Note that <code>bump</code> and <code>pre</code> don't update the version resource - they just
+modify the version that gets provided to the build. An output must be
+explicitly specified to actually update the version.</p>
+<h3><a id="user-content-out-set-the-version-or-bump-the-current-one" class="anchor" aria-hidden="true" href="#out-set-the-version-or-bump-the-current-one"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Set the version or bump the current one.</h3>
+<p>Given a file, use its contents to update the version. Or, given a bump
+strategy, bump whatever the current version is. If there is no current version,
+the bump will be based on <code>initial_version</code>.</p>
+<p>The <code>file</code> parameter should be used if you have a particular version that you
+want to force the current version to be. This can be used in combination with
+<code>in</code>, but it's probably better to use the <code>bump</code> and <code>pre</code> params as they'll
+perform an atomic in-place bump if possible with the driver.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>One of the following must be specified:</p>
+<ul>
+<li>
+<p><code>file</code>: <em>Optional.</em> Path to a file containing the version number to set.</p>
+</li>
+<li>
+<p><code>bump</code> and <code>pre</code>: <em>Optional.</em> See <a href="#version-bumping-semantics">Version Bumping
+Semantics</a>.</p>
+</li>
+</ul>
+<p>When <code>bump</code> and/or <code>pre</code> are used, the version bump will be applied atomically,
+if the driver supports it. That is, if we pull down version <code>N</code>, and bump to
+<code>N+1</code>, the driver can then compare-and-swap. If the compare-and-swap fails
+because there's some new version <code>M</code>, the driver will re-apply the bump to get
+<code>M+1</code>, and try again (in a loop).</p>
+<h2><a id="user-content-version-bumping-semantics" class="anchor" aria-hidden="true" href="#version-bumping-semantics"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Version Bumping Semantics</h2>
+<p>Both <code>in</code> and <code>out</code> support bumping the version semantically via two params:
+<code>bump</code> and <code>pre</code>:</p>
+<ul>
+<li>
+<p><code>bump</code>: <em>Optional.</em> Bump the version number semantically. The value must
+be one of:</p>
+<ul>
+<li><code>major</code>: Bump the major version number, e.g. <code>1.0.0</code> -&gt; <code>2.0.0</code>.</li>
+<li><code>minor</code>: Bump the minor version number, e.g. <code>0.1.0</code> -&gt; <code>0.2.0</code>.</li>
+<li><code>patch</code>: Bump the patch version number, e.g. <code>0.0.1</code> -&gt; <code>0.0.2</code>.</li>
+<li><code>final</code>: Promote the version to a final version, e.g. <code>1.0.0-rc.1</code> -&gt; <code>1.0.0</code>.</li>
+</ul>
+</li>
+<li>
+<p><code>pre</code>: <em>Optional.</em> When bumping, bump to a prerelease (e.g. <code>rc</code> or
+<code>alpha</code>), or bump an existing prerelease.</p>
+<p>If present, and the version is already a prerelease matching this value,
+its number is bumped. If the version is already a prerelease of another
+type, (e.g. <code>alpha</code> vs. <code>beta</code>), the type is switched and the prerelease
+version is reset to <code>1</code>. If the version is <em>not</em> already a pre-release, then
+<code>pre</code> is added, starting at <code>1</code>.</p>
+<p>The value of <code>pre</code> can be anything you like; the value will be <code>pre</code>-pended (<em>hah</em>) to a numeric value. For example, <code>pre: build</code> will result in a semver of <code>x.y.z-build.&lt;number&gt;</code>, <code>pre: alpha</code> becomes <code>x.y.z-alpha.&lt;number&gt;</code>, and <code>pre: my-preferred-naming-convention</code> becomes <code>x.y.z-my-preferred-naming-convention.&lt;number&gt;</code></p>
+</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following commands for both <code>alpine</code> and <code>ubuntu</code> images:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t semver-resource -f dockerfiles/alpine/Dockerfile <span class="pl-c1">.</span>
+docker build -t semver-resource -f dockerfiles/ubuntu/Dockerfile <span class="pl-c1">.</span></pre></div>
+<h4><a id="user-content-integration-tests" class="anchor" aria-hidden="true" href="#integration-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration tests</h4>
+<p>The integration requires two AWS S3 buckets, one without versioning and another
+with. The <code>docker build</code> step requires setting <code>--build-args</code> so the
+integration will run.</p>
+<p>You will need:</p>
+<ul>
+<li>AWS key and secret</li>
+<li>An S3 bucket</li>
+<li>The region you are in (i.e. <code>us-east-1</code>, <code>us-west-2</code>)</li>
+</ul>
+<p>Run the tests with the following command, replacing each <code>build-arg</code> value with your own values:</p>
+<div class="highlight highlight-source-shell"><pre>docker build <span class="pl-c1">.</span> -t semver-resource -f dockerfiles/alpine/Dockerfile \
+  --build-arg SEMVER_TESTING_ACCESS_KEY_ID=<span class="pl-s"><span class="pl-pds">"</span>some-key<span class="pl-pds">"</span></span> \
+  --build-arg SEMVER_TESTING_SECRET_ACCESS_KEY=<span class="pl-s"><span class="pl-pds">"</span>some-secret<span class="pl-pds">"</span></span> \
+  --build-arg SEMVER_TESTING_BUCKET=<span class="pl-s"><span class="pl-pds">"</span>some-bucket<span class="pl-pds">"</span></span> \
+  --build-arg SEMVER_TESTING_REGION=<span class="pl-s"><span class="pl-pds">"</span>some-region<span class="pl-pds">"</span></span>
+
+docker build <span class="pl-c1">.</span> -t semver-resource -f dockerfiles/ubuntu/Dockerfile \
+  --build-arg SEMVER_TESTING_ACCESS_KEY_ID=<span class="pl-s"><span class="pl-pds">"</span>some-key<span class="pl-pds">"</span></span> \
+  --build-arg SEMVER_TESTING_SECRET_ACCESS_KEY=<span class="pl-s"><span class="pl-pds">"</span>some-secret<span class="pl-pds">"</span></span> \
+  --build-arg SEMVER_TESTING_BUCKET=<span class="pl-s"><span class="pl-pds">"</span>some-bucket<span class="pl-pds">"</span></span> \
+  --build-arg SEMVER_TESTING_REGION=<span class="pl-s"><span class="pl-pds">"</span>some-region<span class="pl-pds">"</span></span></pre></div>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+locally.</p>
+</article></div>
 </div>
 
 </body>

@@ -10,7 +10,172 @@
 <p>https://github.com/cloudboss/ofcourse</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-ofcourse" class="anchor" aria-hidden="true" href="#ofcourse"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ofcourse</h1>
+<p>This is a library and a project skeleton generator for making your own <a href="https://concourse-ci.org/" rel="nofollow">Concourse</a> resources in <a href="https://golang.org/" rel="nofollow">Go</a>, with an emphasis on testability.</p>
+<p>A Concourse resource consists of a Docker image containing three executables: <code>/opt/resource/check</code>, <code>/opt/resource/in</code>, and <code>/opt/resource/out</code>. When these are called by Concourse, they receive a JSON payload through standard input. They communicate back to Concourse by printing JSON back to standard output.</p>
+<p>This library reduces the amount of boilerplate required by allowing you to implement just three methods <code>Check</code>, <code>In</code>, and <code>Out</code>. These methods receive all of their inputs via arguments, and send their output through normal return values. The library handles the serializing of JSON to and from standard output and input.</p>
+<p>The project skeleton generator creates a simple resource that works out of the box. The project includes a Dockerfile, a Makefile, and a test suite with coverage for <code>Check</code>, <code>In</code>, and <code>Out</code>. There is also a sample pipeline that you can use to try out the resource immediately after running <code>make</code>, which builds the image and pushes it to your registry.</p>
+<h1><a id="user-content-generating-a-project" class="anchor" aria-hidden="true" href="#generating-a-project"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Generating a Project</h1>
+<p>First read the <a href="https://concourse-ci.org/implementing-resource-types.html" rel="nofollow">official documentation</a> on implementing your own resource.</p>
+<p>Download and unzip the latest <code>ofcourse</code> release from <a href="https://github.com/cloudboss/ofcourse/releases">GitHub</a>.</p>
+<p>Example for Linux:</p>
+<pre><code>&gt; curl -L -O https://github.com/cloudboss/ofcourse/releases/download/v0.2.1/ofcourse_linux_amd64.zip
+&gt; unzip ofcourse_linux_amd64.zip
+</code></pre>
+<p>Put the <code>ofcourse</code> binary in a directory on your <code>PATH</code>, or run it directly from the current location with <code>./ofcourse</code>.</p>
+<p>The <code>ofcourse</code> binary contains one subcommand called <code>init</code>, which takes three arguments:</p>
+<ul>
+<li>
+<p><code>-R, --docker-registry</code> - This is the docker registry where you will push your image. This may be an image on docker hub such as <code>cloudboss/concourse-noop-resource</code> or a fully qualified name such as <code>artifactory.example.com/cloudboss/concourse-noop-resource</code>.</p>
+</li>
+<li>
+<p><code>-i, --import-path</code> - This is the Go import path for your project, often a GitHub repository like <code>github.com/cloudboss/concourse-noop-resource</code>.</p>
+</li>
+<li>
+<p><code>-r, --resource</code> - This is the name of the resource. A directory of this name will be created, and this name will be used to refer to your resource in the sample pipeline.</p>
+</li>
+</ul>
+<p>Run <code>ofcourse init</code> to generate a project:</p>
+<pre><code>&gt; ./ofcourse init -R cloudboss/concourse-noop-resource -i github.com/cloudboss/concourse-noop-resource -r noop
+</code></pre>
+<p>Change to the directory that was created and build the docker image:</p>
+<pre><code>&gt; cd noop
+&gt; make
+</code></pre>
+<p>Now push the image to your registry. Note that you may need to <a href="https://docs.docker.com/engine/reference/commandline/login/" rel="nofollow">log in</a> to the registry before running this.</p>
+<pre><code>&gt; make publish
+</code></pre>
+<p>Now that the image has been pushed to a registry, you can create the sample pipeline with the <code>fly</code> command:</p>
+<pre><code>&gt; fly -t mytarget set-pipeline -p noop -c pipeline.yml
+&gt; fly -t mytarget unpause-pipeline -p noop
+</code></pre>
+<p>Soon after creating the pipeline, the resource will be checked.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/resource-check.png"><img src="images/resource-check.png" alt="Check" style="max-width:100%;"></a></p>
+<p>After the check produces a version, the <code>do-it</code> job will trigger.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/trigger.png"><img src="images/trigger.png" alt="Trigger" style="max-width:100%;"></a></p>
+<p>The output of <code>get</code> is shown here, with colored log levels, and metadata displayed on the right.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/job-output.png"><img src="images/job-output.png" alt="Put" style="max-width:100%;"></a></p>
+<p>Continue development to make it do something useful, testing as you go.</p>
+<pre><code>&gt; make test
+go test -v ./...
+go: finding github.com/cloudboss/ofcourse/ofcourse latest
+go: finding github.com/cloudboss/ofcourse latest
+go: finding github.com/stretchr/testify/assert latest
+?   	github.com/cloudboss/concourse-noop-resource/cmd/check	[no test files]
+?   	github.com/cloudboss/concourse-noop-resource/cmd/in	[no test files]
+?   	github.com/cloudboss/concourse-noop-resource/cmd/out	[no test files]
+=== RUN   TestCheck
+--- PASS: TestCheck (0.00s)
+=== RUN   TestIn
+--- PASS: TestIn (0.00s)
+=== RUN   TestOut
+--- PASS: TestOut (0.00s)
+PASS
+ok  	github.com/cloudboss/concourse-noop-resource/resource	0.003s
+</code></pre>
+<h1><a id="user-content-project-makefile" class="anchor" aria-hidden="true" href="#project-makefile"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Project Makefile</h1>
+<p>The project Makefile contains the following targets:</p>
+<p><code>docker</code>: This does a <code>docker build</code>, and is the default <code>make</code> target.</p>
+<p><code>publish</code>: This does a <code>docker push</code>.</p>
+<p><code>test</code>: This runs the project's go tests.</p>
+<p><code>fmt</code>: This runs <code>gofmt</code> on the project's go files.</p>
+<p>For the <code>docker</code> and <code>publish</code> targets, if <code>VERSION</code> is passed to <code>make</code>, then the docker image will be tagged with that version.</p>
+<pre><code>&gt; make VERSION=1.2.3
+&gt; make publish VERSION=1.2.3
+</code></pre>
+<h1><a id="user-content-project-readme" class="anchor" aria-hidden="true" href="#project-readme"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Project README</h1>
+<p>A skeleton <code>README.md</code> file is generated for the project, which should be filled in with valid descriptions, and should document the source config and parameters required to make the resource function properly. The format follows the ones used by builtin Concourse resources, for example the <a href="https://github.com/concourse/git-resource">git resource</a> or the <a href="https://github.com/concourse/s3-resource">s3 resource</a>.</p>
+<h1><a id="user-content-logging" class="anchor" aria-hidden="true" href="#logging"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Logging</h1>
+<p>Since Concourse resources communicate back to Concourse over standard output, they cannot print information to standard output. For this reason, each of the <code>Check</code>, <code>In</code>, and <code>Out</code> methods receive a <code>logger</code> argument that will print to standard error, using colored log levels. The log level may be configured in the <code>source</code> of every resource that uses the <code>ofcourse</code> library. The available levels are <code>debug</code>, <code>info</code>, <code>warn</code>, <code>error</code>, and <code>silent</code>.</p>
+<pre><code>resources:
+- name: noop
+  type: noop
+  check_every: 5m
+  source:
+    # Every resource created using ofcourse will have `log_level`
+    # as an available option in the source configuration. If not
+    # given, it defaults to `info`.
+    log_level: debug
+</code></pre>
+<p>The logger has methods <code>Debugf</code>, <code>Infof</code>, <code>Warnf</code>, and <code>Errorf</code> for printing formatted strings to the Concourse UI.</p>
+<p>The <code>silent</code> level is useful for unit tests, so that log output does not interfere with test output.</p>
+<div class="highlight highlight-source-go"><pre><span class="pl-k">var</span> (
+        testLogger = ofcourse.<span class="pl-c1">NewLogger</span>(ofcourse.<span class="pl-smi">SilentLevel</span>)
+)
+</pre></div>
+<h1><a id="user-content-environment" class="anchor" aria-hidden="true" href="#environment"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Environment</h1>
+<p>Concourse passes <a href="https://concourse-ci.org/implementing-resources.html#resource-metadata" rel="nofollow">metadata</a> about the build as environment variables to <code>in</code> and <code>out</code> commands. The <code>ofcourse</code> methods all receive an <code>environment</code> argument, which is a structure with <code>Get</code> and <code>GetAll</code> methods for retrieving the environment variables. This was done to make writing tests easier, so that fake environments can be passed in unit tests. The <code>check</code> command does not receive the Concourse metadata, however the <code>Check</code> method that uses this library still receives the environment argument for ease of testing in case it is useful. After all, there are other environment variables besides the ones passed explictly by Concourse.</p>
+<p>A new environment using the current environment's variables may be created with <code>NewEnvironment</code> without any arguments.</p>
+<div class="highlight highlight-source-go"><pre>	<span class="pl-smi">env</span> <span class="pl-k">:=</span> ofcourse.<span class="pl-c1">NewEnvironment</span>()</pre></div>
+<p>The variables may be explicitly passed in as well:</p>
+<div class="highlight highlight-source-go"><pre>	<span class="pl-smi">vars</span> <span class="pl-k">:=</span> <span class="pl-k">map</span>[<span class="pl-k">string</span>]<span class="pl-k">string</span>{
+		<span class="pl-s"><span class="pl-pds">"</span>BUILD_ID<span class="pl-pds">"</span></span>:            <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+		<span class="pl-s"><span class="pl-pds">"</span>BUILD_NAME<span class="pl-pds">"</span></span>:          <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+		<span class="pl-s"><span class="pl-pds">"</span>BUILD_JOB_NAME<span class="pl-pds">"</span></span>:      <span class="pl-s"><span class="pl-pds">"</span>do-it<span class="pl-pds">"</span></span>,
+		<span class="pl-s"><span class="pl-pds">"</span>BUILD_PIPELINE_NAME<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>noop<span class="pl-pds">"</span></span>,
+		<span class="pl-s"><span class="pl-pds">"</span>BUILD_TEAM_NAME<span class="pl-pds">"</span></span>:     <span class="pl-s"><span class="pl-pds">"</span>noop<span class="pl-pds">"</span></span>,
+		<span class="pl-s"><span class="pl-pds">"</span>ATC_EXTERNAL_URL<span class="pl-pds">"</span></span>:    <span class="pl-s"><span class="pl-pds">"</span>https://concourse.example.com<span class="pl-pds">"</span></span>,
+	}
+	<span class="pl-smi">env</span> <span class="pl-k">:=</span> ofcourse.<span class="pl-c1">NewEnvironment</span>(vars)
+
+	<span class="pl-c"><span class="pl-c">//</span> Tests here using the environment...</span></pre></div>
+<p>You may call <code>env.Get</code> with or without a default value. The normal default is to return an empty string when the environment variable is not set.</p>
+<div class="highlight highlight-source-go"><pre>	<span class="pl-smi">buildName</span> <span class="pl-k">:=</span> env.<span class="pl-c1">Get</span>(<span class="pl-s"><span class="pl-pds">"</span>BUILD_NAME<span class="pl-pds">"</span></span>)
+	<span class="pl-smi">buildJobName</span> <span class="pl-k">:=</span> env.<span class="pl-c1">Get</span>(<span class="pl-s"><span class="pl-pds">"</span>BUILD_JOB_NAME<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>one-off<span class="pl-pds">"</span></span>)</pre></div>
+<p>You may call <code>env.GetAll</code> to get a <code>map[string]string</code> of the whole environment.</p>
+<div class="highlight highlight-source-go"><pre>	<span class="pl-smi">variables</span> <span class="pl-k">:=</span> env.<span class="pl-c1">GetAll</span>()</pre></div>
+<h1><a id="user-content-source" class="anchor" aria-hidden="true" href="#source"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source</h1>
+<p>Every Concourse resource, when defined in a pipeline, may set its configuration in a key called <code>source</code>, which has an implementation defined structure. <code>ofcourse</code> has a <code>Source</code> data type to represent this. Under the hood, it is a <code>map[string]interface{}</code>. This is passed to <code>Check</code>, <code>In</code>, and <code>Out</code> methods.</p>
+<h1><a id="user-content-params" class="anchor" aria-hidden="true" href="#params"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Params</h1>
+<p>Every <code>get</code> or <code>put</code> on a Concourse resource in a pipeline may define a <code>params</code> key. Like <code>source</code>, its structure is defined by the implementation. <code>ofcourse</code> defines this as <code>Params</code>, which is a <code>map[string]interface{}</code>. This is passed to <code>In</code> and <code>Out</code> methods.</p>
+<pre><code>jobs:
+- name: do-it
+  plan:
+  - get: noop
+    trigger: true
+  - put: noop
+    params:
+      version_path: noop/version
+</code></pre>
+<h1><a id="user-content-version" class="anchor" aria-hidden="true" href="#version"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Version</h1>
+<p>Versions in Concourse are arbitrary key/value pairs of strings. <code>ofcourse</code> represents this as a <code>Version</code>, which is a <code>map[string]string</code>. This is passed to <code>Check</code> and <code>In</code> methods.</p>
+<h1><a id="user-content-metadata" class="anchor" aria-hidden="true" href="#metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata</h1>
+<p><code>In</code> and <code>Out</code> methods may display metadata in the Concourse UI by returning <code>Metadata</code>. This is an array of <code>NameVal</code> structs, each of which has fields <code>Name</code> and <code>Value</code>. It must be returned from <code>In</code> and <code>Out</code> methods, but may be empty if not needed.</p>
+<div class="highlight highlight-source-go"><pre>	<span class="pl-smi">metadata</span> <span class="pl-k">:=</span> ofcourse.<span class="pl-smi">Metadata</span>{
+		{
+			Name: <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>,
+			Value: <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>,
+		},
+		{
+			Name: <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>,
+			Value: <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>,
+		},
+	}</pre></div>
+<h1><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Check</h1>
+<p><code>Check</code> is called when Concourse does a resource check, or when a user runs <code>fly check-resource</code>. The method has the following signature:</p>
+<div class="highlight highlight-source-go"><pre><span class="pl-c1">Check</span>(source <span class="pl-v">Source</span>,
+	version <span class="pl-v">Version</span>,
+	env <span class="pl-v">Environment</span>,
+	logger *Logger) ([]<span class="pl-v">Version</span>, <span class="pl-k">error</span>)</pre></div>
+<p><code>Check</code> must return an array of <code>Version</code>s, which should be all versions since the <code>version</code> argument. When called the first time, the <code>version</code> argument will have a value of <code>nil</code>, and the returned versions array should contain just one item. An empty array may be returned if there is no version.</p>
+<h1><a id="user-content-in" class="anchor" aria-hidden="true" href="#in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>In</h1>
+<p><code>In</code> is called when a pipeline job does a <code>get</code> on the resource. The method has the following signature:</p>
+<div class="highlight highlight-source-go"><pre><span class="pl-c1">In</span>(outputDirectory <span class="pl-k">string</span>,
+	source <span class="pl-v">Source</span>
+	params <span class="pl-v">Params</span>,
+	version <span class="pl-v">Version</span>,
+	env <span class="pl-v">Environment</span>,
+	logger *Logger) (Version, <span class="pl-v">Metadata</span>, <span class="pl-k">error</span>)</pre></div>
+<p>The <code>outputDirectory</code> argument is where any artifacts retrieved from <code>Source</code> should be placed. <code>In</code> must return <code>Version</code> and <code>Metadata</code>, though both may be empty.</p>
+<h1><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Out</h1>
+<p><code>Out</code> is called when a pipeline job does a <code>put</code> on the resource. The method has the following signature:</p>
+<div class="highlight highlight-source-go"><pre><span class="pl-c1">Out</span>(inputDirectory <span class="pl-k">string</span>,
+	source <span class="pl-v">Source</span>
+	params <span class="pl-v">Params</span>,
+	env <span class="pl-v">Environment</span>,
+	logger *Logger) (Version, <span class="pl-v">Metadata</span>, <span class="pl-k">error</span>)</pre></div>
+<p>The <code>inputDirectory</code> argument is a directory containing subdirectories for all resources retrieved with <code>get</code> in a job, as well as all of the job's task outputs. The path to any specific files needed by <code>Out</code> should be defined in the <code>put</code> <code>params</code> in the pipeline, which will be available in the <code>Params</code> argument. <code>Out</code> must return <code>Version</code> and <code>Metadata</code>, though both may be empty.</p>
+</article></div>
 </div>
 
 </body>

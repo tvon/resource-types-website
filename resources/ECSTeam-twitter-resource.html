@@ -10,7 +10,76 @@
 <p>https://github.com/ECSTeam/twitter-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-twitter-concourse-resource" class="anchor" aria-hidden="true" href="#twitter-concourse-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Twitter <a href="http://concourse.ci" rel="nofollow">Concourse</a> Resource</h1>
+<p>Send tweets when your <a href="http://concourse.ci" rel="nofollow">Concourse</a> builds finish. Compatible
+with Concourse 0.74+.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<h3><a id="user-content-required" class="anchor" aria-hidden="true" href="#required"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Required</h3>
+<ul>
+<li><code>consumer_key</code>: The consumer key from registering an application with
+<a href="https://apps.twitter.com" rel="nofollow">Twitter</a>.</li>
+<li><code>consumer_secret</code>: The consumer secret associated with the key above</li>
+<li><code>access_token</code>: An OAuth 1.0a access token for the twitter account that will
+be posting tweets.</li>
+<li><code>access_token_secret</code>: The secret associated with the access token above.</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-in" class="anchor" aria-hidden="true" href="#check-in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>, <code>in</code></h3>
+<p>Currently this resource only supports the <code>put</code> phase of a job plan, so these
+are effectively no-ops. This will likely change in the future.</p>
+<h3><a id="user-content-out-post-a-tweet" class="anchor" aria-hidden="true" href="#out-post-a-tweet"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Post a tweet</h3>
+<p>Posts a tweet with the given parameters. Note that no validation is done on the
+parameters to ensure that they meet Twitter's specifications; that is left to
+the API calls to Twitter itself, and builds will fail if the data does not
+conform.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<h5><a id="user-content-required-1" class="anchor" aria-hidden="true" href="#required-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Required:</h5>
+<ul>
+<li><code>status</code>: The text of the tweet itself. Any
+<a href="http://concourse.ci/implementing-resources.html#resource-metadata" rel="nofollow">metadata</a>
+in the status will be evaluated prior to sending the tweet. Use <code>media</code> to
+include references to photos or video</li>
+</ul>
+<h5><a id="user-content-optional" class="anchor" aria-hidden="true" href="#optional"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Optional:</h5>
+<ul>
+<li><code>media</code>: An array of paths to images or video to upload. Any media referenced
+here will be uploaded and referenced by the resulting tweet.</li>
+</ul>
+<h2><a id="user-content-example-pipeline" class="anchor" aria-hidden="true" href="#example-pipeline"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Pipeline</h2>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">twitter</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">ecsteam/twitter-concourse-resource</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">tweet-source</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">git@github.com:jghiloni/tweet-resource-sample.git</span>
+    <span class="pl-ent">branch</span>: <span class="pl-s">master</span>
+    <span class="pl-ent">private_key</span>: <span class="pl-s">{{github-private-key}}</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">tweet</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">twitter</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">consumer_key</span>: <span class="pl-s">{{twitter-consumer-key}}</span>
+    <span class="pl-ent">consumer_secret</span>: <span class="pl-s">{{twitter-consumer-secret}}</span>
+    <span class="pl-ent">access_token</span>: <span class="pl-s">{{twitter-access-token}}</span>
+    <span class="pl-ent">access_token_secret</span>: <span class="pl-s">{{twitter-access-token-secret}}</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">do-tweet</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">tweet-source</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">tweet</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">media</span>:
+      - <span class="pl-s">tweet-source/logo.png</span>
+      <span class="pl-ent">status</span>: <span class="pl-s">&gt;</span>
+<span class="pl-s">        This is the first tweet with a picture (build ${BUILD_ID})</span>
+<span class="pl-s">        from my custom @concourseci resource!</span></pre></div>
+</article></div>
 </div>
 
 </body>

@@ -10,7 +10,59 @@
 <p>https://github.com/rsamban/pivnet-resource</p>
 
 <div id="github-readme">
+    <div id="readme" class="instapaper_body md" data-path="readme.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-pivnet-resource" class="anchor" aria-hidden="true" href="#pivnet-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pivnet Resource</h1>
+<p>Downloads products from Pivotal Network <a href="https://network.pivotal.io" rel="nofollow">https://network.pivotal.io</a>
+There is already resource to download products from Pivotal Network. Please check <a href="https://github.com/pivotal-cf/pivnet-resource">https://github.com/pivotal-cf/pivnet-resource</a> for more details. This resource differs in following way.</p>
+<ol>
+<li>Implemented with bash scripts</li>
+<li>Can download multiple products in one operation.</li>
+<li>You must specify exact product version that needs to be downloaded.</li>
+</ol>
+<h2><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h2>
+<pre><code>resource_types:
+- name: mypivnet
+  type: docker-image
+  source:
+    repository: ecsteam/pivnet-resource
     
+</code></pre>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>To download products from Pivotal Network,</p>
+<pre><code>resources:
+- name: pcf-products
+  type: mypivnet  
+  source:
+    iaas: {{IAAS}}
+    api_token: {{PIVNET_TOKEN}} 
+</code></pre>
+<p><code>iaas:</code> Required. Primarily required for stemcell downloads as stemcells are IaaS specific. Should be one of <code>AWS</code>, <code>Azure/Google Cloud Platform</code>, <code>vSphere</code>, <code>vCloud</code> or <code>Openstack</code>. Currently supports only <code>vSphere</code> and <code>Openstack</code><br>
+<code>api_token:</code> Required. Your pivnet api token</p>
+<p>Parameters for the the source:<br>
+<code>product_slugs:</code> Required. list of product slugs. See example below for sample values.<br>
+<code>product_versions:</code> Requied. List of product versions for products specified in <code>product_slugs</code>. The count and order of product vesions should match with list specified in <code>product_slugs</code></p>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<p>The following job configuration will download stemcell versions <code>3263.13/14</code>, ERT version <code>1.8.23-build.2</code>, pcf rabbitmq service version <code>1.7.9</code> and pcf mysql version <code>1.8.0</code></p>
+<pre><code>jobs:
+- name: download-products
+  plan:
+  - aggregate:
+    - get: pcf-products
+      params:
+        product_slugs:
+        - product_slug: stemcells
+        - product_slug: stemcells
+        - product_slug: elastic-runtime
+        - product_slug: pivotal-rabbitmq-service
+        - product_slug: p-mysql
+        product_versions:
+        - product_version: "3263.13"
+        - product_version: "3263.14"
+        - product_version: "1.8.23-build.2"
+        - product_version: "1.7.9"
+        - product_version: "1.8.0"
+        
+</code></pre>
+</article></div>
 </div>
 
 </body>

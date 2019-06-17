@@ -10,7 +10,342 @@
 <p>https://github.com/ljfranklin/terraform-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h2><a id="user-content-terraform-concourse-resource" class="anchor" aria-hidden="true" href="#terraform-concourse-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Terraform Concourse Resource</h2>
+<p>A <a href="http://concourse.ci/" rel="nofollow">Concourse</a> resource that allows jobs to modify IaaS resources via <a href="https://www.terraform.io/" rel="nofollow">Terraform</a>.
+Useful for creating a pool of reproducible environments. No more snowflakes!</p>
+<p>See <a href="DEVELOPMENT.md">DEVELOPMENT</a> if you're interested in submitting a PR <g-emoji class="g-emoji" alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png">👍</g-emoji></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/79ce9c80703083f3c2d3cb7b3b4c491537941ec8/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6c6a6672616e6b6c696e2f7465727261666f726d2d7265736f757263652e737667"><img src="https://camo.githubusercontent.com/79ce9c80703083f3c2d3cb7b3b4c491537941ec8/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6c6a6672616e6b6c696e2f7465727261666f726d2d7265736f757263652e737667" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/ljfranklin/terraform-resource.svg" style="max-width:100%;"></a></p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<blockquote>
+<p><strong>Important!:</strong> The <code>source.storage</code> field has been replaced by <code>source.backend_type</code> and <code>source.backend_config</code> to leverage the built-in Terraform backends. If you currently use <code>source.storage</code> in your pipeline, follow the instructions in the <a href="#backend-migration">Backend Migration</a> section to ensure your state files are not lost.</p>
+</blockquote>
+<ul>
+<li>
+<p><code>backend_type</code>: <em>Required.</em> The name of the <a href="https://www.terraform.io/docs/backends/types/index.html" rel="nofollow">Terraform backend</a> the resource will use to store statefiles, e.g. <code>s3</code> or <code>consul</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> Only a <a href="https://www.terraform.io/docs/state/workspaces.html" rel="nofollow">subset of the backends</a> support the multiple workspace feature this resource requires.</p>
+</blockquote>
+</li>
+<li>
+<p><code>backend_config</code>: <em>Required.</em> A map of key-value configuration options specific to your choosen backend, e.g. <a href="https://www.terraform.io/docs/backends/types/s3.html#configuration-variables" rel="nofollow">S3 options</a>.</p>
+</li>
+<li>
+<p><code>env_name</code>: <em>Optional.</em> Name of the environment to manage, e.g. <code>staging</code>. A <a href="https://www.terraform.io/docs/state/workspaces.html" rel="nofollow">Terraform workspace</a> will be created with this name. See <a href="#managing-a-single-environment-vs-a-pool-of-environments">Single vs Pool</a> section below for more options.</p>
+</li>
+<li>
+<p><code>delete_on_failure</code>: <em>Optional. Default <code>false</code>.</em> If true, the resource will run <code>terraform destroy</code> if <code>terraform apply</code> returns an error.</p>
+</li>
+<li>
+<p><code>vars</code>: <em>Optional.</em> A collection of Terraform input variables.
+These are typically used to specify credentials or override default module values.
+See <a href="https://www.terraform.io/intro/getting-started/variables.html" rel="nofollow">Terraform Input Variables</a> for more details.</p>
+</li>
+<li>
+<p><code>env</code>: <em>Optional.</em> Similar to <code>vars</code>, this collection of key-value pairs can be used to pass environment variables to Terraform, e.g. "AWS_ACCESS_KEY_ID".</p>
+</li>
+<li>
+<p><code>private_key</code>: <em>Optional.</em> An SSH key used to fetch modules, e.g. <a href="https://www.terraform.io/docs/modules/sources.html#private-github-repos" rel="nofollow">private GitHub repos</a>.</p>
+</li>
+</ul>
+<h4><a id="user-content-source-example" class="anchor" aria-hidden="true" href="#source-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Example</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">terraform</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">ljfranklin/terraform-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">terraform</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">terraform</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">env_name</span>: <span class="pl-s">staging</span>
+      <span class="pl-ent">backend_type</span>: <span class="pl-c1">s3</span>
+      <span class="pl-ent">backend_config</span>:
+        <span class="pl-ent">bucket</span>: <span class="pl-s">mybucket</span>
+        <span class="pl-ent">key</span>: <span class="pl-s">mydir/terraform.tfstate</span>
+        <span class="pl-ent">region</span>: <span class="pl-s">us-east-1</span>
+        <span class="pl-ent">access_key</span>: <span class="pl-s">{{storage_access_key}}</span>
+        <span class="pl-ent">secret_key</span>: <span class="pl-s">{{storage_secret_key}}</span>
+      <span class="pl-ent">vars</span>:
+        <span class="pl-ent">tag_name</span>: <span class="pl-s">concourse</span>
+      <span class="pl-ent">env</span>:
+        <span class="pl-ent">AWS_ACCESS_KEY_ID</span>: <span class="pl-s">{{environment_access_key}}</span>
+        <span class="pl-ent">AWS_SECRET_ACCESS_KEY</span>: <span class="pl-s">{{environment_secret_key}}</span></pre></div>
+<p>The above example uses AWS S3 to store the Terraform state files.
+Terraform supports many other <a href="https://www.terraform.io/docs/backends/types/index.html" rel="nofollow">state file backends</a>, for example <a href="https://www.terraform.io/docs/backends/types/gcs.html" rel="nofollow">Google Cloud Storage (GCS)</a>:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">terraform</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">terraform</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">backend_type</span>: <span class="pl-s">gcs</span>
+      <span class="pl-ent">backend_config</span>:
+        <span class="pl-ent">bucket</span>: <span class="pl-s">mybucket</span>
+        <span class="pl-ent">prefix</span>: <span class="pl-s">mydir</span>
+        <span class="pl-ent">region</span>: <span class="pl-s">us-central1</span>
+        <span class="pl-ent">credentials</span>: <span class="pl-s">{{gcp_credentials_json}}</span>
+      <span class="pl-s">...</span></pre></div>
+<h4><a id="user-content-image-variants" class="anchor" aria-hidden="true" href="#image-variants"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Image Variants</h4>
+<ul>
+<li>Latest stable release of resource: <code>ljfranklin/terraform-resource:latest</code>.</li>
+<li>Specific versions of Terraform, e.g. <code>ljfranklin/terraform-resource:0.7.7</code>.</li>
+<li><a href="https://concourse.lylefranklin.com/teams/main/pipelines/terraform-resource-rc" rel="nofollow">RC builds</a> from Terraform pre-releases: <code>ljfranklin/terraform-resource:rc</code>.</li>
+<li><a href="https://concourse.lylefranklin.com/teams/main/pipelines/terraform-resource-nightly" rel="nofollow">Nightly builds</a> from Terraform <code>master</code> branch: <code>ljfranklin/terraform-resource:nightly</code>.</li>
+</ul>
+<p>See <a href="https://hub.docker.com/r/ljfranklin/terraform-resource/tags/" rel="nofollow">Dockerhub</a> for a list of all available tags.
+If you'd like to build your own image from a specific Terraform branch, configure a pipeline with <a href="ci/build-image-pipeline.yml">build-image-pipeline.yml</a>.</p>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<p>This resource should usually be used with the <code>put</code> action rather than a <code>get</code>.
+This ensures the output always reflects the current state of the IaaS and allows management of multiple environments as shown below.
+A <code>get</code> step outputs the same <code>metadata</code> file format shown below for <code>put</code>.</p>
+<h4><a id="user-content-get-parameters" class="anchor" aria-hidden="true" href="#get-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Get Parameters</h4>
+<blockquote>
+<p><strong>Note:</strong> In Concourse, a <code>put</code> is always followed by an implicit <code>get</code>. To pass <code>get</code> params via <code>put</code>, use <code>put.get_params</code>.</p>
+</blockquote>
+<ul>
+<li>
+<p><code>output_statefile</code>: <em>Optional. Default <code>false</code></em> If true, the resource writes the Terraform statefile to a file named <code>terraform.tfstate</code>. <strong>Warning:</strong> Ensure any changes to this statefile are persisted back to the resource's storage bucket. <strong>Another warning:</strong> Some statefiles contain unencrypted secrets, be careful not to expose these in your build logs.</p>
+</li>
+<li>
+<p><code>output_module</code> <em>Optional.</em> Write only the outputs from the given module name to the <code>metadata</code> file.</p>
+</li>
+</ul>
+<h4><a id="user-content-put-parameters" class="anchor" aria-hidden="true" href="#put-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Put Parameters</h4>
+<ul>
+<li>
+<p><code>terraform_source</code>: <em>Required.</em> The relative path of the directory containing your Terraform configuration files.
+For example: if your <code>.tf</code> files are stored in a git repo called <code>prod-config</code> under a directory <code>terraform-configs</code>, you could do a <code>get: prod-config</code> in your pipeline with <code>terraform_source: prod-config/terraform-configs/</code> as the source.</p>
+</li>
+<li>
+<p><code>env_name</code>: <em>Optional, see Note.</em> The name of the environment to create or modify. A <a href="https://www.terraform.io/docs/state/workspaces.html" rel="nofollow">Terraform workspace</a> will be created with this name. Multiple environments can be managed with a single resource.</p>
+</li>
+<li>
+<p><code>generate_random_name</code>: <em>Optional, see Note. Default <code>false</code></em> Generates a random <code>env_name</code> (e.g. "coffee-bee"). See <a href="#managing-a-single-environment-vs-a-pool-of-environments">Single vs Pool</a> section below.</p>
+</li>
+<li>
+<p><code>env_name_file</code>: <em>Optional, see Note.</em> Reads the <code>env_name</code> from a specified file path. Useful for destroying environments from a lock file.</p>
+<blockquote>
+<p>Note: You must specify one of the following options: <code>source.env_name</code>, <code>put.params.env_name</code>, <code>put.params.generate_random_name</code>, or <code>env_name_file</code></p>
+</blockquote>
+</li>
+<li>
+<p><code>delete_on_failure</code>: <em>Optional. Default <code>false</code>.</em> See description under <code>source.delete_on_failure</code>.</p>
+</li>
+<li>
+<p><code>vars</code>: <em>Optional.</em> A collection of Terraform input variables. See description under <code>source.vars</code>.</p>
+</li>
+<li>
+<p><code>var_files</code>: <em>Optional.</em> A list of files containing Terraform input variables. These files can be in YAML, JSON, or HCL (filename must end in .tfvars) format.</p>
+<blockquote>
+<p>Terraform variables will be merged from the following locations in increasing order of precedence: <code>source.vars</code>, <code>put.params.vars</code>, and <code>put.params.var_files</code>. Finally, <code>env_name</code> is automatically passed as an input <code>var</code>.</p>
+</blockquote>
+</li>
+<li>
+<p><code>env</code>: <em>Optional.</em> A key-value collection of environment variables to pass to Terraform. See description under <code>source.env</code>.</p>
+</li>
+<li>
+<p><code>private_key</code>: <em>Optional.</em> An SSH key used to fetch modules, e.g. <a href="https://www.terraform.io/docs/modules/sources.html#private-github-repos" rel="nofollow">private GitHub repos</a>.</p>
+</li>
+<li>
+<p><code>plan_only</code>: <em>Optional. Default <code>false</code></em> This boolean will allow Terraform to create a plan file and store it the configured backend. Useful for manually reviewing a plan prior to applying. See <a href="#plan-and-apply-example">Plan and Apply Example</a>. <strong>Warning:</strong> Plan files contain unencrypted credentials like AWS Secret Keys, only store these files in a private bucket.</p>
+</li>
+<li>
+<p><code>plan_run</code>: <em>Optional. Default <code>false</code></em> This boolean will allow Terraform to execute the plan file stored on the configured backend, then delete it.</p>
+</li>
+<li>
+<p><code>import_files</code>: <em>Optional.</em> A list of files containing existing resources to <a href="https://www.terraform.io/docs/import/usage.html" rel="nofollow">import</a> into the state file. The files can be in YAML or JSON format, containing key-value pairs like <code>aws_instance.bar: i-abcd1234</code>.</p>
+</li>
+<li>
+<p><code>override_files</code>: <em>Optional.</em> A list of files to copy into the <code>terraform_source</code> directory. Override files must follow conventions outlined <a href="https://www.terraform.io/docs/configuration/override.html" rel="nofollow">here</a> such as file names ending in <code>_override.tf</code>.</p>
+</li>
+<li>
+<p><code>module_override_files</code>: <em>Optional.</em> A list of maps to copy override files to specific destination directories. Override files must follow conventions outlined <a href="https://www.terraform.io/docs/configuration/override.html" rel="nofollow">here</a> such as file names ending in <code>_override.tf</code>.
+The source file is specified with <code>src</code> and the destination directory with <code>dst</code>.</p>
+</li>
+<li>
+<p><code>action</code>: <em>Optional.</em> When set to <code>destroy</code>, the resource will run <code>terraform destroy</code> against the given statefile.</p>
+<blockquote>
+<p><strong>Note:</strong> You must also set <code>put.get_params.action</code> to <code>destroy</code> to ensure the task succeeds. This is a temporary workaround until Concourse adds support for <code>delete</code> as a first-class operation. See <a href="https://github.com/concourse/concourse/issues/362">this issue</a> for more details.</p>
+</blockquote>
+</li>
+<li>
+<p><code>plugin_dir</code>: <em>Optional.</em> The path (relative to your <code>terraform_source</code>) of the directory containing plugin binaries. This overrides the default plugin directory and Terraform will not automatically fetch built-in plugins if this option is used. To preserve the automatic fetching of plugins, omit <code>plugin_dir</code> and place third-party plugins in <code>${terraform_source}/terraform.d/plugins</code>. See <a href="https://www.terraform.io/docs/configuration/providers.html#third-party-plugins" rel="nofollow">https://www.terraform.io/docs/configuration/providers.html#third-party-plugins</a> for more information.</p>
+</li>
+</ul>
+<h4><a id="user-content-put-example" class="anchor" aria-hidden="true" href="#put-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Put Example</h4>
+<p>Every <code>put</code> action creates <code>name</code> and <code>metadata</code> files as an output containing the <code>env_name</code> and <a href="https://www.terraform.io/intro/getting-started/outputs.html" rel="nofollow">Terraform Outputs</a> in JSON format.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">terraform</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">env_name</span>: <span class="pl-s">e2e</span>
+      <span class="pl-ent">terraform_source</span>: <span class="pl-s">project-src/terraform</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">show-outputs</span>
+    <span class="pl-ent">config</span>:
+      <span class="pl-ent">platform</span>: <span class="pl-s">linux</span>
+      <span class="pl-ent">inputs</span>:
+        - <span class="pl-ent">name</span>: <span class="pl-s">terraform</span>
+      <span class="pl-ent">run</span>:
+        <span class="pl-ent">path</span>: <span class="pl-s">/bin/sh</span>
+        <span class="pl-ent">args</span>:
+          - <span class="pl-s">-c</span>
+          - <span class="pl-s">|</span>
+<span class="pl-s">              echo "name: $(cat terraform/name)"</span>
+<span class="pl-s">              echo "metadata: $(cat terraform/metadata)"</span></pre></div>
+<p>The preceding job would show a file similar to the following:</p>
+<pre><code>name: e2e
+metadata: { "vpc_id": "vpc-123456", "vpc_tag_name": "concourse" }
+</code></pre>
+<h4><a id="user-content-plan-and-apply-example" class="anchor" aria-hidden="true" href="#plan-and-apply-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plan and apply example</h4>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">terraform-plan</span>
+  <span class="pl-ent">plan</span>:
+    - <span class="pl-ent">put</span>: <span class="pl-s">terraform</span>
+      <span class="pl-ent">params</span>:
+        <span class="pl-ent">env_name</span>: <span class="pl-s">staging</span>
+        <span class="pl-ent">plan_only</span>: <span class="pl-c1">true</span>
+        <span class="pl-ent">vars</span>:
+          <span class="pl-ent">subnet_cidr</span>: <span class="pl-s">10.0.1.0/24</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">terraform-apply</span>
+  <span class="pl-ent">plan</span>:
+    - <span class="pl-ent">get</span>: <span class="pl-s">terraform</span>
+      <span class="pl-ent">trigger</span>: <span class="pl-c1">false</span>
+      <span class="pl-ent">passed</span>: <span class="pl-s">[terraform-plan]</span>
+    - <span class="pl-ent">put</span>: <span class="pl-s">terraform</span>
+      <span class="pl-ent">params</span>:
+        <span class="pl-ent">env_name</span>: <span class="pl-s">staging</span>
+        <span class="pl-ent">plan_run</span>: <span class="pl-c1">true</span></pre></div>
+<h2><a id="user-content-managing-a-single-environment-vs-a-pool-of-environments" class="anchor" aria-hidden="true" href="#managing-a-single-environment-vs-a-pool-of-environments"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Managing a single environment vs a pool of environments</h2>
+<p>This resource can be used to manage a single environment or a pool of many environments.</p>
+<h4><a id="user-content-single-environment" class="anchor" aria-hidden="true" href="#single-environment"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Single Environment</h4>
+<p>To use this resource to manage a single environment, set <code>source.env_name</code> or <code>put.params.env_name</code> to a fixed name like <code>staging</code> or <code>production</code> as shown in the previous <code>put</code> example.
+Each <code>put</code> will update the IaaS resources and state file for that environment.</p>
+<h4><a id="user-content-pool-of-environments" class="anchor" aria-hidden="true" href="#pool-of-environments"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pool of Environments</h4>
+<p>To manage a pool of many environments, you can use this resource in combination with the <a href="https://github.com/concourse/pool-resource">pool-resource</a>.
+This allows you to create a pool of identical environments that can be claimed and released by CI jobs and humans.
+Setting <code>put.params.generate_random_name: true</code> will create a random, unique <code>env_name</code> like "coffee-bee" for each environment, and
+the pool-resource will persist the name and metadata for these environments in a private <code>git</code> repo.</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">name</span>: <span class="pl-s">create-env-and-lock</span>
+    <span class="pl-ent">plan</span>:
+      <span class="pl-c"><span class="pl-c">#</span> apply the terraform template with a random env_name</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">terraform</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">generate_random_name</span>: <span class="pl-c1">true</span>
+          <span class="pl-ent">delete_on_failure</span>: <span class="pl-c1">true</span>
+          <span class="pl-ent">vars</span>:
+            <span class="pl-ent">subnet_cidr</span>: <span class="pl-s">10.0.1.0/24</span>
+      <span class="pl-c"><span class="pl-c">#</span> create a new pool-resource lock containing the terraform output</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">locks</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">add</span>: <span class="pl-s">terraform/</span>
+
+  - <span class="pl-ent">name</span>: <span class="pl-s">claim-env-and-test</span>
+    <span class="pl-ent">plan</span>:
+      <span class="pl-c"><span class="pl-c">#</span> claim a random env lock</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">locks</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">acquire</span>: <span class="pl-c1">true</span>
+      <span class="pl-c"><span class="pl-c">#</span> the locks dir will contain `name` and `metadata` files described above</span>
+      - <span class="pl-ent">task</span>: <span class="pl-s">run-tests-against-env</span>
+        <span class="pl-ent">file</span>: <span class="pl-s">test.yml</span>
+        <span class="pl-ent">input_mapping</span>:
+          <span class="pl-ent">env</span>: <span class="pl-s">locks/</span>
+
+  - <span class="pl-ent">name</span>: <span class="pl-s">destroy-env-and-lock</span>
+    <span class="pl-ent">plan</span>:
+      <span class="pl-c"><span class="pl-c">#</span> acquire a lock</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">locks</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">acquire</span>: <span class="pl-c1">true</span>
+      <span class="pl-c"><span class="pl-c">#</span> destroy the IaaS resources</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">terraform</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">env_name_file</span>: <span class="pl-s">locks/name</span>
+          <span class="pl-ent">action</span>: <span class="pl-s">destroy</span>
+        <span class="pl-ent">get_params</span>:
+          <span class="pl-ent">action</span>: <span class="pl-s">destroy</span>
+      <span class="pl-c"><span class="pl-c">#</span> destroy the lock</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">locks</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">remove</span>: <span class="pl-s">locks/</span></pre></div>
+<h2><a id="user-content-backend-migration" class="anchor" aria-hidden="true" href="#backend-migration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Backend Migration</h2>
+<p>Previous versions of this resource required statefiles to be stored in an S3-compatible blobstore using the <code>source.storage</code> field.
+The latest version of this resource instead uses the build-in <a href="https://www.terraform.io/docs/backends/types/index.html" rel="nofollow">Terraform Backends</a> to support many other statefile storage options in addition to S3.
+If you have an existing pipeline that uses <code>source.storage</code>, your statefiles will need to be migrated into the new backend directory structure using the following steps:</p>
+<ol>
+<li>Rename <code>source.storage</code> to <code>source.migrated_from_storage</code> in your pipeline config. All fields within <code>source.storage</code> should remain unchanged, only the top-level key should be renamed.</li>
+<li>Add <code>source.backend_type</code> and <code>source.backend_config</code> fields as described under <a href="#source-configuration">Source Configuration</a>.</li>
+<li>Update your pipeline: <code>fly set-pipeline</code>.</li>
+<li>The next time your pipeline performs a <code>put</code> to the Terraform resource:</li>
+</ol>
+<ul>
+<li>The resource will copy the statefile for the modified environment into the new directory structure.</li>
+<li>The resource will rename the old statefile in S3 to <code>$ENV_NAME.migrated</code>.</li>
+</ul>
+<ol start="5">
+<li>Once all statefiles have been migrated and everything is working as expected, you may:</li>
+</ol>
+<ul>
+<li>Remove the old <code>.migrated</code> statefiles.</li>
+<li>Remove the <code>source.migrated_from_storage</code> from your pipeline config.</li>
+</ul>
+<blockquote>
+<p>Breaking Change: The backend mode drops support for feeding Terraform outputs back in as input vars to subsequent puts. This "feature" causes suprising errors if inputs and outputs have the same name but different types and the implementation was significantly more complicated with the new migrated_from_storage flow.</p>
+</blockquote>
+<h4><a id="user-content-legacy-storage-configuration" class="anchor" aria-hidden="true" href="#legacy-storage-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Legacy storage configuration</h4>
+<ul>
+<li>
+<p><code>migrated_from_storage.bucket</code>: <em>Required.</em> The S3 bucket used to store the state files.</p>
+</li>
+<li>
+<p><code>migrated_from_storage.bucket_path</code>: <em>Required.</em> The S3 path used to store state files, e.g. <code>mydir/</code>.</p>
+</li>
+<li>
+<p><code>migrated_from_storage.access_key_id</code>: <em>Required.</em> The AWS access key used to access the bucket.</p>
+</li>
+<li>
+<p><code>migrated_from_storage.secret_access_key</code>: <em>Required.</em> The AWS secret key used to access the bucket.</p>
+</li>
+<li>
+<p><code>migrated_from_storage.region_name</code>: <em>Optional.</em> The AWS region where the bucket is located.</p>
+</li>
+<li>
+<p><code>migrated_from_storage.server_side_encryption</code>: <em>Optional.</em> An encryption algorithm to use when storing objects in S3, e.g. "AES256".</p>
+</li>
+<li>
+<p><code>migrated_from_storage.sse_kms_key_id</code> <em>Optional.</em> The ID of the AWS KMS master encryption key used for the object.</p>
+</li>
+<li>
+<p><code>migrated_from_storage.endpoint</code>: <em>Optional.</em> The endpoint for an s3-compatible blobstore (e.g. Ceph).</p>
+<blockquote>
+<p><strong>Note:</strong> By default, the resource will use S3 signing version v2 if an endpoint is specified as many non-S3 blobstores do not support v4.
+Opt into v4 signing by setting <code>migrated_from_storage.use_signing_v4: true</code>.</p>
+</blockquote>
+</li>
+</ul>
+<h4><a id="user-content-migration-example" class="anchor" aria-hidden="true" href="#migration-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Migration Example</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">terraform</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">terraform</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">backend_type</span>: <span class="pl-c1">s3</span>
+      <span class="pl-ent">backend_config</span>:
+        <span class="pl-ent">bucket</span>: <span class="pl-s">mybucket</span>
+        <span class="pl-ent">key</span>: <span class="pl-s">mydir/terraform.tfstate</span>
+        <span class="pl-ent">region</span>: <span class="pl-s">us-east-1</span>
+        <span class="pl-ent">access_key</span>: <span class="pl-s">{{storage_access_key}}</span>
+        <span class="pl-ent">secret_key</span>: <span class="pl-s">{{storage_secret_key}}</span>
+      <span class="pl-ent">migrated_from_storage</span>:
+        <span class="pl-ent">bucket</span>: <span class="pl-s">mybucket</span>
+        <span class="pl-ent">bucket_path</span>: <span class="pl-s">mydir/</span>
+        <span class="pl-ent">region</span>: <span class="pl-s">us-east-1</span>
+        <span class="pl-ent">access_key_id</span>: <span class="pl-s">{{storage_access_key}}</span>
+        <span class="pl-ent">secret_access_key</span>: <span class="pl-s">{{storage_secret_key}}</span>
+      <span class="pl-ent">vars</span>:
+        <span class="pl-ent">tag_name</span>: <span class="pl-s">concourse</span>
+      <span class="pl-ent">env</span>:
+        <span class="pl-ent">AWS_ACCESS_KEY_ID</span>: <span class="pl-s">{{environment_access_key}}</span>
+        <span class="pl-ent">AWS_SECRET_ACCESS_KEY</span>: <span class="pl-s">{{environment_secret_key}}</span></pre></div>
+</article></div>
 </div>
 
 </body>

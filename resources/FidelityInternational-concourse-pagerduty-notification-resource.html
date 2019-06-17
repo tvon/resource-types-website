@@ -10,7 +10,61 @@
 <p>https://github.com/FidelityInternational/concourse-pagerduty-notification-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-pagerduty-notification-resource" class="anchor" aria-hidden="true" href="#concourse-pagerduty-notification-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Pagerduty Notification Resource</h1>
+<p>Sends alerts to Pagerduty.
+This resource can now send log output of failing Concourse task(s) to Pagerduty, as well as the standard <code>description</code> and <code>incident_key</code> fields.</p>
+<h2><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h2>
+<pre><code>resource_types:
+- name: pagerduty-notification-resource
+  type: docker-image
+  source:
+    repository: fidelityinternational/pagerduty-notification-resource
+    tag: latest
+</code></pre>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>service_key</code>: <em>Required</em>. The GUID of one of your "Generic API" services. This is the "Integration Key" listed on a Generic API's service detail page.</li>
+</ul>
+<p>The following fields are required if you want to see erroring Concourse task output in the Pagerduty notification:</p>
+<ul>
+<li>atc_external_url: <em>Optional</em> The ATC external URL (if username and password is supplied but not the ATC URL, it will attempt to use the standard in-built ATC_EXTERNAL_URL instead)</li>
+<li>atc_username: <em>Optional</em> ATC username is required if atc_external_url is supplied.</li>
+<li>atc_password: <em>Optional</em> ATC password is required if atc_external_url is supplied.</li>
+</ul>
+<p>Example resource config:</p>
+<pre><code>resources:
+- name: pagerduty-notify
+  type: pagerduty-notification-resource
+  source:
+    atc_external_url: ...
+    atc_username: ...
+    atc_password: ...
+    service_key: ...
+</code></pre>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-out-sends-alert-to-pagerduty" class="anchor" aria-hidden="true" href="#out-sends-alert-to-pagerduty"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Sends alert to pagerduty.</h3>
+<p>Send alert to pagerduty with the configured parameters.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>Required:</p>
+<ul>
+<li><code>description</code>: Static text of alert to send</li>
+</ul>
+<p>Optional:</p>
+<ul>
+<li><code>incident_key</code>: Provides an incident key that can be used to dedupe alerts. Defaults to `/&lt;job-name</li>
+<li><code>action</code>: Specifies whether to <code>trigger</code>, <code>resolve</code>, or <code>acknowledge</code> an insident. Defaults to <code>trigger</code></li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<p>See our sample <a href="pipeline.yml">pipeline.yml</a> for a working example.</p>
+<h2><a id="user-content-testing" class="anchor" aria-hidden="true" href="#testing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
+<p>To test this resource, install a test Concourse with Docker following <a href="https://concourse.ci/docker-repository.html" rel="nofollow">the guide here</a>.</p>
+<p>Push the sample pipeline to it (remember to update the Pagerduty resource configuration options first, as appropriate):</p>
+<pre><code>fly login -t local -c http://localhost:8080 -u concourse -p changeme
+fly -t local set-pipeline -p test -c pipeline.yml
+</code></pre>
+<p>Browse <a href="http://localhost:8080" rel="nofollow">http://localhost:8080</a> and run the monitoring-test job. One of the tasks in that job is supposed to succeed, and one is supposed to fail. Note the Pagerduty put: on the failing job. This should now trigger, so check your Pagerduty account for an incoming alert.</p>
+<p>Inside the alert message you should find pipeline, job_name, concourse_build_url and output fields which contain useful error messages.</p>
+</article></div>
 </div>
 
 </body>

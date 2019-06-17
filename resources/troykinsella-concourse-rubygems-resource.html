@@ -10,7 +10,87 @@
 <p>https://github.com/troykinsella/concourse-rubygems-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-rubygems-resource" class="anchor" aria-hidden="true" href="#concourse-rubygems-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse RubyGems Resource</h1>
+<p>A <a href="https://concourse-ci.org" rel="nofollow">Concourse CI</a> resource for manipulating RubyGems.</p>
+<h2><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">rubygem</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">troykinsella/concourse-rubygems-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>credentials</code>: Optional. The contents of the <code>~/.gem/credentials</code> file.</li>
+<li><code>gem_name</code>: Required. The name of the RubyGem.</li>
+<li><code>prerelease</code>: Optional. Default: <code>false</code>. <code>true</code> to include prerelease versions in checks and gets.</li>
+<li><code>source_url</code>: Optional. The URL of the RubyGem host. Unless specified,
+this resource operates on the default RubyGem host: <code>https://rubygems.org</code>.</li>
+<li><code>apt_keys</code>: Optional. During <code>get</code>s, add this list of apt keys. Each entry is a URL at which the apt key can be fetched.</li>
+<li><code>apt_sources</code>: Optional. During <code>get</code>s, configure this list of apt sources. Each entry is a line in the <code>/etc/apt/sources.list</code> file.</li>
+<li><code>deb_packages</code>: Optional. During <code>get</code>s, install this list of deb packages prior to installing the gem.
+Useful for when the gem requires native extensions.</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">gem</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">rubygem</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">source_url</span>: <span class="pl-s">https://artifactory.example.com/api/gems/gems-local</span>
+    <span class="pl-ent">gem_name</span>: <span class="pl-s">wickedizer</span>
+    <span class="pl-ent">credentials</span>: <span class="pl-s">|</span>
+<span class="pl-s">      :rubygems_api_key: Basic fKtpr1kRTNBdn...V3aVdZTTlhFUmpTdno=</span>
+<span class="pl-s"></span>    <span class="pl-ent">deb_packages</span>:
+    - <span class="pl-s">whacky-dev</span></pre></div>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-check-check-for-new-rubygems" class="anchor" aria-hidden="true" href="#check-check-for-new-rubygems"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new RubyGems</h3>
+<p>The latest version of the RubyGem is queried from the configured source.</p>
+<h3><a id="user-content-in-install-the-rubygem" class="anchor" aria-hidden="true" href="#in-install-the-rubygem"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Install the RubyGem</h3>
+<p>Performs a <code>gem install</code> of the RubyGem name.</p>
+<h3><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h3>
+<ul>
+<li><code>install_options</code>: Optional. Additional command line arguments to pass to the
+<code>gem install</code> command. The following options are managed and should not be
+supplied in repeat through this parameter:
+<ul>
+<li><code>--install-dir</code></li>
+<li><code>--[no-]prerelease</code></li>
+<li><code>--remote</code></li>
+<li><code>--source</code></li>
+<li><code>--version</code></li>
+</ul>
+</li>
+<li><code>skip_download</code>: Optional. Default: <code>false</code>. <code>true</code> to skip installing the RubyGem.</li>
+</ul>
+<h3><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">gem-integration</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">gem</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">integration test</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">...</span></pre></div>
+<h3><a id="user-content-out-push-a-rubygem" class="anchor" aria-hidden="true" href="#out-push-a-rubygem"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Push a RubyGem</h3>
+<p>Publishes a RubyGem file to a repository using <code>gem push</code>.</p>
+<h3><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h3>
+<ul>
+<li><code>gem_dir</code>: Required. The directory in which the built RubyGem file is located.</li>
+<li><code>gem_regex</code>: Optional. A RegEx that can match the RubyGem file name to publish.</li>
+<li><code>key_name</code>: Optional. The name of the API key in <code>~/.gem/credentials</code> to use.</li>
+</ul>
+<h3><a id="user-content-example-2" class="anchor" aria-hidden="true" href="#example-2"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">publish-gem</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">task</span>: <span class="pl-s">build gem</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">...</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">gem</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">gem_dir</span>: <span class="pl-s">built-gem</span>
+    <span class="pl-ent">get_params</span>:
+      <span class="pl-ent">skip_download</span>: <span class="pl-c1">true</span></pre></div>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>MIT © Troy Kinsella</p>
+</article></div>
 </div>
 
 </body>

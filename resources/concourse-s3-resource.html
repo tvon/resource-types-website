@@ -10,7 +10,254 @@
 <p>https://github.com/concourse/s3-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-s3-resource" class="anchor" aria-hidden="true" href="#s3-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>S3 Resource</h1>
+<p>Versions objects in an S3 bucket, by pattern-matching filenames to identify
+version numbers.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>bucket</code>: <em>Required.</em> The name of the bucket.</p>
+</li>
+<li>
+<p><code>access_key_id</code>: <em>Optional.</em> The AWS access key to use when accessing the
+bucket.</p>
+</li>
+<li>
+<p><code>secret_access_key</code>: <em>Optional.</em> The AWS secret key to use when accessing
+the bucket.</p>
+</li>
+<li>
+<p><code>session_token</code>: <em>Optional.</em> The AWS STS session token to use when
+accessing the bucket.</p>
+</li>
+<li>
+<p><code>region_name</code>: <em>Optional.</em> The region the bucket is in. Defaults to
+<code>us-east-1</code>.</p>
+</li>
+<li>
+<p><code>private</code>: <em>Optional.</em> Indicates that the bucket is private, so that any
+URLs provided are signed.</p>
+</li>
+<li>
+<p><code>cloudfront_url</code>: <em>Optional.</em> The URL (scheme and domain) of your CloudFront
+distribution that is fronting this bucket (e.g
+<code>https://d5yxxxxx.cloudfront.net</code>).  This will affect <code>in</code> but not <code>check</code>
+and <code>put</code>. <code>in</code> will ignore the <code>bucket</code> name setting, exclusively using the
+<code>cloudfront_url</code>.  When configuring CloudFront with versioned buckets, set
+<code>Query String Forwarding and Caching</code> to <code>Forward all, cache based on all</code> to
+ensure S3 calls succeed.</p>
+</li>
+<li>
+<p><code>endpoint</code>: <em>Optional.</em> Custom endpoint for using S3 compatible provider.</p>
+</li>
+<li>
+<p><code>disable_ssl</code>: <em>Optional.</em> Disable SSL for the endpoint, useful for S3
+compatible providers without SSL.</p>
+</li>
+<li>
+<p><code>skip_ssl_verification</code>: <em>Optional.</em> Skip SSL verification for S3 endpoint. Useful for S3 compatible providers using self-signed SSL certificates.</p>
+</li>
+<li>
+<p><code>skip_download</code>: <em>Optional.</em> Skip downloading object from S3. Useful only trigger the pipeline without using the object.</p>
+</li>
+<li>
+<p><code>server_side_encryption</code>: <em>Optional.</em> An encryption algorithm to use when
+storing objects in S3.</p>
+</li>
+<li>
+<p><code>sse_kms_key_id</code>: <em>Optional.</em> The ID of the AWS KMS master encryption key
+used for the object.</p>
+</li>
+<li>
+<p><code>use_v2_signing</code>: <em>Optional.</em> Use signature v2 signing, useful for S3 compatible providers that do not support v4.</p>
+</li>
+<li>
+<p><code>disable_multipart</code>: <em>Optional.</em> Disable Multipart Upload. useful for S3 compatible providers that do not support multipart upload.</p>
+</li>
+</ul>
+<h3><a id="user-content-file-names" class="anchor" aria-hidden="true" href="#file-names"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File Names</h3>
+<p>One of the following two options must be specified:</p>
+<ul>
+<li>
+<p><code>regexp</code>: <em>Optional.</em> The pattern to match filenames against within S3. The first
+grouped match is used to extract the version, or if a group is explicitly
+named <code>version</code>, that group is used. At least one capture group must be
+specified, with parentheses.</p>
+<p>The version extracted from this pattern is used to version the resource.
+Semantic versions, or just numbers, are supported. Accordingly, full regular
+expressions are supported, to specify the capture groups.</p>
+</li>
+<li>
+<p><code>versioned_file</code>: <em>Optional</em> If you enable versioning for your S3 bucket then
+you can keep the file name the same and upload new versions of your file
+without resorting to version numbers. This property is the path to the file
+in your S3 bucket.</p>
+</li>
+</ul>
+<h3><a id="user-content-initial-state" class="anchor" aria-hidden="true" href="#initial-state"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Initial state</h3>
+<p>If no resource versions exist you can set up this resource to emit an initial version with a specified content. This won't create a real resource in S3 but only create an initial version for Concourse. The resource file will be created as usual when you <code>get</code> a resource with an initial version.</p>
+<p>You can define one of the following two options:</p>
+<ul>
+<li>
+<p><code>initial_path</code>: <em>Optional.</em> Must be used with the <code>regexp</code> option. You should set this to the file path containing the initial version which would match the given regexp. E.g. if <code>regexp</code> is <code>file/build-(.*).zip</code>, then <code>initial_path</code> might be <code>file/build-0.0.0.zip</code>. The resource version will be <code>0.0.0</code> in this case.</p>
+</li>
+<li>
+<p><code>initial_version</code>: <em>Optional.</em> Must be used with the <code>versioned_file</code> option. This will be the resource version.</p>
+</li>
+</ul>
+<p>By default the resource file will be created with no content when <code>get</code> runs. You can set the content by using one of the following options:</p>
+<ul>
+<li>
+<p><code>initial_content_text</code>: <em>Optional.</em> Initial content as a string.</p>
+</li>
+<li>
+<p><code>initial_content_binary</code>: <em>Optional.</em> You can pass binary content as a base64 encoded string.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-extract-versions-from-the-bucket" class="anchor" aria-hidden="true" href="#check-extract-versions-from-the-bucket"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Extract versions from the bucket.</h3>
+<p>Objects will be found via the pattern configured by <code>regexp</code>. The versions
+will be used to order them (using <a href="http://semver.org/" rel="nofollow">semver</a>). Each
+object's filename is the resulting version.</p>
+<h3><a id="user-content-in-fetch-an-object-from-the-bucket" class="anchor" aria-hidden="true" href="#in-fetch-an-object-from-the-bucket"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch an object from the bucket.</h3>
+<p>Places the following files in the destination:</p>
+<ul>
+<li>
+<p><code>(filename)</code>: The file fetched from the bucket.</p>
+</li>
+<li>
+<p><code>url</code>: A file containing the URL of the object. If <code>private</code> is true, this
+URL will be signed.</p>
+</li>
+<li>
+<p><code>version</code>: The version identified in the file name.</p>
+</li>
+</ul>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>skip_download</code>: <em>Optional.</em> Skip downloading object from S3. Same parameter as source configuration but used to define/override by get. Value need to be a true/false string.</p>
+</li>
+<li>
+<p><code>unpack</code>: <em>Optional.</em> If true and the file is an archive (tar, gzipped tar, other gzipped file, or zip), unpack the file. Gzipped tarballs will be both ungzipped and untarred. It is ignored when <code>get</code> is running on the initial version.</p>
+</li>
+</ul>
+<h3><a id="user-content-out-upload-an-object-to-the-bucket" class="anchor" aria-hidden="true" href="#out-upload-an-object-to-the-bucket"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Upload an object to the bucket.</h3>
+<p>Given a file specified by <code>file</code>, upload it to the S3 bucket. If <code>regexp</code> is
+specified, the new file will be uploaded to the directory that the regex
+searches in. If <code>versioned_file</code> is specified, the new file will be uploaded as
+a new version of that file.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>file</code>: <em>Required.</em> Path to the file to upload, provided by an output of a task.
+If multiple files are matched by the glob, an error is raised. The file which
+matches will be placed into the directory structure on S3 as defined in <code>regexp</code>
+in the resource definition. The matching syntax is bash glob expansion, so
+no capture groups, etc.</p>
+</li>
+<li>
+<p><code>acl</code>: <em>Optional.</em>  <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl" rel="nofollow">Canned Acl</a>
+for the uploaded object.</p>
+</li>
+<li>
+<p><code>content_type</code>: <em>Optional.</em> MIME <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17" rel="nofollow">Content-Type</a>
+describing the contents of the uploaded object</p>
+</li>
+</ul>
+<h2><a id="user-content-example-configuration" class="anchor" aria-hidden="true" href="#example-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configuration</h2>
+<h3><a id="user-content-resource" class="anchor" aria-hidden="true" href="#resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource</h3>
+<p>When the file has the version name in the filename</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">release</span>
+  <span class="pl-ent">type</span>: <span class="pl-c1">s3</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">bucket</span>: <span class="pl-s">releases</span>
+    <span class="pl-ent">regexp</span>: <span class="pl-s">directory_on_s3/release-(.*).tgz</span>
+    <span class="pl-ent">access_key_id</span>: <span class="pl-s">ACCESS-KEY</span>
+    <span class="pl-ent">secret_access_key</span>: <span class="pl-s">SECRET</span></pre></div>
+<p>or</p>
+<p>When the file is being <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html" rel="nofollow">versioned by s3</a></p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">release</span>
+  <span class="pl-ent">type</span>: <span class="pl-c1">s3</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">bucket</span>: <span class="pl-s">releases</span>
+    <span class="pl-ent">versioned_file</span>: <span class="pl-s">directory_on_s3/release.tgz</span>
+    <span class="pl-ent">access_key_id</span>: <span class="pl-s">ACCESS-KEY</span>
+    <span class="pl-ent">secret_access_key</span>: <span class="pl-s">SECRET</span></pre></div>
+<h3><a id="user-content-plan" class="anchor" aria-hidden="true" href="#plan"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plan</h3>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">release</span></pre></div>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">release</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">file</span>: <span class="pl-s">path/to/release-*.tgz</span>
+    <span class="pl-ent">acl</span>: <span class="pl-s">public-read</span></pre></div>
+<h2><a id="user-content-required-iam-permissions" class="anchor" aria-hidden="true" href="#required-iam-permissions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Required IAM Permissions</h2>
+<h3><a id="user-content-non-versioned-buckets" class="anchor" aria-hidden="true" href="#non-versioned-buckets"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Non-versioned Buckets</h3>
+<p>The bucket itself (e.g. <code>"arn:aws:s3:::your-bucket"</code>):</p>
+<ul>
+<li><code>s3:ListBucket</code></li>
+</ul>
+<p>The objects in the bucket (e.g. <code>"arn:aws:s3:::your-bucket/*"</code>):</p>
+<ul>
+<li><code>s3:PutObject</code></li>
+<li><code>s3:PutObjectAcl</code></li>
+<li><code>s3:GetObject</code></li>
+</ul>
+<h3><a id="user-content-versioned-buckets" class="anchor" aria-hidden="true" href="#versioned-buckets"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Versioned Buckets</h3>
+<p>Everything above and...</p>
+<p>The bucket itself (e.g. <code>"arn:aws:s3:::your-bucket"</code>):</p>
+<ul>
+<li><code>s3:ListBucketVersions</code></li>
+<li><code>s3:GetBucketVersioning</code></li>
+</ul>
+<p>The objects in the bucket (e.g. <code>"arn:aws:s3:::your-bucket/*"</code>):</p>
+<ul>
+<li><code>s3:GetObjectVersion</code></li>
+<li><code>s3:PutObjectVersionAcl</code></li>
+</ul>
+<h2><a id="user-content-developing-on-this-resource" class="anchor" aria-hidden="true" href="#developing-on-this-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Developing on this resource</h2>
+<p>First get the resource via:
+<code>go get github.com/concourse/s3-resource</code></p>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li>golang is <em>required</em> - version 1.9.x is tested; earlier versions may also
+work.</li>
+<li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+work.</li>
+<li>godep is used for dependency management of the golang packages.</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following commands for both <code>alpine</code> and <code>ubuntu</code> images:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t s3-resource -f dockerfiles/alpine/Dockerfile <span class="pl-c1">.</span>
+docker build -t s3-resource -f dockerfiles/ubuntu/Dockerfile <span class="pl-c1">.</span></pre></div>
+<h4><a id="user-content-integration-tests" class="anchor" aria-hidden="true" href="#integration-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration tests</h4>
+<p>The integration requires two AWS S3 buckets, one without versioning and another
+with. The <code>docker build</code> step requires setting <code>--build-args</code> so the
+integration will run.</p>
+<p>Run the tests with the following command:</p>
+<div class="highlight highlight-source-shell"><pre>docker build <span class="pl-c1">.</span> -t s3-resource -f dockerfiles/alpine/Dockerfile \
+  --build-arg S3_TESTING_ACCESS_KEY_ID=<span class="pl-s"><span class="pl-pds">"</span>access-key<span class="pl-pds">"</span></span> \
+  --build-arg S3_TESTING_SECRET_ACCESS_KEY=<span class="pl-s"><span class="pl-pds">"</span>some-secret<span class="pl-pds">"</span></span> \
+  --build-arg S3_TESTING_BUCKET=<span class="pl-s"><span class="pl-pds">"</span>bucket-non-versioned<span class="pl-pds">"</span></span> \
+  --build-arg S3_VERSIONED_TESTING_BUCKET=<span class="pl-s"><span class="pl-pds">"</span>bucket-versioned<span class="pl-pds">"</span></span> \
+  --build-arg S3_TESTING_REGION=<span class="pl-s"><span class="pl-pds">"</span>us-east-1<span class="pl-pds">"</span></span> \
+  --build-arg S3_ENDPOINT=<span class="pl-s"><span class="pl-pds">"</span>https://s3.amazonaws.com<span class="pl-pds">"</span></span>
+
+docker build <span class="pl-c1">.</span> -t s3-resource -f dockerfiles/ubuntu/Dockerfile \
+  --build-arg S3_TESTING_ACCESS_KEY_ID=<span class="pl-s"><span class="pl-pds">"</span>access-key<span class="pl-pds">"</span></span> \
+  --build-arg S3_TESTING_SECRET_ACCESS_KEY=<span class="pl-s"><span class="pl-pds">"</span>some-secret<span class="pl-pds">"</span></span> \
+  --build-arg S3_TESTING_BUCKET=<span class="pl-s"><span class="pl-pds">"</span>bucket-non-versioned<span class="pl-pds">"</span></span> \
+  --build-arg S3_VERSIONED_TESTING_BUCKET=<span class="pl-s"><span class="pl-pds">"</span>bucket-versioned<span class="pl-pds">"</span></span> \
+  --build-arg S3_TESTING_REGION=<span class="pl-s"><span class="pl-pds">"</span>us-east-1<span class="pl-pds">"</span></span> \
+  --build-arg S3_ENDPOINT=<span class="pl-s"><span class="pl-pds">"</span>https://s3.amazonaws.com<span class="pl-pds">"</span></span></pre></div>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+locally.</p>
+</article></div>
 </div>
 
 </body>

@@ -10,7 +10,65 @@
 <p>https://github.com/coralogix/eng-concourse-resource-github-list-repos</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-github-list-repositories-resource" class="anchor" aria-hidden="true" href="#github-list-repositories-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GitHub List Repositories Resource</h1>
+<p><a href="https://quay.io/repository/coralogix/concourse-resource-github-list-repos" rel="nofollow"><img src="https://camo.githubusercontent.com/95758dd609d04f470fa2936a45a7da743b8aa40d/68747470733a2f2f717561792e696f2f7265706f7369746f72792f636f72616c6f6769782f636f6e636f757273652d7265736f757263652d6769746875622d6c6973742d7265706f732f737461747573" alt="Docker Repository on Quay" title="Docker Repository on Quay" data-canonical-src="https://quay.io/repository/coralogix/concourse-resource-github-list-repos/status" style="max-width:100%;"></a></p>
+<p>Lists the repositories that belong to a GitHub organization or team, but does not clone them.</p>
+<p>This resource was implemented to trigger the reconfiguration and deployment of a Concourse CI pipeline which has jobs per repository (and therefore does not need to clone any of the repositories in order to build the pipeline).</p>
+<p>Internally uses the GitHub v4 API (GraphQL).</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>auth-token</code> : <em>Required</em> (<code>string</code>). A GitHub API auth token. This auth token must have <code>repo</code> scope, and if the resource queries the repositories belonging to a team, it must also have <code>read:org</code> scope for the organization to which the team belongs.</li>
+<li><code>org</code> : <em>Required</em> (<code>string</code>). The organization whose repositories should be listed.</li>
+<li><code>team</code> : <em>Optional</em> (<code>string</code>). The team whose repositories should be listed.</li>
+<li><code>exclude_regex</code> : <em>Optional</em> (<code>string</code>). A regular expression of repositories which should not be included in the final list. May not be specified when <code>include_regex</code> is specified.</li>
+<li><code>exclude</code> : <em>Optional</em> (<code>array[string]</code>). A list of repositories which should not be included in the final list. This list is appended to the <code>exclude_regex</code> to build a final exclusionary rule, and both <code>exclude</code> and <code>exclude_regex</code> may be specified. May not be specified when <code>include_regex</code> is specified.</li>
+<li><code>include_regex</code> : <em>Optional</em> (<code>string</code>). A regular expression of repository names which should be included in the final list (repositories which do not match the regex will not be included). May not be specified when either <code>exclude_regex</code> or <code>exclude</code> are specified.</li>
+</ul>
+<h3><a id="user-content-example-usage" class="anchor" aria-hidden="true" href="#example-usage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Usage</h3>
+<p>Resource type definition</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">github-list-repos</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">quay.io/coralogix/concourse-resource-github-list-repos</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">v0.3.1</span></pre></div>
+<p>Resource configuration with exclusions</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">repo-list</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">github-list-repos</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">auth-token</span>: <span class="pl-s">((managed-auth-token))</span>
+    <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+    <span class="pl-ent">team</span>: <span class="pl-s">myteam</span>
+    <span class="pl-ent">exclude_regex</span>: <span class="pl-s"><span class="pl-pds">"</span>internal-helper|utility<span class="pl-pds">"</span></span>
+    <span class="pl-ent">exclude</span>:
+    - <span class="pl-s">irrelevant</span>
+    - <span class="pl-s">legacy-service</span></pre></div>
+<p>Resource configuration with an inclusion regex</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">repo-list</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">github-list-repos</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">auth-token</span>: <span class="pl-s">((managed-auth-token))</span>
+    <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+    <span class="pl-ent">team</span>: <span class="pl-s">myteam</span>
+    <span class="pl-ent">include_regex</span>: <span class="pl-s"><span class="pl-pds">"</span>^myprefix-<span class="pl-pds">"</span></span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check--check-for-a-change-in-the-repository-list" class="anchor" aria-hidden="true" href="#check--check-for-a-change-in-the-repository-list"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code> : Check for a change in the repository list</h3>
+<p>The GitHub API is queried for a list of all of the repositories belonging to the <code>org</code> or the <code>team</code>. This list is sorted and hashed, so that subsequent calls will result in the same hash if no repositories have been added or deleted. This hash is returned as the version.</p>
+<h3><a id="user-content-in--fetch-a-list-of-repositories" class="anchor" aria-hidden="true" href="#in--fetch-a-list-of-repositories"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code> : Fetch a list of repositories</h3>
+<p>The GitHub API is queried for a list of all of the repositories belonging to the <code>org</code> or the <code>team</code>. This list is output to a file called <code>repository-list.&lt;ext&gt;</code> where <code>&lt;ext&gt;</code> is defined by the <code>output_format</code>.</p>
+<h4><a id="user-content-params" class="anchor" aria-hidden="true" href="#params"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Params</h4>
+<ul>
+<li><code>output_format</code> : <em>Optional</em> (<code>string</code>). Specifies which format the list should be in. The options are <code>txt</code> (newline separated text file output to <code>repository-list.txt</code>) and <code>json</code> (a JSON array output to <code>repository-list.json</code>). <code>txt</code> is the default.</li>
+</ul>
+<h3><a id="user-content-out--not-supported" class="anchor" aria-hidden="true" href="#out--not-supported"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code> : Not supported</h3>
+<h2><a id="user-content-maintainers" class="anchor" aria-hidden="true" href="#maintainers"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Maintainers</h2>
+<p><a href="https://github.com/ari-becker">Ari Becker</a>
+<a href="https://github.com/oded-dd">Oded David</a></p>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p><a href="https://www.apache.org/licenses/LICENSE-2.0" rel="nofollow">Apache License 2.0</a> © Coralogix, Inc.</p>
+</article></div>
 </div>
 
 </body>

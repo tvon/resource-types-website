@@ -10,7 +10,101 @@
 <p>https://github.com/chemist/rsync-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-rsync-resource-for-concourse" class="anchor" aria-hidden="true" href="#rsync-resource-for-concourse"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rsync resource for concourse</h1>
+<p>If you need resource for moving artifacts between your jobs it's right place.</p>
+<h2><a id="user-content-rsyncd-settings" class="anchor" aria-hidden="true" href="#rsyncd-settings"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rsyncd settings</h2>
+<p>Some thing like this</p>
+<pre><code>uid = nobody
+gid = nobody
+use chroot = no
+max connections = 100
+syslog facility = local5
+pid file = /var/run/rsyncd/rsyncd.pid
+lock file = /var/run/rsyncd/rsync.lock
+read only = no
+write only = no
+hosts allow = 192.168.0.0/24
+hosts deny = *
+
+[current]
+  path = /var/repo/7
+  comment = rpm repository for centos7
+#
+# mkdir -p /var/repo/7/prod
+#
+
+[bin]
+  path = /opt/rsync/bin
+  comment = temporary store 
+#
+# mkdir -p /opt/rsync/bin
+#
+[static]
+  path = /opt/rsync/static
+  comment = input point for static files
+#
+# mkdir -p /opt/rsync/static
+#
+</code></pre>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>: <span class="pl-c"><span class="pl-c">#</span>##################################################################################################</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">rsync-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">chemist/rsync-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>: <span class="pl-c"><span class="pl-c">#</span>######################################################################################################</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">rpm-7</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">rsync-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">server</span>: <span class="pl-s">rsync.server.io</span>
+    <span class="pl-ent">base_dir</span>: <span class="pl-s">current</span>
+    <span class="pl-ent">resource_type</span>: <span class="pl-s">w</span>
+    <span class="pl-ent">static_identificator</span>: <span class="pl-s">prod</span>
+
+<span class="pl-c"><span class="pl-c">#</span> write only resource</span>
+<span class="pl-c"><span class="pl-c">#</span> created artifacts will be saved to /var/repo/7/prod</span>
+<span class="pl-c"><span class="pl-c">#</span>  - put: rpm-7</span>
+<span class="pl-c"><span class="pl-c">#</span>    params:</span>
+<span class="pl-c"><span class="pl-c">#</span>      sync_dir: rpm-7</span>
+
+
+- <span class="pl-ent">name</span>: <span class="pl-s">bin</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">rsync-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">server</span>: <span class="pl-s">rsync.server.io</span>
+    <span class="pl-ent">base_dir</span>: <span class="pl-s">bin</span>
+    <span class="pl-ent">resource_type</span>: <span class="pl-s">rw</span>
+
+<span class="pl-c"><span class="pl-c">#</span> job example</span>
+<span class="pl-c"><span class="pl-c">#</span> read - write changer, this resource can be used for moving artifacts between jobs</span>
+<span class="pl-c"><span class="pl-c">#</span> folders will be created for every run /opt/rsync/bin/uniq-prefix-$(date)</span>
+<span class="pl-c"><span class="pl-c">#</span>  - put: bin</span>
+<span class="pl-c"><span class="pl-c">#</span>    params:</span>
+<span class="pl-c"><span class="pl-c">#</span>      sync_dir: bin</span>
+<span class="pl-c"><span class="pl-c">#</span>      identificator: uniq-prefix # this prefix will be used for folders</span>
+<span class="pl-c"><span class="pl-c">#</span>  - get: bin</span>
+<span class="pl-c"><span class="pl-c">#</span>    trigger: true</span>
+<span class="pl-c"><span class="pl-c">#</span>    passed: [build-dsp]</span>
+
+
+- <span class="pl-ent">name</span>: <span class="pl-s">static</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">rsync-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">server</span>: <span class="pl-s">rsync.server.io</span>
+    <span class="pl-ent">base_dir</span>: <span class="pl-s">static</span>
+    <span class="pl-ent">static_identificator</span>: <span class="pl-s">input-prod</span>
+    <span class="pl-ent">resource_type</span>: <span class="pl-s">r </span>
+
+<span class="pl-c"><span class="pl-c">#</span> job example</span>
+<span class="pl-c"><span class="pl-c">#</span> read only store, if your job needs static file, it is what you need.</span>
+<span class="pl-c"><span class="pl-c">#</span>  - get: static</span>
+<span class="pl-c"><span class="pl-c">#</span>    trigger: false</span>
+<span class="pl-c"><span class="pl-c">#</span> it checks new files in folder /opt/rsync/static/input-prod</span>
+</pre></div>
+<p>Also you can see example in test.yml included here.</p>
+</article></div>
 </div>
 
 </body>

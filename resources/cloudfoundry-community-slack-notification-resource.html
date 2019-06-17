@@ -10,7 +10,213 @@
 <p>https://github.com/cloudfoundry-community/slack-notification-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-slack-notification-sending-resource" class="anchor" aria-hidden="true" href="#slack-notification-sending-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Slack notification sending resource</h1>
+<p>Sends messages to <a href="https://slack.com" rel="nofollow">Slack</a>.</p>
+<ul>
+<li><a href="https://ci.starkandwayne.com/teams/main/pipelines/slack-notification-resource" rel="nofollow">Build &amp; promote image</a> via CI</li>
+</ul>
+<h2><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">slack-notification</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">cfcommunity/slack-notification-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>To setup an <a href="https://api.slack.com/incoming-webhooks" rel="nofollow">Incoming Webhook</a> go to <a href="https://my.slack.com/services/new/incoming-webhook/" rel="nofollow">https://my.slack.com/services/new/incoming-webhook/</a>.</p>
+<ul>
+<li><code>url</code>: <em>Required.</em> The webhook URL as provided by Slack. Usually in the form: <code>https://hooks.slack.com/services/XXXX</code></li>
+<li><code>insecure</code>: <em>Optional.</em> Connect to Slack insecurely - i.e. skip SSL validation. Defaults to false if not provided.</li>
+<li><code>proxy</code>: <em>Optional.</em> Connect to Slack using an HTTP(S) proxy. In the form: <code>http://my.proxy:3128</code></li>
+<li><code>proxy_https_tunnel</code>: <em>Optional.</em> Set to <code>true</code> to use an HTTP proxy as an HTTPS tunnel.</li>
+<li><code>disable</code>: <em>Optional.</em> Set to <code>true</code> to skip all messaging. Convenient for temporarily disabling notifications without editing your pipelines.</li>
+<li><code>ca_certs</code>: <em>Optional.</em> An array of objects with the following format:</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">ca_certs</span>:
+- <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span>
+  <span class="pl-ent">cert</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END CERTIFICATE-----</span>
+<span class="pl-s"></span>- <span class="pl-ent">domain</span>: <span class="pl-s">10.244.6.2</span>
+  <span class="pl-ent">cert</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END CERTIFICATE-----</span></pre></div>
+<p>Each entry specifies the x509 CA certificate for the trusted domain.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">slack-alert</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">slack-notification</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">url</span>: <span class="pl-s">https://hooks.slack.com/services/XXXX</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-out-sends-message-to-slack" class="anchor" aria-hidden="true" href="#out-sends-message-to-slack"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Sends message to Slack.</h3>
+<p>Send message to Slack, with the configured parameters.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>Required:</p>
+<p>One or more of the following:</p>
+<ul>
+<li><code>text</code>: Static text of the message to send.</li>
+<li><code>text_file</code>: File that contains the message to send. This allows the message to be generated by a
+previous task step in the Concourse job.</li>
+<li><code>attachments</code>: An array of one or more message attachments. See the <a href="https://api.slack.com/docs/message-attachments" rel="nofollow">Slack documentation on message
+attachments</a> for the message structure.</li>
+<li><code>attachments_file</code>: File that contains the json attachments array to send.  This parameter allows
+the attachments to be generated by a previous task step in the Concourse job.</li>
+</ul>
+<p>If you omit the <code>text</code> parameter, the content of the file specified in the
+<code>text_file</code> parameter will be used verbatim.  Alternatively, you can include
+the environment variable <code>$TEXT_FILE_CONTENT</code> in the <code>text</code> string to include
+the content of the file with other static text and interpolated variables (see
+Metadata section below)</p>
+<p>If you use <code>text</code> without using the <code>$TEXT_FILE_CONTENT</code> in it, the content
+will not be added to your message.</p>
+<p>The text and text_file content can contain multiple lines, emojis like :simple_smile:,
+and links in form <code>&lt;http://example.com&gt;</code> or <code>&lt;http://example.com|Click here!&gt;</code>.
+To mention a user, you will have to use the <code>&lt;@U123ABC&gt;</code> format, where <code>U123ABC</code>
+is the user ID. You can get a user's user ID by browsing their profile
+and using the <strong>⌵</strong> control to display and quickly copy and paste a specific user's ID.
+For more ways, see the <a href="https://api.slack.com/changelog/2017-09-the-one-about-usernames#mapping" rel="nofollow">Slack documentation on username/user ID mapping</a>.
+You can read more on how to mention users/channels in the <a href="https://api.slack.com/docs/message-formatting#linking_to_channels_and_users" rel="nofollow">Slack documentation on linking to channels and users</a>.</p>
+<p>Note that the old <code>&lt;@username&gt;</code> format will soon no longer be supported by Slack
+(See <a href="https://api.slack.com/changelog/2017-09-the-one-about-usernames" rel="nofollow">changelog</a>).</p>
+<p>If you omit the <code>attachments</code> parameter, the contents of the file specified in the
+<code>attachments_file</code> parameter will be used verbatim.  If the <code>attachments</code> parameter
+is set, then <code>attachments_file</code> will be ignored.  There is no way to use both at the
+same time.</p>
+<p>Under the philosophy that its better to write something than fail silently,
+the following will be sent under these conditions:</p>
+<ul>
+<li>when <code>text</code>, <code>attachments</code>, <code>attachments_file</code> are omitted, and...
+<ul>
+<li><code>text_file</code> omitted, or present but file missing:
+<blockquote>
+<p><em>(no notification given)</em></p>
+</blockquote>
+</li>
+<li><code>text_file</code> specified and present but file empty:
+<blockquote>
+<p><em>(missing notification text)</em></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>when <code>text</code> is present and both <code>attachments</code> and <code>attachments_file</code> are omitted, and <code>text</code> evaluates to empty string after variable interpolation:
+<blockquote>
+<p><em>(missing notification text)</em></p>
+</blockquote>
+</li>
+<li>when <code>text</code> specified with <code>$TEXT_FILE_CONTENT</code> and more content, and...
+<ul>
+<li><code>text_file</code> omitted, or present but file missing
+<ul>
+<li><code>$TEXT_FILE_CONTENT</code> is replaced with "<em>(no notification given)</em>"</li>
+</ul>
+</li>
+<li><code>text_file</code> specified and present but file empty:
+<ul>
+<li>no notification is sent</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Optional:</p>
+<ul>
+<li><code>channel</code>: <em>Optional.</em> Override channel to send message to. <code>#channel</code> and <code>@user</code> forms are allowed. You can notify multiple channels separated by whitespace, like <code>#channel @user</code>.</li>
+<li><code>channel_file</code>: <em>Optional.</em> File that contains a list of channels to send message to. If <code>channel</code> is also specified, the two lists will be concatenated.</li>
+<li><code>env_file</code>: <em>Optional.</em> File that contains a list of <code>key=value</code> environment variable that will be avaliable in you slack messages template</li>
+<li><code>username</code>: <em>Optional.</em> Override name of the sender of the message.</li>
+<li><code>icon_url</code>: <em>Optional.</em> Override icon by providing URL to the image.</li>
+<li><code>icon_emoji</code>: <em>Optional.</em> Override icon by providing emoji code (e.g. <code>:ghost:</code>).</li>
+<li><code>silent</code>: <em>Optional.</em> Do not print curl output (avoids leaking slack webhook URL)</li>
+<li><code>always_notify</code>: <em>Optional.</em> Attempt to notify even if there are errors or missing text. (Expects true or false, defaults to false)</li>
+</ul>
+<p>Explore formatting with Slack's <a href="https://api.slack.com/docs/formatting/builder" rel="nofollow">Message Builder</a>.</p>
+<h4><a id="user-content-metadata" class="anchor" aria-hidden="true" href="#metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata</h4>
+<p>Various metadata is available in the form of environment variables. Any environment variables present in the parameters will be automatically evaluated; this enables dynamic parameter content.</p>
+<p>The following pipeline config snippet demonstrates how to incorporate the metadata:</p>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">some-job</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">slack-alert</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">channel</span>: <span class="pl-s"><span class="pl-pds">'</span>#my_channel<span class="pl-pds">'</span></span>
+      <span class="pl-ent">text_file</span>: <span class="pl-s">results/message.txt</span>
+      <span class="pl-ent">text</span>: <span class="pl-s">|</span>
+<span class="pl-s">        The build had a result. Check it out at:</span>
+<span class="pl-s">        http://my.concourse.url/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME</span>
+<span class="pl-s">        or at:</span>
+<span class="pl-s">        http://my.concourse.url/builds/$BUILD_ID</span>
+<span class="pl-s"></span>
+<span class="pl-s">        Result: $TEXT_FILE_CONTENT</span></pre></div>
+<p>See the <a href="https://concourse-ci.org/implementing-resources.html#resource-metadata" rel="nofollow">official documentation</a> for a complete list of available metadata.</p>
+<h2><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<p>If you're interested in the API of Concourse resources and/or contributing to this resource, you can play with the <code>out</code> script using examples. There are some available in the <code>test</code> folder.</p>
+<p>Note: they have a <code>params.debug</code> set so that it only prints out the data structures rather than attempting to invoke the Slack API. Remove it and set a real Slack API to test the script against Slack.</p>
+<pre><code>&gt; cat test/combined_text_template_and_file_empty.out | ./out .
+webhook_url: https://some.url
+body: {
+  "text": ":some_emoji:&lt;https://my-ci.my-org.com//teams//main//pipelines//jobs//builds/|Alert!&gt;\n",
+  "username": "concourse",
+  "icon_url": null,
+  "icon_emoji": null,
+  "channel": null
+}
+
+&gt; cat test/combined_text_template_and_file_missing.out | ./out .
+webhook_url: https://some.url
+body: {
+  "text": ":some_emoji:&lt;https://my-ci.my-org.com//teams//main//pipelines//jobs//builds/|Alert!&gt;\n_(no notification provided)_\n",
+  "username": "concourse",
+  "icon_url": null,
+  "icon_emoji": null,
+  "channel": null
+}
+
+&gt; cat test/combined_text_template_and_file.out | ./out .
+webhook_url: https://some.url
+body: {
+  "text": ":some_emoji:&lt;https://my-ci.my-org.com//teams//main//pipelines//jobs//builds/|Alert!&gt;\nThis text came from sample.txt. It could have been generated by a previous Concourse task.\n\nMultiple lines are allowed.\n",
+  "username": "concourse",
+  "icon_url": null,
+  "icon_emoji": null,
+  "channel": null
+}
+
+&gt; cat test/text_file_empty.out | ./out .
+webhook_url: https://some.url
+body: {
+  "text": "_(missing notification text)_\n",
+  "username": "concourse",
+  "icon_url": null,
+  "icon_emoji": null,
+  "channel": null
+}
+
+&gt; cat test/text_file.out | ./out .
+webhook_url: https://some.url
+body: {
+  "text": "This text came from sample.txt. It could have been generated by a previous Concourse task.\n\nMultiple lines are allowed.\n",
+  "username": "concourse",
+  "icon_url": null,
+  "icon_emoji": null,
+  "channel": null
+}
+
+&gt; cat test/text.out | ./out .
+webhook_url: https://some.url
+body: {
+  "text": "Inline static text\n",
+  "username": "concourse",
+  "icon_url": null,
+  "icon_emoji": null,
+  "channel": null
+}
+
+</code></pre>
+</article></div>
 </div>
 
 </body>

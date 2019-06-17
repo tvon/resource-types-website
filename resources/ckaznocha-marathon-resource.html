@@ -10,7 +10,87 @@
 <p>https://github.com/ckaznocha/marathon-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-marathon-resource" class="anchor" aria-hidden="true" href="#marathon-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Marathon Resource</h1>
+<p><a href="https://travis-ci.org/ckaznocha/marathon-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/41abd56d493c9971f0c87653d0783e6b68cebec8/68747470733a2f2f7472617669732d63692e6f72672f636b617a6e6f6368612f6d61726174686f6e2d7265736f757263652e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/ckaznocha/marathon-resource.svg?branch=master" style="max-width:100%;"></a>
+<a href="https://coveralls.io/github/ckaznocha/marathon-resource?branch=master" rel="nofollow"><img src="https://camo.githubusercontent.com/950cc857cd55db8c2771503d77d4fac9c76306f3/68747470733a2f2f636f766572616c6c732e696f2f7265706f732f6769746875622f636b617a6e6f6368612f6d61726174686f6e2d7265736f757263652f62616467652e7376673f6272616e63683d6d6173746572" alt="Coverage Status" data-canonical-src="https://coveralls.io/repos/github/ckaznocha/marathon-resource/badge.svg?branch=master" style="max-width:100%;"></a>
+<a href="https://codeclimate.com/github/ckaznocha/marathon-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/a004870ea5e964a699350cb97fabbf7c58849039/68747470733a2f2f636f6465636c696d6174652e636f6d2f6769746875622f636b617a6e6f6368612f6d61726174686f6e2d7265736f757263652f6261646765732f6770612e737667" alt="Code Climate" data-canonical-src="https://codeclimate.com/github/ckaznocha/marathon-resource/badges/gpa.svg" style="max-width:100%;"></a>
+<a href="http://ckaznocha.mit-license.org" rel="nofollow"><img src="https://camo.githubusercontent.com/3d7aa1ddbfa86368152bf42123c17b69ea8070be/687474703a2f2f696d672e736869656c64732e696f2f3a6c6963656e73652d6d69742d626c75652e737667" alt="License" data-canonical-src="http://img.shields.io/:license-mit-blue.svg" style="max-width:100%;"></a>
+<a href="https://goreportcard.com/report/ckaznocha/marathon-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/128f2657091e9a3668f78af5739ce5740ac34d41/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f636b617a6e6f6368612f6d61726174686f6e2d7265736f75726365" alt="Go Report Card" data-canonical-src="https://goreportcard.com/badge/ckaznocha/marathon-resource" style="max-width:100%;"></a>
+<a href="https://hub.docker.com/r/ckaznocha/marathon-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/d9b5e2fa6c2f14f5c7f73292a47bb78c613fd417/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f636b617a6e6f6368612f6d61726174686f6e2d7265736f757263652e7376673f6d61784167653d32353932303030" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/ckaznocha/marathon-resource.svg?maxAge=2592000" style="max-width:100%;"></a></p>
+<p>A <a href="https://concourse.ci/" rel="nofollow">Concourse</a> resource to deploy applications to <a href="https://mesosphere.github.io/marathon/" rel="nofollow">Marathon</a>.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>app_id</code>: <em>Required.</em> The name of your app in Marathon.</p>
+</li>
+<li>
+<p><code>uri</code>: <em>Required.</em> The URI of the Marathon instance you wish to deploy to.</p>
+</li>
+<li>
+<p><code>basic_auth</code>: <em>Optional.</em> Use if you are using HTTP Basic Auth to protect your Marathon instance. Takes <code>user_name</code> and <code>password</code></p>
+</li>
+<li>
+<p><code>api_token</code>: <em>Optional.</em> Use if you are using DC/OS and need to set an HTTP API token.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-extract-versions-of-an-app-from-marathon" class="anchor" aria-hidden="true" href="#check-extract-versions-of-an-app-from-marathon"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Extract versions of an app from Marathon.</h3>
+<p>Returns a list of any versions greater than or equal the last know version of the app defined by <code>app_id</code>.</p>
+<h3><a id="user-content-in-fetch-data-about-the-current-version-of-an-app" class="anchor" aria-hidden="true" href="#in-fetch-data-about-the-current-version-of-an-app"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch data about the current version of an app.</h3>
+<p>Returns JSON description of the current running version of the app.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p><em>None.</em></p>
+<h3><a id="user-content-out-deploy-an-app-to-marathon" class="anchor" aria-hidden="true" href="#out-deploy-an-app-to-marathon"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Deploy an app to Marathon.</h3>
+<p>Given a JSON file specified by <code>app_json</code>, post it to Marathon to deploy the app. The resource will cancel the deployment if its not successful after <code>time_out</code>.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>app_json</code>: <em>Required.</em> Path to the JSON file describing your marathon app. For more information about the format see <a href="https://mesosphere.github.io/marathon/docs/application-basics.html" rel="nofollow">the Marathon docs</a>.</p>
+</li>
+<li>
+<p><code>time_out</code>: <em>Required.</em> How long, in seconds, to wait for Marathon to deploy the app. Timed out deployments will roll back and fail the job.</p>
+</li>
+<li>
+<p><code>replacements</code>: <em>Optional.</em> A <code>name</code>/<code>value</code> list of templated strings in the app.json to replace during the deploy. Useful for things such as passwords or urls that change.</p>
+</li>
+<li>
+<p><code>replacement_files</code>: <em>Optional.</em> Similar to <code>replacements</code> except value is a path to a file who's content will be used in the replace.</p>
+</li>
+<li>
+<p><code>restart_if_no_update</code>: <em>Optional.</em> If Marathon doesn't detect any change in your app.json it won't deploy a new version. Setting this to <code>true</code> will restart an existing app causing a new version. Default is <code>false</code>.</p>
+</li>
+</ul>
+<h2><a id="user-content-example-configuration" class="anchor" aria-hidden="true" href="#example-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configuration</h2>
+<h3><a id="user-content-resource-type" class="anchor" aria-hidden="true" href="#resource-type"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource type</h3>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">marathon</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">ckaznocha/marathon-resource</span></pre></div>
+<h3><a id="user-content-resource" class="anchor" aria-hidden="true" href="#resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource</h3>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">marathon_app</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">marathon</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">app_id</span>: <span class="pl-s">my_app</span>
+    <span class="pl-ent">uri</span>: <span class="pl-s">http://my-marathon.com/</span>
+    <span class="pl-ent">basic_auth</span>:
+      <span class="pl-ent">user_name</span>: <span class="pl-s">my_name</span>
+      <span class="pl-ent">password</span>: <span class="pl-s">{{ marathon_password }}</span></pre></div>
+<h3><a id="user-content-plan" class="anchor" aria-hidden="true" href="#plan"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plan</h3>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">marathon_app</span></pre></div>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">marathon_app</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">app_json</span>: <span class="pl-s">path/to/app.json</span>
+    <span class="pl-ent">time_out</span>: <span class="pl-c1">10</span>
+    <span class="pl-ent">replacements</span>:
+    - <span class="pl-ent">name</span>: <span class="pl-s">db_password</span>
+      <span class="pl-ent">value</span>: <span class="pl-s">{{ db_password }}</span>
+    - <span class="pl-ent">name</span>: <span class="pl-s">db_url</span>
+      <span class="pl-ent">value</span>: <span class="pl-s">{{ db_url }}</span></pre></div>
+<h2><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
+<p>See the <code>CONTRIBUTING</code> file.</p>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>See <code>LICENSE</code> file</p>
+</article></div>
 </div>
 
 </body>

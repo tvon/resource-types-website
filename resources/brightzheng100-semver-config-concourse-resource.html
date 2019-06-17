@@ -10,7 +10,132 @@
 <p>https://github.com/brightzheng100/semver-config-concourse-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-semver-config-resource" class="anchor" aria-hidden="true" href="#semver-config-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Semver Config Resource</h1>
+<p>A <a href="https://concourse-ci.org" rel="nofollow">Concourse</a> resource for detecting desired semantic version changes and retrieving a set of semantic version-based configs, by one single YAML file.</p>
+<p>Major features:</p>
+<ul>
+<li>One <code>yaml</code> file to maintain a set of sementic version-based config items</li>
+<li>Each config can have arbitrory structure where simply setting <code>version_path</code> to detect new versions and <code>config_path</code> to locate desired config elements</li>
+<li>Support some useful semantic <a href="#version-patterns">version detection patterns</a>. For example, <code>m.n.*</code> means <code>I care only Major or Minor version change</code></li>
+</ul>
+<h2><a id="user-content-the-config-file-example" class="anchor" aria-hidden="true" href="#the-config-file-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Config File Example</h2>
+<p>The config file can be any sensible yaml format.</p>
+<p>The simlest one might be:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> examples/version-only.yaml</span>
+<span class="pl-ent">product-1</span>:
+  <span class="pl-ent">version</span>: <span class="pl-s"><span class="pl-pds">"</span>1.2.3<span class="pl-pds">"</span></span>
+<span class="pl-ent">product-2</span>:
+  <span class="pl-ent">version</span>: <span class="pl-s"><span class="pl-pds">"</span>2.0.1<span class="pl-pds">"</span></span></pre></div>
+<p>So we have two products configured with different semantic versions, without any extra config items.</p>
+<p>In real world, for example, while maintaining a PCF foundation with lots of products deployed, it can be something like this:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> examples/version-with-product-config.yaml</span>
+<span class="pl-ent">elastic-runtime</span>:
+  <span class="pl-ent">product-version</span>: <span class="pl-s"><span class="pl-pds">"</span>2.3.4<span class="pl-pds">"</span></span>
+  <span class="pl-ent">pivnet-product-slug</span>: <span class="pl-s">elastic-runtime</span>
+  <span class="pl-ent">pivnet-api-token</span>: <span class="pl-s">((pivnet_token))</span>
+  <span class="pl-ent">pivnet-file-glob</span>: <span class="pl-s"><span class="pl-pds">"</span>*.pivotal<span class="pl-pds">"</span></span>
+  <span class="pl-ent">stemcell-iaas</span>: <span class="pl-s">google</span>
+
+<span class="pl-ent">pivotal-container-service</span>:
+  <span class="pl-ent">product-version</span>: <span class="pl-s"><span class="pl-pds">"</span>1.4.0<span class="pl-pds">"</span></span>
+  <span class="pl-ent">pivnet-product-slug</span>: <span class="pl-s">pivotal-container-service</span>
+  <span class="pl-ent">pivnet-api-token</span>: <span class="pl-s">((pivnet_token))</span>
+  <span class="pl-ent">pivnet-file-glob</span>: <span class="pl-s"><span class="pl-pds">"</span>*.pivotal<span class="pl-pds">"</span></span>
+  <span class="pl-ent">stemcell-iaas</span>: <span class="pl-s">google</span></pre></div>
+<p>Where you have not only the semver, but also a set of config items.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><strong><code>driver</code></strong>: Required. Currently only supports <code>git</code></li>
+<li><strong><code>uri</code></strong>: Required. The location of the <code>git</code> repository</li>
+<li><code>branch</code>: Optional. The branch to track. Defaults to <code>master</code> if not set</li>
+<li><code>private_key</code>: Optional. The SSH private key that can be used for Git access authentication, if required.</li>
+<li><code>username</code>: Optional. The username that can be used for Git access authentication, if required.</li>
+<li><code>password</code>: Optional. The password that can be used for Git access authentication, together with <code>username</code>, if required.</li>
+<li><strong><code>config_file</code></strong>: Required. The relative path of the config file</li>
+<li><strong><code>config_path</code></strong>: Required. The <a href="https://github.com/mikefarah/yq">yq</a>-style path, e.g. <code>x.y.z</code> to locate the root of config items</li>
+<li><code>initial_version</code>: Optional. The initial version to start with. Defaults to <code>0.0.0</code> if not set</li>
+<li><strong><code>version_path</code></strong>: Required. The <a href="https://github.com/mikefarah/yq">yq</a>-style path, e.g. <code>root.version</code> to locate the root of semver item</li>
+<li><strong><code>version_pattern</code></strong>: Required. The pattern to be used for how to detect new versions. Refer to <a href="#version_patterns">Version Patterns</a> for the supported patterns</li>
+</ul>
+<h2><a id="user-content-behavior--interfaces" class="anchor" aria-hidden="true" href="#behavior--interfaces"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior / Interfaces</h2>
+<h3><a id="user-content-check-check-for-new-versions-based-on-desired-semver-pattern" class="anchor" aria-hidden="true" href="#check-check-for-new-versions-based-on-desired-semver-pattern"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new versions based on desired Semver Pattern</h3>
+<p>The tracking <code>git</code> repository is cloned to temporary folder and check whether there is a desired newer version based on configured <code>config_file</code>, <code>initial_version</code>, <code>version_path</code>, <code>version_pattern</code>.</p>
+<p>The extracted config elements will become resource's metadata, so please use integrated credential manager to handle credentials properly.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="misc/metadata.png"><img src="misc/metadata.png" alt="metadata.png" style="max-width:100%;"></a></p>
+<h3><a id="user-content-in-get-the-config-items-of-the-desired-version" class="anchor" aria-hidden="true" href="#in-get-the-config-items-of-the-desired-version"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Get the config items of the desired version</h3>
+<p>The tracking <code>git</code> repository is cloned to temporary folder and extract the desired config elements based on <code>config_file</code>, <code>config_path</code>.</p>
+<p>The extracted config elements will become resource's metadata and a file will be generated as the output which can be customized further by <code>in</code> parameters, as below.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>filename</code>: Optional. The output file name, without file extension. Defaults to <code>semver-config</code></li>
+<li><code>format</code>: Optional. Supported formats are: <code>json</code> and <code>yaml</code>. Defaults to <code>yaml</code>.</li>
+</ul>
+<h3><a id="user-content-out-no-ops" class="anchor" aria-hidden="true" href="#out-no-ops"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: No-ops</h3>
+<p>No-ops for <code>out</code>.</p>
+<h2><a id="user-content-usage--examples" class="anchor" aria-hidden="true" href="#usage--examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage &amp; Examples</h2>
+<p>Some pipeline examples are provided in <a href="pipelines/">/pipelines</a>.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> pipelines/product-config.yaml</span>
+<span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">semver-config</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">itstarting/semver-config-concourse-resource</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">config</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">semver-config</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">driver</span>: <span class="pl-s">git</span>
+    <span class="pl-ent">uri</span>: <span class="pl-s">https://github.com/brightzheng100/semver-config-concourse-resource.git</span>
+    <span class="pl-ent">branch</span>: <span class="pl-s">master</span>
+    <span class="pl-ent">config_file</span>: <span class="pl-s">examples/version-with-product-config.yaml</span>
+    <span class="pl-ent">initial_version</span>: <span class="pl-s">1.0.0                          </span><span class="pl-c"><span class="pl-c">#</span> optional, defaults to 0.0.0 if not set</span>
+    <span class="pl-ent">config_path</span>: <span class="pl-s"><span class="pl-pds">"</span>elastic-runtime<span class="pl-pds">"</span></span>                  <span class="pl-c"><span class="pl-c">#</span> [yq](https://github.com/mikefarah/yq)-style path</span>
+    <span class="pl-ent">version_path</span>: <span class="pl-s"><span class="pl-pds">"</span>elastic-runtime.product-version<span class="pl-pds">"</span></span> <span class="pl-c"><span class="pl-c">#</span> [yq](https://github.com/mikefarah/yq)-style path</span>
+    <span class="pl-ent">version_pattern</span>: <span class="pl-s"><span class="pl-pds">"</span>m.n.*<span class="pl-pds">"</span></span>                        <span class="pl-c"><span class="pl-c">#</span> refer to Version Patterns for how to detect new versions</span></pre></div>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">job1</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">config</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">format</span>: <span class="pl-s">yaml     </span><span class="pl-c"><span class="pl-c">#</span> Optional. Supported formats: `yaml`, `json`. Defaults to `yaml`</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  <span class="pl-s">...</span></pre></div>
+<h2><a id="user-content-version-patterns" class="anchor" aria-hidden="true" href="#version-patterns"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Version Patterns</h2>
+<p>There are some version detection patterns supported:</p>
+<ul>
+<li><code>m.*.*</code>: ONLY Major (m) version change should be detected as a change, e.g. <code>2.*.*</code> -&gt; <code>3.*.*</code></li>
+<li><code>m.n.*</code>: BOTH Major (m) AND miNor (n) version change should be detected as a change, e.g. <code>2.*.*</code> -&gt; <code>3.*.*</code>, <code>2.1.*</code> -&gt; <code>2.2.*</code></li>
+<li><code>m.n.p</code>: Any Major (m), miNor (n), and Patch (p) version change should be detected as a change, e.g. <code>2.*.*</code> -&gt; <code>3.*.*</code>, <code>2.1.*</code> -&gt; <code>2.2.*</code>, <code>2.1.5</code> -&gt; <code>2.1.9</code></li>
+<li><code>*.n.*</code>: ONLY miNor (m) version change should be detected as a change, e.g. <code>2.2.*</code> -&gt; <code>2.3.*</code></li>
+<li><code>*.*.p</code>: ONLY Patch (p) version change should be detected as a change, e.g. <code>2.2.4</code> -&gt; <code>2.2.9</code></li>
+</ul>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li><a href="https://github.com/mikefarah/yq">yq</a>: v2.3.0 is tested; other versions may also work</li>
+<li><a href="https://stedolan.github.io/jq/" rel="nofollow">jq</a>: v1.5 is tested; other versions may also work</li>
+<li><a href="https://github.com/bats-core/bats-core">Bats</a></li>
+<li>Git client</li>
+<li>Bash</li>
+</ul>
+<h3><a id="user-content-testing" class="anchor" aria-hidden="true" href="#testing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h3>
+<p>Some submodules have been used in this repo for testing purposes.</p>
+<pre><code>$ mkdir -p tests/libs
+
+$ git submodule add https://github.com/bats-core/bats-core.git tests/libs/bats
+$ git submodule add https://github.com/ztombol/bats-support tests/libs/bats-support
+$ git submodule add https://github.com/ztombol/bats-assert tests/libs/bats-assert
+</code></pre>
+<p>So if you want to run the test cases by yourself, do this:</p>
+<pre><code>$ git submodule update --init
+
+$ bats tests/check.bats
+$ bats tests/in.bats
+</code></pre>
+<h2><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
+<p>Please make all pull requests to the master branch and ensure tests are added to <code>/tests/check.bats</code> and/or <code>/tests/in.bats</code>.</p>
+</article></div>
 </div>
 
 </body>

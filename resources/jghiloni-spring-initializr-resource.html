@@ -10,7 +10,136 @@
 <p>https://github.com/jghiloni/spring-initializr-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-spring-initializr-resource" class="anchor" aria-hidden="true" href="#spring-initializr-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Spring Initializr Resource</h1>
+<p>Tracks the available versions of <a href="http://spring.io/projects/spring-boot" rel="nofollow">Spring Boot</a>
+on a given <a href="https://github.com/spring-io/initializr/">Spring Initializr</a> instance</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>All fields are optional and have reasonable defaults where necessary.</p>
+<ul>
+<li>
+<p><code>url</code>: The base URL of the Initializr site. Must be a full URL. Defaults to
+<a href="https://start.spring.io" rel="nofollow">https://start.spring.io</a></p>
+</li>
+<li>
+<p><code>skip_tls_validation</code>: If the URL is pointing to an HTTPS site and this is true,
+TLS certificates will not be validated. If using a <code>url</code> with self-signed certs,
+consider using <code>ca_certs</code> instead.</p>
+</li>
+<li>
+<p><code>ca_certs</code>: A list of PEM-encoded X509 trusted certificates that will be used to
+establish trust during requests</p>
+</li>
+<li>
+<p><code>product_version</code>: A regular expression to match product version e.g. <code>1\.15\..*</code>.
+Empty values match all product versions.</p>
+</li>
+<li>
+<p><code>include_snapshots</code>: If true, include builds that end with <code>BUILD-SNAPSHOT</code> in
+addition to builds that end in <code>RELEASE</code></p>
+</li>
+<li>
+<p><code>https_proxy</code>: A Proxy server URL to use for HTTPS requests. Can have a scheme of either
+<code>http</code>, <code>https</code>, or <code>socks5</code></p>
+</li>
+<li>
+<p><code>http_proxy</code>: A Proxy server URL to use for HTTP requests. Can have a scheme of either
+<code>http</code>, <code>https</code>, or <code>socks5</code></p>
+</li>
+<li>
+<p><code>no_proxy</code>: A comma-separated list of hosts, IPs, and domain names that do not
+use one of the above-mentioned proxies.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-watch-for-new-versions-of-spring-boot-available-on-the-initializr" class="anchor" aria-hidden="true" href="#check-watch-for-new-versions-of-spring-boot-available-on-the-initializr"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Watch for new versions of Spring Boot available on the initializr</h3>
+<p>Versions returned will match <code>product_version</code>, if set, and will only include versions
+that end in <code>.RELEASE</code>, unless <code>include_snapshots</code> is truthy.</p>
+<h3><a id="user-content-in-generate-a-project-from-the-initializr" class="anchor" aria-hidden="true" href="#in-generate-a-project-from-the-initializr"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Generate a project from the initializr</h3>
+<p>Will generate a new Spring Boot project (or build file) with the given parameters.</p>
+<p>It will place the following files in the bucket:</p>
+<ul>
+<li>
+<p><code>(filename)</code>: The generated file. If <code>type</code> is <code>maven-project</code> or <code>gradle-project</code>,
+the file name will be <code>starter.zip</code>. If <code>type</code> is <code>maven-build</code>, the file will be
+<code>pom.xml</code>, and if it's <code>gradle-build</code>, the file will be <code>build.gradle</code>.</p>
+</li>
+<li>
+<p><code>version</code>: The version of Spring Boot used to generate the project</p>
+</li>
+<li>
+<p><code>url</code>: The URL used to generate the project</p>
+</li>
+<li>
+<p><code>available_dependencies</code>: A list of all libraries that can be used with this version
+of Spring Boot.</p>
+</li>
+</ul>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>All fields are optional and have reasonable defaults where necessary.</p>
+<ul>
+<li>
+<p><code>type</code>: The type of file to generate. Valid options are <code>maven-project</code> (default),
+<code>gradle-project</code>, <code>maven-build</code>, or <code>gradle-build</code></p>
+</li>
+<li>
+<p><code>dependencies</code>: A comma-separated list of dependencies to be included in the project</p>
+</li>
+<li>
+<p><code>packaging</code>: <code>jar</code> or <code>war</code> (defaults to <code>jar</code>)</p>
+</li>
+<li>
+<p><code>jdk_version</code>: What version of Java to use for the project. Currently supported versions
+are <code>1.8</code> (default) and <code>10</code></p>
+</li>
+<li>
+<p><code>language</code>: The language to generate code in. Current options are <code>java</code> (default), <code>groovy</code>,
+and <code>kotlin</code></p>
+</li>
+<li>
+<p><code>group_id</code>: The Maven group ID to use. Defaults to <code>com.example</code></p>
+</li>
+<li>
+<p><code>artifact_id</code>: The Maven artifact ID to use. Defaults to <code>demo</code>.</p>
+</li>
+<li>
+<p><code>version</code>: The maven version to use (defaults to <code>0.0.1-SNAPSHOT</code>)</p>
+</li>
+<li>
+<p><code>name</code>: The name of the project (defaults to <code>demo</code>).</p>
+</li>
+<li>
+<p><code>description</code>: The longer description of the project for the build file.</p>
+</li>
+<li>
+<p><code>package_name</code>: The Java package name for the generated code. Defaults to <code>com.example</code></p>
+</li>
+</ul>
+<h3><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code></h3>
+<p>Because the initializr is a read-only API, so too is this resource type. If that changes,
+functionality will be added.</p>
+<h2><a id="user-content-example-configuration" class="anchor" aria-hidden="true" href="#example-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configuration</h2>
+<h3><a id="user-content-resource" class="anchor" aria-hidden="true" href="#resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">spring-initializr</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">jghiloni/spring-initializr-resource</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">start-spring-io</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">spring-initializr</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">url</span>: <span class="pl-s">https://start.spring.io</span>
+    <span class="pl-ent">product_version</span>: <span class="pl-s">1\.5\..*</span>
+    <span class="pl-ent">include_snapshots</span>: <span class="pl-c1">false</span></pre></div>
+<h3><a id="user-content-plan" class="anchor" aria-hidden="true" href="#plan"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plan</h3>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">start-spring-io</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">type</span>: <span class="pl-s">maven-project</span>
+    <span class="pl-ent">dependencies</span>: <span class="pl-s">data,web,security,actuator</span>
+    <span class="pl-ent">group_id</span>: <span class="pl-s">com.myco.myproject</span>
+    <span class="pl-ent">artifact_id</span>: <span class="pl-s">some-cool-app</span>
+    <span class="pl-ent">package_name</span>: <span class="pl-s">com.myco.myproject.myapp</span></pre></div>
+</article></div>
 </div>
 
 </body>

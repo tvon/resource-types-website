@@ -10,7 +10,158 @@
 <p>https://github.com/troykinsella/concourse-artifactory-deb-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-artifactory-debian-package-resource" class="anchor" aria-hidden="true" href="#concourse-artifactory-debian-package-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Artifactory Debian Package Resource</h1>
+<p>A <a href="https://concourse-ci.org" rel="nofollow">Concourse CI</a> resource for manipulating debs in Artifactory.</p>
+<p>This resource is specific to debs hosted on Artifactory due to Artifactory's
+non-standard publication mechanism, which is uploading deb archives
+via HTTP/S <code>PUT</code>.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>repository</code>: Required. The URL at which the Debian repository in Artifactory
+can be located. Example: <code>https://tools.example.com/artifactory/debian-local</code>.</li>
+<li><code>username</code>: Required. The username with which to access the repository.</li>
+<li><code>password</code>: Required. The password with which to access the repository.</li>
+<li><code>distribution</code>: Required. The target distribution name of the deb package being
+manipulated. This is the value of the <code>deb.distribution</code> property
+when <code>put</code>ing to Artifactory. Example: <code>bionic</code>.</li>
+<li><code>package</code>: Required. The name of the deb package being manipulated.</li>
+<li><code>apt_keys</code>: Optional. A list of URLs at which GPG keys can be fetched and
+configured with <code>apt-key add</code>.</li>
+<li><code>architecture</code>: Optional. Default: <code>amd64</code>. The target architecture of the deb
+package. Also the value of the <code>deb.architecture</code> property
+when <code>put</code>ing to Artifactory.</li>
+<li><code>trusted</code>: Optional. A boolean indicating if the <code>/etc/apt/sources.list</code> entry
+generated from these configuration values will be annotated with <code>[trusted=yes]</code>.</li>
+<li><code>components_dir</code>: Optional. Default: <code>pool</code>. The name of the root directory of the repository
+in which package components can be located.</li>
+<li><code>other_sources</code>: Optional. A list of <code>/etc/apt/source.list</code> entries to include.
+Useful for when the deb package stored in Artifactory has upstream dependencies.
+Example: <code>- deb http://archive.ubuntu.com/ubuntu/ bionic main restricted</code></li>
+<li><code>component</code>: Optional. Default: <code>main</code>. The component field in the generated
+<code>/etc/apt/sources.list</code> entry, as well as the value of the <code>deb.component</code>
+property when <code>put</code>ing to Artifactory.</li>
+<li><code>version_pattern</code>: Optional. Instructs <code>check</code> to only observe versions of the
+configured package matching this regular expression.</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">deb-package</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">troykinsella/concourse-artifactory-deb-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">deb</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">deb-package</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">https://tools.example.com/artifactory/debian-local</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">concourse</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">naughty</span>
+    <span class="pl-ent">apt_keys</span>:
+    - <span class="pl-s">https://tools.example.com/artifactory/api/gpg/key/public</span>
+    <span class="pl-ent">distribution</span>: <span class="pl-s">bionic</span>
+    <span class="pl-ent">trusted</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">package</span>: <span class="pl-s">libwicked</span>
+    <span class="pl-ent">other_sources</span>:
+    - <span class="pl-s">deb http://archive.ubuntu.com/ubuntu/ bionic main restricted</span></pre></div>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-check-check-for-new-versions" class="anchor" aria-hidden="true" href="#check-check-for-new-versions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for New Versions</h3>
+<p>Firstly, an <code>/etc/apt/sources.list</code> entry is generated from source configuration
+values following this template:</p>
+<pre><code>deb &lt;trusted_flag&gt; &lt;repository&gt; &lt;distribution&gt; &lt;component&gt;
+</code></pre>
+<p>Then following an <code>apt-get update</code>, the apt cache is queried for version
+information pertaining to the configured deb package.</p>
+<h3><a id="user-content-in-fetch-deb-information-and-archives" class="anchor" aria-hidden="true" href="#in-fetch-deb-information-and-archives"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch <code>deb</code> Information and Archives</h3>
+<p>The apt cache is updated in the same manner as the <code>check</code> operation,
+then queried for information pertaining to the version of the
+deb package being fetched.</p>
+<h4><a id="user-content-output-files" class="anchor" aria-hidden="true" href="#output-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Output Files</h4>
+<p>Optionally, deb archives are downloaded and made available at <code>/&lt;archive-file&gt;</code>.</p>
+<p>An <code>/info</code> file is created containing the output of
+<code>apt-cache show &lt;package&gt;=&lt;version&gt;</code>. For convenience, each
+field is extracted from this file and put in a file <code>/&lt;field-name&gt;</code>.
+For example, if a field from <code>/info</code> was <code>Installed-Size: 1982</code>,
+a file called <code>/installed-size</code> would be created, containing <code>1982</code>.</p>
+<p>Typical info files generated may be:</p>
+<ul>
+<li><code>architecture</code></li>
+<li><code>depends</code></li>
+<li><code>description</code></li>
+<li><code>description-md5</code></li>
+<li><code>filename</code></li>
+<li><code>homepage</code></li>
+<li><code>info</code></li>
+<li><code>installed-size</code></li>
+<li><code>maintainer</code></li>
+<li><code>package</code></li>
+<li><code>priority</code></li>
+<li><code>section</code></li>
+<li><code>sha1</code></li>
+<li><code>sha256</code></li>
+<li><code>size</code></li>
+<li><code>suggests</code></li>
+<li><code>version</code></li>
+</ul>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>fetch_archives</code>: Optional. Default: <code>false</code>. A boolean indicating
+whether or not deb package archives should be downloaded.</li>
+</ul>
+<h4><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> Extends example in Source Configuration</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">test-deb</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">deb</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">fetch_archives</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">integration test</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">tasks/integration-test.yml</span>
+    <span class="pl-ent">input_mapping</span>:
+      <span class="pl-ent">archives</span>: <span class="pl-s">deb</span></pre></div>
+<h3><a id="user-content-out-publish-debs-to-artifactory" class="anchor" aria-hidden="true" href="#out-publish-debs-to-artifactory"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Publish debs to Artifactory</h3>
+<p>Since building debs is a pretty customized process, this resource
+doesn't attempt to actually build deb files; It just accepts ones that
+you've built in a task script (for example), and publishes them
+to Artifactory.</p>
+<p>One of the deb archive files passed to the <code>put</code> step must be the
+package represented by the <code>source</code> configuration, and it's from that
+package that the version is extracted and returned from the this
+resource's <code>out</code> script. All deb archive files supplied will
+be published to Artifactory. This, for example, allows your
+build to produce <code>yourpackage-&lt;version&gt;.deb</code> and
+<code>yourpackage-dev-&lt;version&gt;.deb</code>, and publish both in one step.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>debs</code>: Required. The path to a directory containing <code>*.deb</code> files to publish.</li>
+<li><code>deb_pattern</code>: Optional. A regular expression that matches the main deb package file
+(the same one represented in the source configuration), from which the version to publish
+is extracted. Default: <code>^${package}[_-].*\.deb</code>, where <code>${package}</code> is the <code>source.package</code> field.</li>
+</ul>
+<h4><a id="user-content-example-2" class="anchor" aria-hidden="true" href="#example-2"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> Extends example in Source Configuration</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: 
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">master </span><span class="pl-c"><span class="pl-c">#</span> git resource</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">build debs</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">tasks/build-debs.yml</span>
+    <span class="pl-ent">input_mapping</span>:
+      <span class="pl-ent">source</span>: <span class="pl-s">master</span>
+    <span class="pl-ent">output_mapping</span>:
+      <span class="pl-ent">archives</span>: <span class="pl-s">built-debs</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">deb</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">debs</span>: <span class="pl-s">built-debs </span></pre></div>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>MIT © Troy Kinsella</p>
+</article></div>
 </div>
 
 </body>

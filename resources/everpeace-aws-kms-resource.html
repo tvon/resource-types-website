@@ -10,7 +10,161 @@
 <p>https://github.com/everpeace/aws-kms-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-aws-key-management-service-resource" class="anchor" aria-hidden="true" href="#aws-key-management-service-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AWS Key Management Service Resource</h1>
+<p>Concourse CI resource for decrypting your secrets used in concourse tasks by AWS Key Management Service.</p>
+<p>Please note that this resource does NOT aim to make ALL credentials in pipeline definition be secured.  This cannot make credentials which is set in resource definitions (e.g. s3, git, etc.) be secure.</p>
+<p>However, this resource is useful to make credentials used in tasks be secure.  For example, username and password for production DB access, these would be passed to deployment job usually.  These credentials are really sensitive.</p>
+<p>As you might know, 'fly get-pipeline' command can get all pipeline definition which includes credentials.  Thus, this resource can save those credentials from malicious users.</p>
+<h2><a id="user-content-deploying-to-concourse" class="anchor" aria-hidden="true" href="#deploying-to-concourse"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deploying to Concourse</h2>
+<p>You can use the docker image by defining the <a href="http://concourse.ci/configuring-resource-types.html" rel="nofollow">resource type</a> in your pipeline YAML.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">aws-kms</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">everpeace/aws-kms-resource</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p><strong>CAUTION: I recommend you not to embed these aws api credentials in pipeline definitions.  Beacause, if aws api credentials and cipher texts given, these information is not secure at all.  Attaching InstanceProfiles to concourse worker are highly recommended.</strong></p>
+<ul>
+<li>
+<p><code>aws_access_key_id</code>: <em>Optional.</em>  If not set, instance profiles are used when concourse worker runs on AWS.</p>
+</li>
+<li>
+<p><code>aws_secret_access_key</code>: <em>Optional.</em> If not set, instance profiles are used when concourse worker runs on AWS.</p>
+</li>
+<li>
+<p><code>aws_region</code>: <em>Optional.</em> Default value is <code>us-east-1</code>.</p>
+</li>
+<li>
+<p><code>ciphers</code>: <em>Optional.</em> Object which contains cipher texts you want to decrypt.  Key of the object should be credential name.  Value of the key should be base64 encoded cipher text.  You can get this encoded string by <code>aws kms encrypt --key-id xxxxx --plaintext some_credential_plaintext --output text --query CiphertextBlob</code></p>
+<p>Example:</p>
+<pre><code>ciphers:
+  credential_name1: AQECAHgZ3RW+tvS__base64_encoded_cipher_text__AVQGT+RGxmY3Q==
+  credential_name2: AQECAHgZ3RW+tvS__base64_encoded_cipher_text__AVQGT+RGxmY3Q==
+</code></pre>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code></h3>
+<p>Now, check returns new version based on date <em>in every minute</em>. We plan to support the latest encrypted date to detect 're-encryption' of the specified secrets.</p>
+<h3><a id="user-content-in-decrypt-your-ciphers-and-emits-plaintexts" class="anchor" aria-hidden="true" href="#in-decrypt-your-ciphers-and-emits-plaintexts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: decrypt your ciphers and emits plaintexts</h3>
+<p>Decrypt passed each cipher text and emit plaintext to the file whose name is given credential name.</p>
+<p>If you configured like this:</p>
+<pre><code>resources:
+  - name: credentials
+    type: aws-kms
+    source:
+      ciphers:
+        credential_name1: AQECAHgZ3RW+tvS__base64_encoded_cipher_text__AVQGT+RGxmY3Q==
+        credential_name2: AQECAHgZ3RW+tvS__base64_encoded_cipher_text__AVQGT+RGxmY3Q==
+
+jobs:
+  - name: decrypt_credentials
+    plan:
+      - get: credentials
+</code></pre>
+<p>you can find plaintext in files of <code>credentials/credential_name1</code> and <code>credentials/credential_name2</code></p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>ciphers</code>: <em>Optional.</em> Object which contains cipher texts you want to decrypt (the same format with Source Configuration above).</li>
+</ul>
+<h3><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code></h3>
+<p>Do nothing.</p>
+<h2><a id="user-content-example-pipeline" class="anchor" aria-hidden="true" href="#example-pipeline"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Pipeline</h2>
+<p>This is simple pipeline example.</p>
+<pre><code>resource_types:
+  - name: aws-kms
+    type: docker-image
+    source:
+      repository: everpeace/aws-kms-resource
+
+resources:
+  - name: credentials
+    type: aws-kms
+    source:
+      # embedding aws api is NOT recommended.
+      # Instead, you can attach instance profiles to concourse workers.
+      # aws_access_key_id: xxx
+      # aws_secret_access_key: yyyyyyyyyy
+      aws_region: us-east-1
+      ciphers:
+        # values are base64 encoded cipher text
+        credential_name1: AQECAHgZ3RW+tvS__base64_encoded_cipher_text__AVQGT+RGxmY3Q==
+        credential_name2: AQECAHgZ3RW+tvS__base64_encoded_cipher_text__AVQGT+RGxmY3Q==
+
+jobs:
+  - name: decrypt_credentials
+    plan:
+      - get: credentials
+        params:
+          ciphers:
+            credential_name3: AQECAHgZ3RW+tvS__base64_encoded_cipher_text__AVQGT+RGxmY3Q==
+      - task: cat_credentials
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: getourneau/alpine-bash-git
+          inputs:
+            - name: credentials
+          run:
+            path: /bin/bash
+            args:
+              - -exc
+              - |
+                cat credentials/credential_name1
+                cat credentials/credential_name2
+                cat credentials/credential_name3
+</code></pre>
+<h2><a id="user-content-can-we-decrypt-files-in-other-resources" class="anchor" aria-hidden="true" href="#can-we-decrypt-files-in-other-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Can we decrypt files in other resources??</h2>
+<p>Yes!  <a href="https://hub.docker.com/r/everpeace/aws-kms-resource/" rel="nofollow">aws-kms-resource</a> docker image ships <code>decrypt</code> utility.  So you can easily decrypt your cipher text via kms in concourse tasks!
+To use <code>decrypt</code> utility, you need to source <code>/opt/resource/decrypt.sh</code> in container.  And then you can use <code>decrypt</code> function.</p>
+<p><code>decrypt</code> function takes two arguments</p>
+<ul>
+<li>first argument should be a path which contains base64 encoded cipher text.</li>
+<li>second argument should be output path which will contain plain text of given cipher text.</li>
+</ul>
+<p>Here is an example.</p>
+<pre><code>resources:
+  - name: repo
+    type: git
+    source:
+      uri: git@github.com:some_org/public_repo
+
+jobs:
+  - name: decrypt_file_in_repo
+    plan:
+      - get: repo
+      - task: decrypt_credential
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: everpeace/aws-kms-resource
+          inputs:
+            - name: repo
+          outputs:
+            - name: outputs
+          params:
+            # embedding aws api is NOT recommended.
+            # Instead, you can attach instance profiles to concourse workers.
+            # AWS_ACCESS_KEY_ID: xxx
+            # AWS_SECRET_ACCESS_KEY: yyyyyy
+            AWS_DEFAULT_REGION: us-east-1
+          run:
+            path: /bin/bash
+            args:
+            - -ec
+            - |
+              source /opt/resource/decrypt.sh
+              decrypt repo/file_contains_base_64_encoded_cipher_text outputs/plain_text
+              cat /outputs/plain_text
+</code></pre>
+<h2><a id="user-content-tests" class="anchor" aria-hidden="true" href="#tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tests</h2>
+<p>todo.</p>
+</article></div>
 </div>
 
 </body>

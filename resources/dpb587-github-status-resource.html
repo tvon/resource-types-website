@@ -10,7 +10,106 @@
 <p>https://github.com/dpb587/github-status-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-github-status-resource" class="anchor" aria-hidden="true" href="#github-status-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>github-status-resource</h1>
+<p>A <a href="http://concourse.ci/" rel="nofollow">Concourse</a> <a href="http://concourse.ci/resources.html" rel="nofollow">resource</a> to interact with the <a href="https://developer.github.com/v3/repos/statuses/">GitHub Status</a> type.</p>
+<h2><a id="user-content-configuration" class="anchor" aria-hidden="true" href="#configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration</h2>
+<ul>
+<li><strong><code>repository</code></strong> - the owner and repository name, slash delimited (e.g. <code>dpb587/github-status-resource</code>)</li>
+<li><strong><code>access_token</code></strong> - GitHub API access token from a user with write access to the repository (minimum token scope of <code>repo:status</code>)</li>
+<li><code>branch</code> - the branch currently being monitored (default: <code>master</code>)</li>
+<li><code>context</code> - a label to differentiate this status from the status of other systems (default: <code>default</code>)</li>
+<li><code>endpoint</code> - GitHub API endpoint (default: <code>https://api.github.com</code>)</li>
+<li><code>skip_ssl_verification</code> - Disable certificate validation for GitHub API calls (default: <code>false</code>)</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code></h3>
+<p>Triggers when the status of the branch for the configured context has been updated.</p>
+<h3><a id="user-content-in" class="anchor" aria-hidden="true" href="#in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code></h3>
+<p>Lookup the state of a status.</p>
+<ul>
+<li><code>/commit</code> - the commit reference of the status</li>
+<li><code>/description</code> - a short description of the status</li>
+<li><code>/state</code> - the state of the status</li>
+<li><code>/target_url</code> - the target URL associated with the status</li>
+<li><code>/updated_at</code> - when the status was last updated</li>
+</ul>
+<h3><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code></h3>
+<p>Update the status of a commit. Optionally include a description and target URL which will be referenced from GitHub.</p>
+<p>Parameters:</p>
+<ul>
+<li><strong><code>commit</code></strong> - specific commit sha affiliated with the status. Value must be either: path to an input git directory whose detached <code>HEAD</code> will be used; or path to an input file whose contents is the sha</li>
+<li><strong><code>state</code></strong> - the state of the status. Must be one of <code>pending</code>, <code>success</code>, <code>error</code>, or <code>failure</code></li>
+<li><code>description</code> - a short description of the status</li>
+<li><code>description_path</code> - path to an input file whose data is the value of <code>description</code></li>
+<li><code>target_url</code> - the target URL to associate with the status (default: concourse build link)</li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<p>A typical use case is to update the status of a commit as it traverses your pipeline. The following example marks the commit as pending before unit tests start. Once unit tests finish, the status is updated to either success or failure depending on how the task completes.</p>
+<pre><code>---
+jobs:
+  - name: "unit-tests"
+    plan:
+      - get: "repo"
+        trigger: true
+      - put: "repo-status"                               # +
+        params: { state: "pending", commit: "repo" }     # +
+      - task: "unit-tests"
+        file: "repo/ci/unit-tests/task.yml"
+        on_failure:
+          - put: "repo-status"                           # +
+            params: { state: "failure", commit: "repo" } # +
+      - put: "repo-status"                               # +
+        params: { state: "success", commit: "repo" }     # +
+resources:
+  - name: "repo"
+    type: "git"
+    source:
+      uri: {{repo_uri}}
+      branch: {{repo_branch}}
+  - name: "repo-status"                                  # +
+    type: "github-status"                                # +
+    source:                                              # +
+      repository: {{repo_github_path}}                   # +
+      access_token: {{repo_github_token}}                # +
+</code></pre>
+<p>When testing pull requests, use the PR ref as the <code>branch</code>. For example, if testing PR #12345 to your repository, your resource might look like...</p>
+<pre><code>name: "pr-status"
+type: "github-status"
+source:
+  repository: {{repo_github_path}}
+  access_token: {{repo_github_token}}
+  branch: "pull/12345/head"           # +
+</code></pre>
+<p>For another pipeline example, see <a href="ci/pipelines/main.yml"><code>ci/pipelines/main.yml</code></a> which operates against this repository.</p>
+<h2><a id="user-content-installation" class="anchor" aria-hidden="true" href="#installation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p>This resource is not included with the standard Concourse release. Use one of the following methods to make this resource available to your pipelines.</p>
+<h3><a id="user-content-deployment-wide" class="anchor" aria-hidden="true" href="#deployment-wide"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deployment-wide</h3>
+<p>To install on all Concourse workers, update your deployment manifest properties to include a new <code>groundcrew.resource_types</code> entry...</p>
+<pre><code>properties:
+  groundcrew:
+    additional_resource_types:
+      - image: "docker:///dpb587/github-status-resource#master" # +
+        type: "github-status"                                   # +
+</code></pre>
+<h3><a id="user-content-pipeline-specific" class="anchor" aria-hidden="true" href="#pipeline-specific"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pipeline-specific</h3>
+<p>To use on a single pipeline, update your pipeline to include a new <code>resource_types</code> entry...</p>
+<pre><code>resource_types:
+  - name: "github-status"                         # +
+    type: "docker-image"                          # +
+    source:                                       # +
+      repository: "dpb587/github-status-resource" # +
+      tag: "master"                               # +
+</code></pre>
+<h2><a id="user-content-references" class="anchor" aria-hidden="true" href="#references"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>References</h2>
+<ul>
+<li><a href="https://concourse.ci/resources.html" rel="nofollow">Resources (concourse.ci)</a></li>
+<li><a href="https://developer.github.com/v3/repos/statuses/">Statuses | GitHub Developer Guide (developer.github.com)</a></li>
+<li><a href="https://help.github.com/articles/enabling-required-status-checks/">Enabling required status checks (help.github.com)</a></li>
+<li><a href="https://github.com/settings/tokens">Personal Access Tokens (github.com)</a></li>
+</ul>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p><a href="./LICENSE">MIT License</a></p>
+</article></div>
 </div>
 
 </body>

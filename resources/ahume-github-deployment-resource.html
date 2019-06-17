@@ -10,7 +10,111 @@
 <p>https://github.com/ahume/github-deployment-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-github-deployment-resource" class="anchor" aria-hidden="true" href="#github-deployment-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GitHub Deployment Resource</h1>
+<p>Fetches and creates GitHub Deployments and Deployment Statuses. For more about Github Deployments
+see the <a href="https://developer.github.com/v3/repos/deployments/">API documentation</a>.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>user</code>: <em>Required.</em> The GitHub username or organization name for the
+repository that you are deploying.</p>
+</li>
+<li>
+<p><code>repository</code>: <em>Required.</em> The repository name that you are deploying.</p>
+</li>
+<li>
+<p><code>access_token</code>: <em>Required.</em> Used for accessing deployment data and creating deployments
+and deployment statuses.</p>
+</li>
+<li>
+<p><code>github_api_url</code>: <em>Optional.</em> If you use a non-public GitHub deployment then
+you can set your API URL here.</p>
+</li>
+<li>
+<p><code>environments</code>: <em>Optional.</em> A list of environments to get versions for.</p>
+</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">deployment</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">github-deployment</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">user</span>: <span class="pl-s">BrandwatchLtd</span>
+    <span class="pl-ent">repository</span>: <span class="pl-s">analytics</span>
+    <span class="pl-ent">access_token</span>: <span class="pl-s">abcdef1234567890</span></pre></div>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">deployment</span></pre></div>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">deployment</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">id</span>:
+      <span class="pl-ent">file</span>: <span class="pl-s">deployment/id </span><span class="pl-c"><span class="pl-c">#</span> path to a file containing the deployment ID</span>
+    <span class="pl-ent">state</span>: <span class="pl-s">success</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-deployments" class="anchor" aria-hidden="true" href="#check-check-for-deployments"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for Deployments</h3>
+<p><code>/check</code> always returns the single latest deployment. It assumes that any preceding deployments
+are invalidated by the existence of a later deployment.</p>
+<h3><a id="user-content-in-fetch-deployment" class="anchor" aria-hidden="true" href="#in-fetch-deployment"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch Deployment</h3>
+<p>Fetches the latest deployment and creates the following files:</p>
+<ul>
+<li><code>id</code> containing the <code>id</code> of the deployment being fetched.</li>
+<li><code>ref</code> containting the name of the <code>ref</code> the deployment is relating to. A branch, tag, or SHA.</li>
+<li><code>sha</code> containg the SHA that was recorded at deployment creation time.</li>
+<li><code>task</code> containing the name of the task for the deployment.</li>
+<li><code>environment</code> containing the name of the environment that is being deployed to.</li>
+<li><code>description</code> containing the description of the deployment</li>
+<li><code>deploymentJSON</code> containing the full JSON of the deployment as received from the API.</li>
+</ul>
+<h3><a id="user-content-out-create-a-deployment-or-deploymentstatus" class="anchor" aria-hidden="true" href="#out-create-a-deployment-or-deploymentstatus"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Create a Deployment or DeploymentStatus</h3>
+<p>Create a new Deployment, or update a given Deployment with a new DeploymentStatus</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>type</code>: <em>Optional.</em> Either <code>deployment</code> or <code>status</code>. Defaults to <code>status</code>.</li>
+</ul>
+<h5><a id="user-content-if-typestatus" class="anchor" aria-hidden="true" href="#if-typestatus"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>If type=status</h5>
+<ul>
+<li>
+<p><code>id</code>: <em>Required.</em> The ID of the deployment to update with the new status.
+NB: You'll most likely want to reference a file with this ID stored in (see below).</p>
+</li>
+<li>
+<p><code>state</code>: <em>Required.</em>  The state of the new deployment status.
+Must be one of <code>pending</code>, <code>success</code>, <code>error</code>, <code>inactive</code>, or <code>failure</code>.</p>
+</li>
+</ul>
+<h5><a id="user-content-if-typedeployment" class="anchor" aria-hidden="true" href="#if-typedeployment"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>If type=deployment</h5>
+<ul>
+<li>
+<p><code>ref</code>: <em>Optional.</em> The ref of the deployment. A branch name, a tag, or SHA.</p>
+</li>
+<li>
+<p><code>environment</code>: <em>Optional.</em> The name of the environment that is being deployed to.</p>
+</li>
+<li>
+<p><code>description</code>: <em>Optional.</em> The description of the deployment.</p>
+</li>
+<li>
+<p><code>payload</code>: <em>Optional.</em> Additional data about the deployment.</p>
+</li>
+<li>
+<p><code>payload_path</code>: <em>Optional.</em> Path to a file containing additional JSON data to add to the payload.</p>
+</li>
+</ul>
+<p>NB: If there are duplicate keys in data from <code>payload</code> and <code>payload_path</code>, then the data from
+<code>payload_path</code> takes precedence.</p>
+<ul>
+<li><code>task</code>: <em>Optional.</em> The name of the task for the deployment.</li>
+</ul>
+<h5><a id="user-content-reading-values-from-files" class="anchor" aria-hidden="true" href="#reading-values-from-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reading values from files</h5>
+<p>All of the above parameters can be used to pass the name of a file to read the applicable value
+from. For example...</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">deployment</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">id</span>:
+      <span class="pl-ent">file</span>: <span class="pl-s">path/to/the/id/file</span>
+    <span class="pl-ent">state</span>: <span class="pl-s">success</span>
+    <span class="pl-ent">description</span>:
+      <span class="pl-ent">file</span>: <span class="pl-s">path/to/the/description</span></pre></div>
+<p>The above configuration, would read in the <code>id</code> and <code>description</code> values from files, but use
+the <code>state</code> value which has been passed in directly as a string.</p>
+</article></div>
 </div>
 
 </body>

@@ -10,7 +10,121 @@
 <p>https://github.com/aequitas/concourse-http-api-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-http-api-resource" class="anchor" aria-hidden="true" href="#http-api-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP API Resource</h1>
+<p>Concourse resource to allow interaction with (simple) HTTP (REST/JSON) API's. This resource is useful for API's which have simple one request interactions and will not be a one-size-fits-all solution. If your API is more complex <a href="http://concourse.ci/implementing-resources.html" rel="nofollow">writing your own resource</a>.</p>
+<p><a href="https://hub.docker.com/r/aequitas/http-api-resource/" rel="nofollow">https://hub.docker.com/r/aequitas/http-api-resource/</a></p>
+<h2><a id="user-content-recent-changes" class="anchor" aria-hidden="true" href="#recent-changes"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Recent changes</h2>
+<ul>
+<li>09-2018 Fix error on check (reporter: @OvermindDL1)</li>
+<li>02-2018 Fix build detail load (@scottasmith, reporter: @pranaysharmadelhi)</li>
+<li>02-2018 add support for UTF-8 in JSON (@masaki-takano)</li>
+<li>01-2018 fix concourse 3.1.1 compatibility (@hfinucane)</li>
+<li>01-2018 added license</li>
+<li>01-2017 recursive interpolate over lists as well</li>
+</ul>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>Most of the <code>source</code> options can also be used in <code>params</code> for the specifc actions. This allows to use a different URL path. For example when a POST and GET use different endpoints.</p>
+<p>Options set in <code>params</code> take precedence over options in <code>source</code>.</p>
+<ul>
+<li>
+<p><code>uri</code>: <em>Required.</em> The URI to use for the requests.
+Example: <code>https://www.hipchat.com/v2/room/1234321/notification</code></p>
+</li>
+<li>
+<p><code>method</code>: <em>Optional</em> Method to use, eg: GET, POST, PATCH (default <code>GET</code>).</p>
+</li>
+<li>
+<p><code>headers</code>: <em>Optional</em> Object containing headers to pass to the request.
+Example:</p>
+<pre><code>  headers:
+      X-Some-Header: some header content
+</code></pre>
+</li>
+<li>
+<p><code>json</code>: <em>Optional</em> JSON to send along with the request, set <code>application/json</code> header.</p>
+</li>
+<li>
+<p><code>debug</code>: <em>Optional</em> Set debug logging of scripts, takes boolean (default <code>false</code>).</p>
+</li>
+<li>
+<p><code>ssl_verify</code>: <em>Optional</em> Boolean or SSL CA content (default <code>true</code>).</p>
+</li>
+<li>
+<p><code>form_data</code>: <em>Optional</em> Dictionary with form field/value pairs to send as data. Values are converted to JSON and URL-encoded.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<p>Currently the only useful action the resource supports is <code>out</code>. The actions <code>in</code> and <code>check</code> will be added later.</p>
+<h3><a id="user-content-interpolation" class="anchor" aria-hidden="true" href="#interpolation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Interpolation</h3>
+<p>All options support interpolation of variables by using <a href="https://docs.python.org/3.5/library/stdtypes.html#str.format" rel="nofollow">Python string formatting</a>.</p>
+<p>In short it means variables can be used by using single curly brackets (instead of double for Concourse interpolation). Eg: <code>Build nr. {BUILD_NAME} passed.</code></p>
+<p>Build metadata (BUILD_NAME, BUILD_JOB_NAME, BUILD_PIPELINE_NAME and BUILD_ID) are available as well as the merged <code>source</code>/<code>params</code> objects. Interpolation will happen after merging the two objects.</p>
+<p>Be aware that options containing interpolation variables need to be enclosed in double quotes <code>"</code>.</p>
+<p>See Hipchat below for usage example.</p>
+<h2><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<h3><a id="user-content-post-notification-on-hipchat" class="anchor" aria-hidden="true" href="#post-notification-on-hipchat"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Post notification on HipChat</h3>
+<p>This example show use of variable interpolation with build metadata and the params dict.</p>
+<p>Also shows how the usage of a authentication header using Concourse variables.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">http-api</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">aequitas/http-api-resource</span>
+      <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+    - <span class="pl-ent">name</span>: <span class="pl-s">hipchat</span>
+      <span class="pl-ent">type</span>: <span class="pl-s">http-api</span>
+      <span class="pl-ent">source</span>:
+          <span class="pl-ent">uri</span>: <span class="pl-s">https://www.hipchat.com/v2/room/team_room/notification</span>
+          <span class="pl-ent">method</span>: <span class="pl-s">POST</span>
+          <span class="pl-ent">headers</span>:
+              <span class="pl-ent">Authorization</span>: <span class="pl-s"><span class="pl-pds">"</span>Bearer {hipchat_token}<span class="pl-pds">"</span></span>
+          <span class="pl-ent">json</span>:
+              <span class="pl-ent">color</span>: <span class="pl-s"><span class="pl-pds">"</span>{color}<span class="pl-pds">"</span></span>
+              <span class="pl-ent">message</span>: <span class="pl-s"><span class="pl-pds">"</span>Build {BUILD_PIPELINE_NAME}{BUILD_JOB_NAME}, nr: {BUILD_NAME} {message}!<span class="pl-pds">"</span></span>
+          <span class="pl-ent">hipchat_token</span>: <span class="pl-s">{{HIPCHAT_TOKEN}}</span>
+
+<span class="pl-ent">jobs</span>:
+    - <span class="pl-ent">name</span>: <span class="pl-s">Test and notify</span>
+      <span class="pl-ent">plan</span>:
+          - <span class="pl-ent">task</span>: <span class="pl-s">build</span>
+            <span class="pl-ent">file</span>: <span class="pl-s">ci/build.yaml</span>
+            <span class="pl-ent">on_success</span>:
+                <span class="pl-ent">put</span>: <span class="pl-s">hipchat</span>
+                <span class="pl-ent">params</span>:
+                    <span class="pl-ent">color</span>: <span class="pl-s">green</span>
+                    <span class="pl-ent">message</span>: <span class="pl-s">was a success</span>
+            <span class="pl-ent">on_failure</span>:
+                <span class="pl-ent">put</span>: <span class="pl-s">hipchat</span>
+                <span class="pl-ent">params</span>:
+                    <span class="pl-ent">color</span>: <span class="pl-s">red</span>
+                    <span class="pl-ent">message</span>: <span class="pl-s">failed horribly</span>
+</pre></div>
+<h3><a id="user-content-trigger-build-in-jenkins" class="anchor" aria-hidden="true" href="#trigger-build-in-jenkins"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Trigger build in Jenkins</h3>
+<p>Trigger the job <code>job_name</code> with parameter <code>package</code> set to <code>test</code>.</p>
+<p>More info: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API#RemoteaccessAPI-Submittingjobs" rel="nofollow">https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API#RemoteaccessAPI-Submittingjobs</a></p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+    - <span class="pl-ent">name</span>: <span class="pl-s">jenkins-trigger-job</span>
+      <span class="pl-ent">type</span>: <span class="pl-s">http-api</span>
+      <span class="pl-ent">source</span>:
+          <span class="pl-ent">uri</span>: <span class="pl-s">http://user:token@jenkins.example.com/job/job_name/build</span>
+          <span class="pl-ent">method</span>: <span class="pl-s">POST</span>
+          <span class="pl-ent">form_data</span>:
+              <span class="pl-ent">json</span>:
+                  <span class="pl-ent">parameter</span>:
+                    - <span class="pl-ent">name</span>: <span class="pl-s">package</span>
+                      <span class="pl-ent">value</span>: <span class="pl-s">test</span>
+
+<span class="pl-ent">jobs</span>:
+    - <span class="pl-ent">name</span>: <span class="pl-s">Test and notify</span>
+      <span class="pl-ent">plan</span>:
+          - <span class="pl-ent">task</span>: <span class="pl-s">build</span>
+            <span class="pl-ent">file</span>: <span class="pl-s">ci/build.yaml</span>
+
+          - <span class="pl-ent">put</span>: <span class="pl-s">jenkins-trigger-job</span>
+</pre></div>
+</article></div>
 </div>
 
 </body>

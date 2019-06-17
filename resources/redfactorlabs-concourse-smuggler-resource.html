@@ -10,7 +10,356 @@
 <p>https://github.com/redfactorlabs/concourse-smuggler-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><p><a href="https://travis-ci.org/redfactorlabs/concourse-smuggler-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/2f1bcd72bcd70a182146b8d07f1206ebaec22dca/68747470733a2f2f7472617669732d63692e6f72672f726564666163746f726c6162732f636f6e636f757273652d736d7567676c65722d7265736f757263652e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/redfactorlabs/concourse-smuggler-resource.svg?branch=master" style="max-width:100%;"></a></p>
+<h1><a id="user-content-concourse-smuggler-resource-concourse-generic-resource" class="anchor" aria-hidden="true" href="#concourse-smuggler-resource-concourse-generic-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-smuggler-resource: Concourse generic resource</h1>
+<p>Smuggler is a <em>"generic-resource"</em>, that allows you to quickly
+implement any concourse resource with minimum boilerplate, even
+in the pipeline itself.</p>
+<p>It allows you to run any random command/script into the resource
+container for the <code>check/in/out</code>.</p>
+<p>Smuggler will basically:</p>
+<ol>
+<li>parse the input JSON from concourse</li>
+<li>set environment variables with the parameters</li>
+<li>execute the provided shell script</li>
+<li>parse the output and create a valid response for concourse.</li>
+</ol>
+<p><em>Smuggler</em> is ideal for PoC, prototyping, fast development or implementation
+of simple resources.</p>
+<h2><a id="user-content-basic-example" class="anchor" aria-hidden="true" href="#basic-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic example</h2>
+<p>The following resource definition will generate random numbers using
+the <a href="http://tldp.org/LDP/abs/html/randomvar.html" rel="nofollow">sh <code>${RANDOM}</code> variable</a>.</p>
+<p><code>get</code> in the job <code>some_job</code> writes the random number in the file specified
+by the parameter <code>params.target_file</code>. It also provides the current date in
+the metadata.</p>
+<pre><code># Add the custom resource type
+# See https://concourse.ci/configuring-resource-types.html
+resource_types:
+- name: smuggler
+  type: docker-image
+  source:
+    repository: redfactorlabs/concourse-smuggler-resource
+    tag: alpine
+
+resources:
+# A randon number generator
+- name: random_number_generator
+  type: smuggler
+  source:
+    smuggler_debug: true
+    target_file: random_number_file
+    commands:
+      check: |
+        echo "${RANDOM}" &gt; ${SMUGGLER_OUTPUT_DIR}/versions
+      in: |
+        echo "${SMUGGLER_VERSION_ID}" &gt; \
+          ${SMUGGLER_DESTINATION_DIR}/${SMUGGLER_target_file}
+        echo "date=$(date)" &gt; ${SMUGGLER_OUTPUT_DIR}/metadata
+
+jobs:
+# A example job using our new resource
+- name: some_job
+  plan:
+  - get: random_number_generator
+    trigger: true
+  - task: print_the_number
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+      inputs:
+      - name: random_number_generator
+        params:
+          target_file: my_random_number_file
+      run:
+        path: sh
+        args:
+        - -ec
+        - |
+          cat random_number_generator/my_random_number_file
+</code></pre>
+<h1><a id="user-content-other-examples" class="anchor" aria-hidden="true" href="#other-examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Other examples</h1>
+<p>Check <a href="https://github.com/redfactorlabs/concourse-smuggler-resource/tree/master/examples">the examples directory</a>
+for examples of hacks and resources.</p>
+<p>Some to highlight:</p>
+<ul>
+<li><a href="https://github.com/redfactorlabs/concourse-smuggler-resource/blob/master/examples/ssh-keygen/pipeline.yml">ssh-keygen resource</a></li>
+<li><a href="https://github.com/redfactorlabs/concourse-smuggler-resource/tree/master/examples/ssh-keygen-s3">ssh-keygen-s3 resource</a>: Generates a SSH key and stores it in S3.</li>
+<li><a href="https://github.com/redfactorlabs/concourse-smuggler-resource/tree/master/examples/s3-with-default">s3-with-default resource</a>: Extends the official S3 resource to allow define a default value if the object is missing.</li>
+</ul>
+<h1><a id="user-content-using-smuggler-concourse" class="anchor" aria-hidden="true" href="#using-smuggler-concourse"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using smuggler-concourse</h1>
+<h2><a id="user-content-defining-checkinout-commands" class="anchor" aria-hidden="true" href="#defining-checkinout-commands"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Defining <code>check/in/out</code> commands</h2>
+<p>Use <code>commands.check</code>, <code>commands.in</code> or <code>commands.out</code> to
+provide the script to execute. All of them are optional:</p>
+<ul>
+<li>
+<p><code>commands.check</code>: Called to check and find new versions.
+Write the versions to <code>${SMUGGLER_OUTPUT_DIR}/versions</code>, one line for each version.</p>
+</li>
+<li>
+<p><code>commands.in</code>: called by the <a href="https://concourse.ci/get-step.html" rel="nofollow"><code>get</code> step</a>
+to fetch a resource. Write the data into <code>${SMUGGLER_DESTINATION_DIR}</code></p>
+</li>
+<li>
+<p><code>commands.out</code>: called by the <a href="https://concourse.ci/put-step.html" rel="nofollow"><code>put</code> step</a>
+to upload the resource.
+The input files from previous steps in the job would be in <code>${SMUGGLER_SOURCES_DIR}</code></p>
+</li>
+</ul>
+<h2><a id="user-content-input--output" class="anchor" aria-hidden="true" href="#input--output"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Input &amp; output</h2>
+<p>The  <code>check/in/out</code> scripts communicate with smuggler/concourse via:</p>
+<ul>
+<li>
+<p>Environment variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>example</th>
+<th>available in</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SMUGGLER_&lt;param_name&gt;</code></td>
+<td><code>SMUGGLER_id_rsa</code></td>
+<td><code>check/in/out</code></td>
+<td>Parameters from <code>source.*</code> or <code>params.*</code></td>
+</tr>
+<tr>
+<td><code>SMUGGLER_VERSION_&lt;key&gt;</code></td>
+<td><code>SMUGGLER_VERSION_ID</code></td>
+<td><code>check/in</code></td>
+<td>Environment variable with the latest resource version retrieved. \ Not be defined in first run of <code>check</code>.</td>
+</tr>
+<tr>
+<td><code>SMUGGLER_OUTPUT_DIR</code></td>
+<td></td>
+<td><code>check/in/out</code></td>
+<td>The directory to write versions and metadata.</td>
+</tr>
+<tr>
+<td><code>SMUGGLER_DESTINATION_DIR</code></td>
+<td></td>
+<td><code>in</code></td>
+<td>The directory to write the retrieved data to.</td>
+</tr>
+<tr>
+<td><code>SMUGGLER_SOURCES_DIR</code></td>
+<td></td>
+<td><code>out</code></td>
+<td>The directory with files from previous steps in the job</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Important</strong>: Note that <code>SMUGGLER_OUTPUT_DIR</code> with
+<code>SMUGGLER_DESTINATION_DIR</code> or <code>SMUGGLER_SOURCES_DIR</code> are
+different directories.</p>
+</blockquote>
+</li>
+<li>
+<p><code>${SMUGGLER_OUTPUT_DIR}/versions</code>: For <code>check/in/out</code>.</p>
+<ul>
+<li><strong>Optional</strong>, only processed if no json is written in <code>stdout</code>.</li>
+<li>Smuggler will automatically  add the default key <code>ID</code>.</li>
+<li>Restrictions:
+<ul>
+<li><code>check</code>: Your command <strong>must</strong> write here the versions found, one line per version.</li>
+<li><code>in</code>: Optional, if no version is written, smuggler will use the same as
+passed to the command as input.
+Only the first line is taken into account.</li>
+<li><code>out</code>: <em>Mandatory</em>, you must always specify a version for out, as
+concourse does not provide the version in the input.
+Only the first line is taken into account.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>${SMUGGLER_OUTPUT_DIR}/metadata</code>: For <code>in/out</code> <em>Optional.</em> the
+metadata for concourse as a multiline file with <code>key=value</code> pairs.</p>
+</li>
+<li>
+<p><code>${SMUGGLER_DESTINATION_DIR}/</code>: For <code>in</code>.
+The directory to write the retrieved data to.</p>
+</li>
+<li>
+<p><code>${SMUGGLER_SOURCES_DIR}/*/*</code>: For <code>out</code>. The directories with files from previous steps in the job.</p>
+</li>
+<li>
+<p><code>stdin</code>: For <code>check/in/out</code>. Raw JSON with as it is
+sent from concourse and <a href="https://concourse.ci/implementing-resources.html" rel="nofollow">as described in the implementing concourse resources documentation.</a></p>
+<p>This allows your command parse the request directly, or pass it to a
+wrapped resource.</p>
+<blockquote>
+<p><strong>Note</strong>: If <code>filter_raw_request: true</code>, all the specific smuggler
+configuration will be filtered out (<code>source.commands</code>,
+<code>source.smuggler_params</code>, <code>params.smuggler_params</code>, etc.).</p>
+</blockquote>
+</li>
+<li>
+<p><code>stdout</code>: For <code>check/in/out</code>, <strong>Optional</strong>. verbatim JSON response
+request <a href="https://concourse.ci/implementing-resources.html" rel="nofollow">as described in the implementing concourse resources documentation.</a></p>
+<blockquote>
+<p><strong>Note</strong>: if you print anything to stdout that is not JSON, the output
+will be not be passed to concourse, but instead dump to <code>stderr</code>.</p>
+</blockquote>
+</li>
+</ul>
+<h2><a id="user-content-resource-parameters" class="anchor" aria-hidden="true" href="#resource-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource parameters</h2>
+<p>Any additional parameter in the <code>source</code> of the definition,
+or passed to the <code>get</code> or <code>put</code> step as params, would be passed as environment
+variables to the script with the prefix <code>SMUGGLER_</code>.
+e.g.<code>SMUGGLER_param1=value1</code>, <code>SMUGGLER_param2=value2</code>.</p>
+<p>For example in this definition:</p>
+<pre><code>resources:
+- name: random_number_generator
+  type: smuggler
+  source:
+    commands:
+      check: |
+        ...
+      in: |
+        ...
+    global_config_entry: value1
+
+jobs:
+- name: some_job
+  plan:
+  - get: random_number_generator
+    trigger: true
+    params:
+      specific_get_config_entry: value2
+</code></pre>
+<p>Smuggler would set <code>SMUGGLER_global_config_entry</code> for <code>check</code> and <code>in</code>, and
+<code>SMUGGLER_specific_get_config_entry</code> for the <code>in</code> command.</p>
+<h2><a id="user-content-smuggler-specific-parameters" class="anchor" aria-hidden="true" href="#smuggler-specific-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Smuggler specific parameters</h2>
+<p>Smuggler understands these parameters:</p>
+<ul>
+<li>
+<p><code>commands.{check,in,out}</code> to define the commands as described above.</p>
+</li>
+<li>
+<p><code>smuggler_debug: [true|false]</code>. <em>Optional</em>. it will print debugging
+information to the <code>stderr</code>.</p>
+</li>
+<li>
+<p><code>filter_raw_request: [true|false]</code>: <em>Optional</em>. Would remove the
+smuggler specific parameters from the JSON passed via <code>stdin</code> to
+the script.</p>
+</li>
+<li>
+<p><code>smuggler_params.&lt;param&gt;</code>: <em>Optional</em>. Allows group the parameters so they can filtered
+out with <code>filter_raw_request</code>.</p>
+</li>
+</ul>
+<h2><a id="user-content-parameter-priorities" class="anchor" aria-hidden="true" href="#parameter-priorities"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameter priorities</h2>
+<p>Parameters can be defined in different places so parameters
+with the same name would be overridden depending where they are declared
+(first has more priority)</p>
+<ol>
+<li><code>/opt/resource/smuggler.yml</code> in the docker image.</li>
+<li>resource definition, <code>source.smuggler_params.&lt;param&gt;</code></li>
+<li>resource definition, <code>source.&lt;param&gt;</code></li>
+<li><code>get/put</code> step, <code>params.smuggler_params.&lt;param&gt;</code></li>
+<li><code>get/put</code> step, <code>params.&lt;param&gt;</code></li>
+</ol>
+<p>This allows easily define default values for parameters in your resources.</p>
+<h2><a id="user-content-logging-and-troubleshooting" class="anchor" aria-hidden="true" href="#logging-and-troubleshooting"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Logging and troubleshooting</h2>
+<p>All the operations would log into <code>/tmp/smuggler.log</code> in the container. Use
+the parameter <code>smuggler_debug: true</code> to print the log to <code>stderr</code>
+that would display the log in the concourse UI.</p>
+<p>You can <a href="https://concourse.ci/fly-intercept.html" rel="nofollow">intercept the container</a>
+to read the log or interact with the commands directly:</p>
+<pre><code>fly -t demo intercept -c pipeline_name/resource_name # intercept a check
+
+fly -t demo intercept -j pipeline_name/job_nome # intercept a get/put
+</code></pre>
+<p>In <code>/tmp/smuggler.log</code> you can find the exact command used to call the resource,
+so you can execute it again by copy&amp;paste for quick troubleshooting:</p>
+<pre><code>2017/09/27 23:23:32 [INFO] Smuggler command called as:
+/opt/resource/in /tmp/build/get &lt;&lt;"EOF"
+{
+  "source": {
+    "commands": {
+      "check": "echo \"${RANDOM}\" \u003e ${SMUGGLER_OUTPUT_DIR}/versions\n",
+      "in": "echo \"${SMUGGLER_VERSION_ID}\" \u003e ${SMUGGLER_DESTINATION_DIR}/random_number\n"
+    },
+    "smuggler_debug": true
+  },
+  "version": {
+    "ID": "1480"
+  }
+}
+EOF
+</code></pre>
+<h1><a id="user-content-advanced-usage" class="anchor" aria-hidden="true" href="#advanced-usage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced usage</h1>
+<h2><a id="user-content-bundle-smuggler-configuration-into-the-docker-image" class="anchor" aria-hidden="true" href="#bundle-smuggler-configuration-into-the-docker-image"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bundle smuggler configuration into the docker image</h2>
+<p>You can optionally write the same configuration of the <code>source</code> section in
+the resource container image, in <code>/opt/resource/smuggler.yml</code>.</p>
+<p>The content of that file will be merged with the request, so that any parameter
+and command defined in the pipeline, will override the ones defined in
+<code>smuggler.yml</code>.</p>
+<p>This way smuggler becomes a framework to create any kind of resource with
+very little boilerplate.</p>
+<h2><a id="user-content-wrapping-other-resources-with-smuggler" class="anchor" aria-hidden="true" href="#wrapping-other-resources-with-smuggler"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wrapping other resources with smuggler</h2>
+<p>Smuggler passes the raw JSON request from concourse from <code>stdin</code> and
+returns back the response from <code>stdout</code> (if it is a valid response).</p>
+<p>Additionally, with <code>source.filter_raw_request</code> all the smuggler config
+will be strip from the request in <code>stdin</code>.</p>
+<p>This way it is really easy to wrap any third party resource and
+change their behaviour. Simply copy the other resource commands in your
+image and call them directly.</p>
+<p>For example, use S3 resource to generate some default content if the file is
+not in the bucket, and behave as usual otherwise:</p>
+<pre><code>---
+filter_raw_request: true
+commands:
+  check: |
+    /opt/resource/wrapped/s3/check &gt; response.json
+    # If it is the first run, just dispatch a - string to for 'in' to be triggered
+    jq 'if . == [] then [{ "version_id":"-"}] else . end' &lt; response.json
+
+  in: |
+    if [ "${SMUGGLER_VERSION_version_id}" == "-" ]; then
+      # First run, simply print the default content
+      echo "${SMUGGLER_default_content}" &gt; ${SMUGGLER_DESTINATION_DIR}/${SMUGGLER_versioned_file}
+    else
+      # First run, simply print the default content
+      /opt/resource/wrapped/s3/in ${SMUGGLER_DESTINATION_DIR}
+    fi
+
+  out: /opt/resource/wrapped/s3/out ${SMUGGLER_SOURCES_DIR}
+</code></pre>
+<h2><a id="user-content-complex-commands-and-inline-scripts" class="anchor" aria-hidden="true" href="#complex-commands-and-inline-scripts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complex commands and inline scripts</h2>
+<p>Commands can be defined using these two syntaxes:</p>
+<ol>
+<li>
+<p>a <code>bash</code>/<code>sh</code> script using <a href="http://www.yaml.org/spec/1.2/spec.html#id2795688" rel="nofollow">multiline literal strings in yaml</a></p>
+<p>This is great for simple bash scripts.</p>
+</li>
+<li>
+<p>A hash with <code>path: &lt;string&gt;</code> and <code>args: [&lt;string&gt;, ...]</code></p>
+<p>This would allow you to use any embedded scripting language in your
+definition, like <code>bash</code>, <code>python</code>, <code>perl</code>, <code>ruby</code>...</p>
+</li>
+</ol>
+<h2><a id="user-content-supported-tags-and-dockerfiles" class="anchor" aria-hidden="true" href="#supported-tags-and-dockerfiles"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supported tags and Dockerfiles</h2>
+<ul>
+<li><code>alpine</code> or <code>x.x.x-alpine</code> <a href="https://github.com/redfactorlabs/concourse-smuggler-resource/blob/master/Dockerfile.alpine">Dockerfile.alpine</a></li>
+<li><code>ubuntu</code> or <code>x.x.x-ubuntu</code> <a href="https://github.com/redfactorlabs/concourse-smuggler-resource/blob/master/Dockerfile.ubuntu">Dockerfile.ubuntu</a></li>
+</ul>
+<h1><a id="user-content-contributions" class="anchor" aria-hidden="true" href="#contributions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributions</h1>
+<p>Smuggling is fun! Share it! Send over or comment us your hacks and implementations.</p>
+<p>See the <a href="AUTHORS.md">AUTHORS</a> file for contributions.</p>
+<h1><a id="user-content-credits" class="anchor" aria-hidden="true" href="#credits"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Credits</h1>
+<p>I stoled a lot of code around in github, specially from other resources
+like <code>s3-resource</code>. Thanks to all of you!</p>
+</article></div>
 </div>
 
 </body>

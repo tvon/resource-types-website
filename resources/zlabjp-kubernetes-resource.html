@@ -10,7 +10,140 @@
 <p>https://github.com/zlabjp/kubernetes-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-kubernetes-resource" class="anchor" aria-hidden="true" href="#kubernetes-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>kubernetes-resource</h1>
+<p><a href="https://travis-ci.org/zlabjp/kubernetes-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/6f8dbffa9c9f09c4691d92286bd331d32dd1e6a1/68747470733a2f2f7472617669732d63692e6f72672f7a6c61626a702f6b756265726e657465732d7265736f757263652e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/zlabjp/kubernetes-resource.svg?branch=master" style="max-width:100%;"></a></p>
+<p>A Concourse resource for controlling the Kubernetes cluster.</p>
+<p><em>This resource supports AWS EKS.</em></p>
+<h2><a id="user-content-versions" class="anchor" aria-hidden="true" href="#versions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Versions</h2>
+<p>The version of this resource corresponds to the version of kubectl. We recommend using different version depending on the kubernetes version of the cluster.</p>
+<ul>
+<li><code>zlabjp/kubernetes-resource:1.14</code> (<a href="https://storage.googleapis.com/kubernetes-release/release/stable-1.14.txt" rel="nofollow">stable-1.14</a>)</li>
+<li><code>zlabjp/kubernetes-resource:1.13</code> (<a href="https://storage.googleapis.com/kubernetes-release/release/stable-1.13.txt" rel="nofollow">stable-1.13</a>)</li>
+<li><code>zlabjp/kubernetes-resource:1.12</code> (<a href="https://storage.googleapis.com/kubernetes-release/release/stable-1.12.txt" rel="nofollow">stable-1.12</a>)</li>
+<li><code>zlabjp/kubernetes-resource:latest</code> (<a href="https://storage.googleapis.com/kubernetes-release/release/latest.txt" rel="nofollow">latest</a>)</li>
+</ul>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<h3><a id="user-content-kubeconfig" class="anchor" aria-hidden="true" href="#kubeconfig"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>kubeconfig</h3>
+<ul>
+<li><code>kubeconfig</code>: <em>Optional.</em> A kubeconfig file.
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">kubeconfig</span>: <span class="pl-s">|</span>
+<span class="pl-s">  apiVersion: v1</span>
+<span class="pl-s">  clusters:</span>
+<span class="pl-s">  - cluster:</span>
+<span class="pl-s">    ...</span></pre></div>
+</li>
+<li><code>context</code>: <em>Optional.</em> The context to use when specifying a <code>kubeconfig</code> or <code>kubeconfig_file</code></li>
+</ul>
+<h3><a id="user-content-cluster-configs" class="anchor" aria-hidden="true" href="#cluster-configs"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>cluster configs</h3>
+<ul>
+<li><code>server</code>: <em>Optional.</em> The address and port of the API server.</li>
+<li><code>token</code>: <em>Optional.</em> Bearer token for authentication to the API server.</li>
+<li><code>namespace</code>: <em>Optional.</em> The namespace scope. Defaults to <code>default</code>. If set along with <code>kubeconfig</code>, <code>namespace</code> will override the namespace in the current-context</li>
+<li><code>certificate_authority</code>: <em>Optional.</em> A certificate for the certificate authority.
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">certificate_authority</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END CERTIFICATE-----</span></pre></div>
+</li>
+<li><code>certificate_authority_file</code>: <em>Optional.</em> A file to read the certificate from. Only takes effect when <code>certificate_authority_file</code> is not set.
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">certificate_authority_file</span>: <span class="pl-s">ca_certs.crt</span></pre></div>
+</li>
+<li><code>insecure_skip_tls_verify</code>: <em>Optional.</em> If true, the API server's certificate will not be checked for validity. This will make your HTTPS connections insecure. Defaults to <code>false</code>.</li>
+<li><code>use_aws_iam_authenticator</code>: <em>Optional.</em> If true, the aws_iam_authenticator, required for connecting with EKS, is used. Requires <code>aws_eks_cluster_name</code>. Defaults to <code>false</code>.</li>
+<li><code>aws_eks_cluster_name</code>: <em>Optional.</em> the AWS EKS cluster name, required when <code>use_aws_iam_authenticator</code> is true.</li>
+<li><code>aws_eks_assume_role</code>: <em>Optional.</em> the AWS IAM role ARN to assume.</li>
+<li><code>aws_access_key_id</code>: <em>Optional.</em> AWS access key to use for iam authenticator.</li>
+<li><code>aws_secret_access_key</code>: <em>Optional.</em> AWS secret key to use for iam authenticator.</li>
+<li><code>aws_session_token</code>: <em>Optional.</em> AWS session token (assumed role) to use for iam authenticator.</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-do-nothing" class="anchor" aria-hidden="true" href="#check-do-nothing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Do nothing.</h3>
+<h3><a id="user-content-in-do-nothing" class="anchor" aria-hidden="true" href="#in-do-nothing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Do nothing.</h3>
+<h3><a id="user-content-out-control-the-kubernetes-cluster" class="anchor" aria-hidden="true" href="#out-control-the-kubernetes-cluster"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Control the Kubernetes cluster.</h3>
+<p>Control the Kubernetes cluster like <code>kubectl apply</code>, <code>kubectl delete</code>, <code>kubectl label</code> and so on.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>kubectl</code>: <em>Required.</em> Specify the operation that you want to perform on one or more resources, for example <code>apply</code>, <code>delete</code>, <code>label</code>.</li>
+<li><code>context</code>: <em>Optional.</em> The context to use when specifying a <code>kubeconfig</code> or <code>kubeconfig_file</code></li>
+<li><code>wait_until_ready</code>: <em>Optional.</em> The number of seconds that waits until all pods are ready. 0 means don't wait. Defaults to <code>30</code>.</li>
+<li><code>wait_until_ready_interval</code>: <em>Optional.</em> The interval (sec) on which to check whether all pods are ready. Defaults to <code>3</code>.</li>
+<li><code>wait_until_ready_selector</code>: <em>Optional.</em> <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors" rel="nofollow">A label selector</a> to identify a set of pods which to check whether those are ready. Defaults to every pods in the namespace.</li>
+<li><code>kubeconfig_file</code>: <em>Optional.</em> The path of kubeconfig file. This param has priority over the <code>kubeconfig</code> of source configuration.</li>
+<li><code>namespace</code>: <em>Optional.</em> The namespace scope. It will override the namespace in other params and source configuration.</li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">kubernetes</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">zlabjp/kubernetes-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s"><span class="pl-pds">"</span>1.14<span class="pl-pds">"</span></span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">kubernetes-production</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">kubernetes</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">server</span>: <span class="pl-s">https://192.168.99.100:8443</span>
+    <span class="pl-ent">namespace</span>: <span class="pl-s">production</span>
+    <span class="pl-ent">token</span>: <span class="pl-s">{{kubernetes-production-token}}</span>
+    <span class="pl-ent">certificate_authority</span>: <span class="pl-s">{{kubernetes-production-cert}}</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">my-app</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-s">...</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">kubernetes-deploy-production</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">my-app</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">kubernetes-production</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">kubectl</span>: <span class="pl-s">apply -f my-app/k8s -f my-app/k8s/production</span>
+      <span class="pl-ent">wait_until_ready_selector</span>: <span class="pl-s">app=myapp</span></pre></div>
+<h3><a id="user-content-force-update-deployment" class="anchor" aria-hidden="true" href="#force-update-deployment"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Force update deployment</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">force-update-deployment</span>
+  <span class="pl-ent">serial</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">mycluster</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">kubectl</span>: <span class="pl-s">|</span>
+<span class="pl-s">        patch deploy nginx -p '{"spec":{"template":{"metadata":{"labels":{"updated_at":"'$(date +%s)'"}}}}}'</span>
+<span class="pl-s"></span>      <span class="pl-ent">wait_until_ready_selector</span>: <span class="pl-s">run=nginx</span></pre></div>
+<h3><a id="user-content-use-a-remote-kubeconfig-file-fetched-by-s3-resource" class="anchor" aria-hidden="true" href="#use-a-remote-kubeconfig-file-fetched-by-s3-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use a remote kubeconfig file fetched by s3-resource</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">k8s-prod</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">kubernetes</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">kubeconfig-file</span>
+  <span class="pl-ent">type</span>: <span class="pl-c1">s3</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">bucket</span>: <span class="pl-s">mybucket</span>
+    <span class="pl-ent">versioned_file</span>: <span class="pl-s">config</span>
+    <span class="pl-ent">access_key_id</span>: <span class="pl-s">((s3-access-key))</span>
+    <span class="pl-ent">secret_access_key</span>: <span class="pl-s">((s3-secret))</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">my-app</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-s">...</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">k8s-deploy-prod</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">aggregate</span>:
+    - <span class="pl-ent">get</span>: <span class="pl-s">my-app</span>
+      <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+    - <span class="pl-ent">get</span>: <span class="pl-s">kubeconfig-file</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">k8s-prod</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">kubectl</span>: <span class="pl-s">apply -f my-app/k8s -f my-app/k8s/production</span>
+      <span class="pl-ent">wait_until_ready_selector</span>: <span class="pl-s">app=myapp</span>
+      <span class="pl-ent">kubeconfig_file</span>: <span class="pl-s">kubeconfig-file/config</span></pre></div>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>This software is released under the MIT License.</p>
+</article></div>
 </div>
 
 </body>

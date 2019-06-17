@@ -10,7 +10,192 @@
 <p>https://github.com/troykinsella/concourse-docker-compose-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-docker-compose-resource" class="anchor" aria-hidden="true" href="#concourse-docker-compose-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-docker-compose-resource</h1>
+<p>A Concourse CI resource that executes <a href="https://docs.docker.com/compose/" rel="nofollow"><code>docker-compose</code></a>
+against a remote host.</p>
+<h2><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h2>
+<div class="highlight highlight-source-shell"><pre>resource_types:
+- name: docker-compose
+  type: docker-image
+  source:
+    repository: troykinsella/concourse-docker-compose-resource
+    tag: latest</pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>ca_certs</code>: Optional. A list of objects having the following keys.
+Configures CA certificates for docker registry domains.</p>
+<ul>
+<li><code>domain</code>: The domain of the docker registry.</li>
+<li><code>cert</code>: The CA certificate for the domain.</li>
+</ul>
+<p>Each entry specifies the x509 CA certificate for the trusted docker registry
+residing at the specified domain. This is used to validate the certificate of
+the docker registry when the registry's certificate is signed by a custom
+authority (or itself).</p>
+<p>The domain should match the first component of repository, including the port.</p>
+</li>
+<li>
+<p><code>host</code>: Required. The hostname of the Docker host to connect to.</p>
+</li>
+<li>
+<p><code>port</code>: Optional. Default: 2376. The port on the Docker host to connect to.</p>
+</li>
+<li>
+<p><code>registries</code>: Optional. A list of objects having the following keys.
+Performs a <code>docker login</code> to the listed registries in order to pull images from
+private registries, for example.</p>
+<ul>
+<li><code>host</code>:</li>
+<li><code>username</code>:</li>
+<li><code>password</code>:</li>
+</ul>
+</li>
+<li>
+<p><code>verbose</code>: Optional. Default: false. Enable verbose output from <code>docker-compose</code>.</p>
+</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-shell"><pre>resources:
+- name: docker-compose
+  type: docker-compose
+  source:
+    host: docker-01.your.org
+    registries:
+    - host: docker-registry.your.org
+      username: you
+      password: 1nsecure
+    ca_certs:
+    - domain: docker-registry.your.org
+      cert: <span class="pl-k">|</span>
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----</pre></div>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-check-no-op" class="anchor" aria-hidden="true" href="#check-no-op"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: No-Op</h3>
+<h3><a id="user-content-in-no-op" class="anchor" aria-hidden="true" href="#in-no-op"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: No-Op</h3>
+<h3><a id="user-content-out-execute-docker-compose" class="anchor" aria-hidden="true" href="#out-execute-docker-compose"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Execute <code>docker-compose</code></h3>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>command</code>: Optional. Default: <code>up</code>. Specify the command to run with <code>docker-compose</code>.
+Supported commands are:
+<ul>
+<li><code>down</code></li>
+<li><code>kill</code></li>
+<li><code>restart</code></li>
+<li><code>start</code></li>
+<li><code>stop</code></li>
+<li><code>up</code></li>
+</ul>
+</li>
+<li><code>compose_file</code>: Optional. Default: <code>docker-compose.yml</code>. Specify the name of the Compose file,
+relative to <code>path</code>.</li>
+<li><code>options</code>: Optional. Supply command-specific options. Options names correlate to
+<code>docker-compose</code> command options.
+<ul>
+<li><code>down</code> options:
+<ul>
+<li><code>rmi</code>: String. Remove images. Type must be one of:
+<ul>
+<li><code>all</code>: Remove all images used by any service.</li>
+<li><code>local</code>: Remove only images that don't have a
+custom tag set by the <code>image</code> field.</li>
+</ul>
+</li>
+<li><code>volumes</code>: Boolean. Remove named volumes declared in the <code>volumes</code>
+section of the Compose file and anonymous volumes attached to containers.</li>
+<li><code>remove_orphans</code>: Boolean. Remove containers for services not defined
+in the Compose file.</li>
+<li><code>timeout</code>: Specify a shutdown timeout in seconds.</li>
+</ul>
+</li>
+<li><code>kill</code> options:
+<ul>
+<li><code>signal</code>: SIGNAL to send to the container.</li>
+</ul>
+</li>
+<li><code>restart</code> options:
+<ul>
+<li><code>timeout</code>: Specify a shutdown timeout in seconds.</li>
+</ul>
+</li>
+<li><code>start</code> options: (none)</li>
+<li><code>stop</code> options:
+<ul>
+<li><code>timeout</code>: Specify a shutdown timeout in seconds.</li>
+</ul>
+</li>
+<li><code>up</code> options:
+<ul>
+<li><code>no_deps</code>: Boolean. Don't start linked services.</li>
+<li><code>force_recreate</code>: Boolean. Recreate containers even if their configuration
+and image haven't changed.</li>
+<li><code>no_recreate</code>: Boolean. If containers already exist, don't recreate
+them. Incompatible with <code>force_recreate</code> and <code>renew-anon-volumes</code>.</li>
+<li><code>renew-anon-volumes</code>: Boolean. Recreate anonymous volumes instead of retrieving
+data from the previous containers.</li>
+<li><code>remove_orphans</code>: Boolean. Remove containers for services not defined
+in the Compose file.</li>
+<li><code>scale</code>: Object of service name keys to scale integer values.
+Scale SERVICE to NUM instances. Overrides the <code>scale</code> setting in the
+Compose file if present. For example:
+<ul>
+<li>
+<div class="highlight highlight-source-shell"><pre>scale:
+  service_a: 3
+  service_b: 1</pre></div>
+</li>
+</ul>
+</li>
+<li><code>timeout</code>: Use this timeout in seconds for container shutdown when attached or when
+containers are already running.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>path</code>: Optional. The directory in which <code>docker-compose</code> will be executed.</li>
+<li><code>print</code>: Optional. Default: false. Print the contents of the Compose file.</li>
+<li><code>project</code>: Optional. Specify the project name, which is prepended to container names.</li>
+<li><code>pull</code>: Optional. Default: false. Run <code>docker-compose pull</code> prior to executing the <code>command</code>.</li>
+<li><code>services</code>: Optional. Only relevant to the <code>kill</code>, <code>restart</code>, <code>start</code>, <code>stop</code>, and <code>up</code> commands.
+A list of services named in the Compose file on which <code>docker-compose</code> will operate.</li>
+<li><code>wait_before</code>: Optional. The number of seconds to wait (sleep) before executing <code>docker-compose</code>.</li>
+<li><code>wait_after</code>: Optional. The number of seconds to wait (sleep) after executing <code>docker-compose</code>.</li>
+</ul>
+<h4><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Extends example in Source Configuration</span>
+
+jobs:
+- name:
+  plan:
+  - do:
+    - get: code <span class="pl-c"><span class="pl-c">#</span> git resource</span>
+    - put: docker-compose
+      params:
+        command: up
+        compose_file: docker-compose.test-deps.yml
+        path: code
+        services:
+        - service_a
+        options:
+          scale:
+            service_a: 1
+        wait_after: 3 <span class="pl-c"><span class="pl-c">#</span> Let services come up</span>
+    - task: integration tests
+      file: ...
+      input_mapping:
+        source: code
+    ensure:
+      put: docker-compose
+      params:
+        command: down
+        compose_file: docker-compose.test-deps.yml
+        path: code
+        options:
+          volumes: <span class="pl-c1">true</span></pre></div>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>MIT © Troy Kinsella</p>
+</article></div>
 </div>
 
 </body>

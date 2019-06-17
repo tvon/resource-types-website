@@ -10,7 +10,186 @@
 <p>https://github.com/jleben/slack-chat-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="Readme.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-slack-chat-resources" class="anchor" aria-hidden="true" href="#slack-chat-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Slack Chat Resources</h1>
+<p>This repository provides Concourse resource types to read, act on, and reply to messages on Slack.</p>
+<p>There are two resource types:</p>
+<ul>
+<li><code>slack-read-resource</code>: For reading messages.</li>
+<li><code>slack-post-resource</code>: For posting messages.</li>
+</ul>
+<p>There are two resource types because a system does not want to respond to messages that it posts itself. Concourse assumes that an output of a resource is also a valid input. Therefore, separate resources are used for reading and posting. Since using a single resource has no benefits over separate resources, reading and posting are split into two resource types.</p>
+<p>The posting resource offers similar functionality to the older
+<a href="https://github.com/cloudfoundry-community/slack-notification-resource">slack-notification-resource</a>,
+with the following benefits:</p>
+<ul>
+<li>Support for replying to threads.</li>
+<li>More powerful interpolation of contents of arbitrary files into message text and other parameters.</li>
+<li>Written in Go as opposed to Bash, in case you care about this :).</li>
+</ul>
+<p>Docker Store:</p>
+<ul>
+<li><a href="https://store.docker.com/community/images/jakobleben/slack-read-resource" rel="nofollow">jakobleben/slack-read-resource</a></li>
+<li><a href="https://store.docker.com/community/images/jakobleben/slack-post-resource" rel="nofollow">jakobleben/slack-post-resource</a></li>
+</ul>
+<h2><a id="user-content-version-format" class="anchor" aria-hidden="true" href="#version-format"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Version Format</h2>
+<p>Timestamps of Slack messages are used as resource versions. For example, a message may be represented by a version like this:</p>
+<pre><code>timestamp: 1234567890.123
+</code></pre>
+<p>A timestamp uniquely identifies a message within a channel. See <a href="https://api.slack.com/events/message" rel="nofollow">Slack API</a> for details.</p>
+<h2><a id="user-content-reading-messages" class="anchor" aria-hidden="true" href="#reading-messages"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reading Messages</h2>
+<p>Usage in a pipeline:</p>
+<pre><code>resource_types:
+    - name: slack-read-resource
+      type: docker-image
+      source:
+        repository: jakobleben/slack-read-resource
+
+resources:
+    - name: slack-in
+      type: slack-read-resource
+      source: ...
+</code></pre>
+<h3><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h3>
+<p>The <code>source</code> field configures the resource for reading messages from a specific channel. It allows filtering messages by their author and text pattern:</p>
+<ul>
+<li><code>token</code>: <em>Required</em>. A Slack API token that allows reading all messages on a selected channel.</li>
+<li><code>channel_id</code>: <em>Required</em>. The selected channel ID. The resource only reads messages on this channel.</li>
+<li><code>matching</code>: <em>Optional</em>. Only report messages matching this filter. See below for details.</li>
+<li><code>not_replied_by</code>: <em>Optional</em>. Ignore messages that have a reply matching this filter. See below for details.</li>
+</ul>
+<p>The values of <code>matching</code> and <code>not_replied_by</code> represent message filters. They are maps with the following elements:</p>
+<ul>
+<li><code>author</code>: <em>Optional</em>. User ID that must match the author of the message - either the <code>user</code> or the <code>bot_id</code> field.
+See <a href="https://api.slack.com/events/message" rel="nofollow">Slack API</a> regarding authorship.</li>
+<li><code>text_pattern</code>: <em>Optional</em>. Regular expression that must match the message text.
+Wrap in single quotes instead of double, to avoid having to escape <code>\</code>.
+See <a href="https://api.slack.com/docs/message-formatting" rel="nofollow">Slack API</a> for details on text formatting.</li>
+</ul>
+<p>The resource only reports messages that begin new threads and not replies to other messages.</p>
+<p>When given a message timestamp as the current version, it only reads messages with that timestamp and later. In any case though, it reads at most 100 of the latest messages. Therefore, the resource must be checked often enough to avoid missing messages.</p>
+<p>If <code>source</code> has a <code>not_replied_by</code> filter, and it matches a message that also matches the <code>matching</code> filter, then all messages older than the latest such message are also considered obsolete and are not read.</p>
+<h4><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<pre><code>resources:
+  - name: slack-in
+    type: slack-read-resource
+    source:
+      token: "xxxx-xxxxxxxxxx-xxxx"
+      channel_id: "C11111111"
+      matching:
+        text_pattern: '&lt;@U22222222&gt;\s+(.+)'
+      not_replied_by:
+        author: U22222222
+</code></pre>
+<p>This configures a resource reading messages from channel with ID <code>C11111111</code>. It reads only messages that begin by mentioning the user with ID <code>U22222222</code>. It ignores messages already replied to by that same user.</p>
+<h3><a id="user-content-get-read-a-message" class="anchor" aria-hidden="true" href="#get-read-a-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>get</code>: Read a Message</h3>
+<p>Reads the message with the requested timestamp and produces the following files:</p>
+<ul>
+<li><code>timestamp</code>: The message timestamp.</li>
+<li><code>text</code>: The message text.</li>
+<li><code>text_part1</code>, <code>text_part2</code>, etc.: Parts of text parsed using the <code>text_pattern</code> parameter described below.</li>
+</ul>
+<p>Parameters:</p>
+<ul>
+<li><code>text_pattern</code>: <em>Optional</em>. A regular expression to match against the message text.
+The text matched by each <a href="https://www.regular-expressions.info/brackets.html" rel="nofollow">capturing group</a>
+is stored into a file <code>text_part&lt;num&gt;</code> where <code>&lt;num&gt;</code> is the group index starting with 1.
+Wrap in single quotes instead of double, to avoid having to escape <code>\</code>.
+See <a href="https://api.slack.com/docs/message-formatting" rel="nofollow">Slack API</a> for details on text formatting.</li>
+</ul>
+<h4><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<pre><code>- get: slack-in
+  params:
+      text_pattern: '([A-Z]+) ([0-9]+)'
+</code></pre>
+<p>When this configuration sees a message with the text <code>abc 123</code> and timestamp <code>111.222</code>, it will produce the following files and contents:</p>
+<ul>
+<li><code>timestamp</code>: <code>111.222</code></li>
+<li><code>text</code>: <code>abc 123</code></li>
+<li><code>text_part1</code>: <code>abc</code></li>
+<li><code>text_part2</code>: <code>123</code></li>
+</ul>
+<h2><a id="user-content-posting-messages" class="anchor" aria-hidden="true" href="#posting-messages"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Posting Messages</h2>
+<p>Usage in a pipeline:</p>
+<pre><code>resource_types:
+    - name: slack-post-resource
+      type: docker-image
+      source:
+        repository: jakobleben/slack-post-resource
+
+resources:
+    - name: slack-out
+      type: slack-post-resource
+      source: ...
+</code></pre>
+<h3><a id="user-content-source-configuration-1" class="anchor" aria-hidden="true" href="#source-configuration-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h3>
+<p>The <code>source</code> field configures the resource for posting on a specific channel:</p>
+<ul>
+<li><code>token</code>: <em>Required</em>. A Slack API token that allows posting on a selected channel.</li>
+<li><code>channel_id</code>: <em>Required</em>. The selected channel ID. The resource only posts messages on this channel.</li>
+</ul>
+<h4><a id="user-content-example-2" class="anchor" aria-hidden="true" href="#example-2"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<pre><code>resources:
+  - name: slack-out
+    type: slack-post-resource
+    source:
+      token: "xxxx-xxxxxxxxxx-xxxx"
+      channel_id: "C11111111"
+</code></pre>
+<p>This configures the resource to post on the channel with ID <code>C11111111</code>.</p>
+<h3><a id="user-content-put-post-a-message" class="anchor" aria-hidden="true" href="#put-post-a-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>put</code>: Post a Message</h3>
+<p>Posts a message to the selected channel.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>message</code>: <em>Optional</em>. The message to send described in YAML.</li>
+<li><code>message_file</code>: <em>Optional</em>. The file containing the message to send described in JSON.</li>
+</ul>
+<p>Either <code>message</code> or <code>message_file</code> must be present. If both are present, <code>message_file</code> takes precedence and <code>message</code> is ignored.</p>
+<p>The message is described just as the argument to the <a href="https://api.slack.com/methods/chat.postMessage" rel="nofollow"><code>chat.postMessage</code></a> method of the Slack API. All fields are supported, except that <code>token</code> and <code>channel</code> are ignored and instead the resource configuration in <code>source</code> is used.</p>
+<p>When using <code>message</code>, some message parameters support string interpolation to insert contents of arbitrary files or values of environment variables. The following table gives rules for substitution:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Substituted By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{filename}}</code></td>
+<td>Contents of file <code>filename</code></td>
+</tr>
+<tr>
+<td><code>{{$variable}}</code></td>
+<td>Value of environment variable <code>variable</code></td>
+</tr>
+</tbody>
+</table>
+<p>The following message fields support string interpolation:</p>
+<ul>
+<li><code>text</code></li>
+<li><code>thread_ts</code></li>
+</ul>
+<p>The following fields of an attachment support string interpolation:</p>
+<ul>
+<li><code>fallback</code></li>
+<li><code>title</code></li>
+<li><code>title_link</code></li>
+<li><code>pretext</code></li>
+<li><code>text</code></li>
+<li><code>footer</code></li>
+</ul>
+<h3><a id="user-content-example-3" class="anchor" aria-hidden="true" href="#example-3"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>Consider a job with the <code>get: slack-in</code> step from the example above followed by this step:</p>
+<pre><code>- put: slack-out
+  params:
+    message:
+        thread_ts: "{{slack-in/timestamp}}"
+        text: "Hi {{slack-in/text_part1}}! I will do {{slack-in/text_part2}} right away!"
+</code></pre>
+<p>This will reply to the message read by the <code>get</code> step (since <code>thread</code> is the timestamp of the original message), and the reply will read:</p>
+<pre><code>Hi abc! I will do 123 right away!
+</code></pre>
+</article></div>
 </div>
 
 </body>

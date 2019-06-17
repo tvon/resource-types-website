@@ -10,7 +10,73 @@
 <p>https://github.com/mrsixw/concourse-rsync-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-rsync-resource" class="anchor" aria-hidden="true" href="#concourse-rsync-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-rsync-resource</h1>
+<p><a href="https://concourse.ci/" title="concourse.ci Homepage" rel="nofollow">concourse.ci</a> <a href="https://concourse.ci/implementing-resources.html" title="Implementing a resource" rel="nofollow">resource</a> for persisting build artifacts on a shared storage location with rsync and ssh.</p>
+<h2><a id="user-content-config" class="anchor" aria-hidden="true" href="#config"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Config</h2>
+<ul>
+<li><code>server|servers</code>: <em>Required</em> Server or list of servers on which to persist artifacts. If <code>servers</code> are used first one in the list will be used for <code>in</code> and <code>check</code> origins.</li>
+<li><code>port</code>: <em>Optional</em> Server SSH port, default is port 22</li>
+<li><code>base_dir</code>: <em>Required</em> Base directory in which to place the artifacts</li>
+<li><code>user</code>: <em>Required</em> User credential for login using ssh</li>
+<li><code>private_key</code>: <em>Required</em> Key for the specified user</li>
+<li><code>disable_version_path</code>: default is <code>false</code>. Then <code>false</code> <code>out</code> will put content in a directory named by the version name. This directory is omitted when this option is enabled. Note that <code>check</code> and <code>in</code> origins will treat all the files in the <code>base_dir</code> as versions in this case.</li>
+</ul>
+<p>All config required for each of the <code>in</code>, <code>out</code> and <code>check</code> behaviors.</p>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">rsync-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">mrsixw/concourse-rsync-resource</span>
+      <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">sync-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">rsync-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">server</span>: <span class="pl-s">server</span>
+    <span class="pl-ent">base_dir</span>: <span class="pl-s">/sync_directory</span>
+    <span class="pl-ent">user </span>: <span class="pl-s">user</span>
+    <span class="pl-ent">private_key</span>: <span class="pl-s">|</span>
+<span class="pl-s">            ...</span>
+<span class="pl-s"></span>
+<span class="pl-s"></span>- <span class="pl-ent">name</span>: <span class="pl-s">sync-resource-multiple</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">rsync-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">servers</span>:
+      - <span class="pl-s">server1</span>
+      - <span class="pl-s">server2</span>
+    <span class="pl-ent">base_dir</span>: <span class="pl-s">/sync_directory</span>
+    <span class="pl-ent">user </span>: <span class="pl-s">user</span>
+    <span class="pl-ent">disable_version_path</span>: <span class="pl-c1">false</span>
+    <span class="pl-ent">private_key</span>: <span class="pl-s">|</span>
+<span class="pl-s">            ...</span>
+<span class="pl-s"></span>
+<span class="pl-s"></span><span class="pl-ent">jobs</span>:
+-<span class="pl-ent">name</span>: <span class="pl-s">my_great_job</span>
+  <span class="pl-ent">plan</span>:
+    <span class="pl-s">...</span>
+    <span class="pl-ent">put</span>: <span class="pl-s">sync-resource</span>
+      <span class="pl-ent">params</span>: <span class="pl-s">{"sync_dir" : "my_output_dir" }</span>
+    <span class="pl-ent">put</span>: <span class="pl-s">sync-resource</span>
+      <span class="pl-ent">params</span>: <span class="pl-s">{</span>
+          <span class="pl-s"><span class="pl-pds">"</span>sync_dir<span class="pl-pds">"</span></span> <span class="pl-s">: "my_output_dir",</span>
+          <span class="pl-s"><span class="pl-pds">"</span><span class="pl-ent">rsync_opts</span><span class="pl-pds">"</span></span>: <span class="pl-s">["-Pav", "--del", "--chmod=Du=rwx,Dgo=rx,Fu=rw,Fog=r"]</span>
+      <span class="pl-s">}</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check--check-for-new-versions-of-artifacts" class="anchor" aria-hidden="true" href="#check--check-for-new-versions-of-artifacts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code> : Check for new versions of artifacts</h3>
+<p>The <code>base_dir</code> is searched for any new artifacts being stored</p>
+<h3><a id="user-content-in--retrieve-a-given-artifacts-from-server" class="anchor" aria-hidden="true" href="#in--retrieve-a-given-artifacts-from-server"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code> : retrieve a given artifacts from <code>server</code></h3>
+<p>Given a <code>version</code> check for its existence and rsync back the artifacts for the
+version.</p>
+<h3><a id="user-content-out--place-a-new-artifact-on-server" class="anchor" aria-hidden="true" href="#out--place-a-new-artifact-on-server"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code> : place a new artifact on <code>server</code></h3>
+<p>Generate a new <code>version</code> number an associated directory in <code>base_dir</code> on <code>server</code>
+using the specified user credential. Rsync across artifacts from the input directory to the server storage location and output the <code>version</code></p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>sync_dir</code>: <em>Optional.</em> Directory to be sync'd. If specified limit the directory to be sync'd to sync_dir. If not specified everything in the <code>put</code> will be sent (which could include container resources, whole build trees etc.)</li>
+</ul>
+</article></div>
 </div>
 
 </body>

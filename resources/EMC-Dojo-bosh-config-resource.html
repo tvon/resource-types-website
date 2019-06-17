@@ -10,7 +10,63 @@
 <p>https://github.com/EMC-Dojo/bosh-config-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-bosh-deployment-resource" class="anchor" aria-hidden="true" href="#bosh-deployment-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BOSH Deployment Resource</h1>
+<p>An output only resource (at the moment) that will set <code>runtime-config</code> and <code>cloud-config</code> on a bosh director.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>type</code>: <em>Required.</em> Must be <code>runtime-config</code> or <code>cloud-config</code>.</li>
+<li><code>target</code>: <em>Required.</em> The address of the BOSH director.</li>
+</ul>
+<p>When using BOSH with default authentication:</p>
+<ul>
+<li><code>username</code>: <em>Required.</em> The username for the BOSH director.</li>
+<li><code>password</code>: <em>Required.</em> The password for the BOSH director.</li>
+</ul>
+<p>When using BOSH with <a href="https://bosh.io/docs/director-users-uaa.html#client-login" rel="nofollow">UAA authentication</a>:</p>
+<ul>
+<li>
+<p><code>client_id</code>: <em>Required.</em> The UAA client ID for the BOSH director.</p>
+</li>
+<li>
+<p><code>client_secret</code>: <em>Required.</em> The UAA client secret for the BOSH director.</p>
+</li>
+<li>
+<p><code>ca_cert</code>: <em>Optional.</em> CA certificate used to validate SSL connections to Director and UAA.</p>
+</li>
+</ul>
+<h4><a id="user-content-resource-specification" class="anchor" aria-hidden="true" href="#resource-specification"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Specification</h4>
+<div class="highlight highlight-source-yaml"><pre>  <span class="pl-ent">type</span>: <span class="pl-s">bosh-config</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">target</span>: <span class="pl-s">https://bosh.example.com:25555</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">admin</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">admin</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">runtime-config</span></pre></div>
+<h4><a id="user-content-resource-type-specification" class="anchor" aria-hidden="true" href="#resource-type-specification"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Specification</h4>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">bosh-config</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">dellemcdojo/bosh-config-resource</span></pre></div>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-put-update-the-runtime-or-cloud-config" class="anchor" aria-hidden="true" href="#put-update-the-runtime-or-cloud-config"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>put</code>: Update the runtime or cloud config</h3>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>manifest</code>: <em>Required.</em> Path to the cloud/runtime config manifest.</p>
+</li>
+<li>
+<p><code>releases</code>: <em>Required (<code>runtime-config</code> only).</em> An array of globs that should point to where the
+releases used in the deployment can be found.</p>
+</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">staging</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">manifest</span>: <span class="pl-s">path/to/manifest.yml</span>
+    <span class="pl-ent">releases</span>:
+    - <span class="pl-s">path/to/releases-*.tgz</span>
+    - <span class="pl-s">other/path/to/releases-*.tgz</span></pre></div>
+<h3><a id="user-content-get-not-supported" class="anchor" aria-hidden="true" href="#get-not-supported"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>get</code>: NOT SUPPORTED</h3>
+<p>Using <code>get</code> for this resource type will result in a no-op.  If you have a reasonable use case for <code>get</code> of a config, please let us know in a github issue.</p>
+</article></div>
 </div>
 
 </body>

@@ -10,7 +10,128 @@
 <p>https://github.com/zarplata/concourse-git-bitbucket-pr-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-git-bitbucket-pr-resource" class="anchor" aria-hidden="true" href="#concourse-git-bitbucket-pr-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-git-bitbucket-pr-resource</h1>
+<p>Tracks changes for all <em>git</em> branches for pull requests.</p>
+<p><strong>This resource is meant to be used with <a href="https://concourse.ci/get-step.html#get-version" rel="nofollow"><code>version: every</code></a>.</strong></p>
+<p>Inspirited by <a href="https://github.com/vito/git-branch-heads-resource">git-branch-heads-resourse</a></p>
+<h2><a id="user-content-installation" class="anchor" aria-hidden="true" href="#installation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p>Add the following <code>resource_types</code> entry to your pipeline:</p>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">git-bitbucket-pr</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">zarplata/concourse-git-bitbucket-pr-resource</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>base_url</code>: <em>Required</em>. base URL of the bitbucket server, without a trailing slash.
+For example: <code>http://bitbucket.local</code></li>
+<li><code>username</code>: <em>Required</em>. username of the user which have access to repository.</li>
+<li><code>password</code>: <em>Required</em>. password of that user</li>
+<li><code>project</code>: <em>Required</em>. project for tracking</li>
+<li><code>repository</code>: <em>Required</em>. repository for tracking</li>
+<li><code>limit</code>: <em>Optional</em>. limit of tracked pull requests <code>default: 100</code>.</li>
+<li><code>git</code>: <em>Required</em>. configuration is based on the <a href="https://github.com/concourse/git-resource">Git
+resource</a>. The <code>branch</code> configuration
+from the original resource is ignored.</li>
+<li><code>bitbucket_type</code>: <em>Optional</em>. <code>cloud</code> for BitBucket Cloud or <code>server</code> for a self-hosted BitBucket Server. <code>default: server</code></li>
+<li><code>dir</code>: <em>Deprecated</em>. set to name of the resource if resource name is different than repository name. Is deprecated in favor to <code>params.repository</code> in <code>out</code>.</li>
+<li><code>branch</code>: <em>Optional</em>. if given, only pull requests against this branch will be checked</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">my-repo-with-pull-requests</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git-bitbucket-pr</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">base_url</span>: <span class="pl-s">http://bitbucket.local</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">some-username</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">some-password</span>
+    <span class="pl-ent">project</span>: <span class="pl-s">zarplata</span>
+    <span class="pl-ent">repository</span>: <span class="pl-s">concourse-git-bitbucket-pr-resource</span>
+    <span class="pl-ent">git</span>:
+      <span class="pl-ent">uri</span>: <span class="pl-s">https://github.com/zarplata/concourse-git-bitbucket-pr-resource</span>
+      <span class="pl-ent">private_key</span>: <span class="pl-s">{{git-repo-key}}</span>
+
+<span class="pl-ent">jobs</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">my build</span>
+    <span class="pl-ent">plan</span>:    
+      - <span class="pl-ent">get</span>: <span class="pl-s">my-repo-with-pull-requests</span>
+        <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+        <span class="pl-ent">version</span>: <span class="pl-s">every</span>
+      - <span class="pl-ent">task</span>: <span class="pl-s">unit test</span>
+          <span class="pl-s">...</span>
+          <span class="pl-ent">inputs</span>:          
+            - <span class="pl-ent">name</span>: <span class="pl-s">my-repo-with-pull-requests</span>
+          <span class="pl-ent">run</span>:
+          <span class="pl-s">...</span>
+        <span class="pl-ent">on_failure</span>:
+          <span class="pl-ent">put</span>: <span class="pl-s">my-repo-with-pull-requests</span>
+          <span class="pl-ent">params</span>:
+            <span class="pl-ent">state</span>: <span class="pl-s">FAILED</span>
+            <span class="pl-ent">name</span>: <span class="pl-s"><span class="pl-pds">"</span>unit test<span class="pl-pds">"</span></span>
+            <span class="pl-ent">url</span>: <span class="pl-s"><span class="pl-pds">"</span>http://acme.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME<span class="pl-pds">"</span></span>
+        <span class="pl-ent">on_success</span>:
+          <span class="pl-ent">put</span>: <span class="pl-s">my-repo-with-pull-requests</span>
+          <span class="pl-ent">params</span>:
+            <span class="pl-ent">state</span>: <span class="pl-s">SUCCESSFUL</span>
+            <span class="pl-ent">name</span>: <span class="pl-s"><span class="pl-pds">"</span>unit test<span class="pl-pds">"</span></span>
+            <span class="pl-ent">url</span>: <span class="pl-s"><span class="pl-pds">"</span>http://acme.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME<span class="pl-pds">"</span></span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-changes-to-all-pull-requests" class="anchor" aria-hidden="true" href="#check-check-for-changes-to-all-pull-requests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for changes to all pull requests.</h3>
+<p>The current open pull requests fetched from Bitbucket server for given
+project and repository. Update time are compared to the last fetched pull request.</p>
+<p>If any pull request are new or updated or removed, a new version is emitted.</p>
+<h3><a id="user-content-in-fetch-the-commit-that-changed-the-pull-request" class="anchor" aria-hidden="true" href="#in-fetch-the-commit-that-changed-the-pull-request"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch the commit that changed the pull request.</h3>
+<p>This resource delegates entirely to the <code>in</code> of the original Git resource, by
+specifying <code>source.branch</code> as the branch that changed, and <code>version.ref</code> as the
+commit on the branch.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>All <code>params</code> and <code>source</code> configuration of the original <code>git-resource</code> will be
+respected.</p>
+<ul>
+<li><code>skip_download</code>: <code>Optional</code>. Skip <code>git pull</code>. Artifacts based on the git will not be present.</li>
+</ul>
+<h3><a id="user-content-out-update-the-pr" class="anchor" aria-hidden="true" href="#out-update-the-pr"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Update the PR.</h3>
+<p>Behavior depends on the value of parameter <code>action</code>, where is the values are:</p>
+<ul>
+<li>
+<p><code>change-build-status</code>: Change the commit build status.</p>
+<ul>
+<li><code>action</code>: <code>Required</code>. For this behavior should be <code>change-build-status</code>.</li>
+<li>Parameters except the <code>name</code> will be respected the <a href="https://developer.atlassian.com/server/bitbucket/how-tos/updating-build-status-for-commits/" rel="nofollow">Bitbucket documentation</a>.</li>
+<li><code>name</code>: <code>Deprecated</code>. Parameter is deprecated and has been left only for backward compatibility.</li>
+<li><code>repository</code>: <code>Optional</code>. The path of the source repository for changing build status.</li>
+</ul>
+</li>
+<li>
+<p><code>push</code>: Push the commit to pull request branch.</p>
+<ul>
+<li><code>action</code>: <code>Required</code>. For this behavior should be <code>push</code>.</li>
+<li><code>repository</code>: <code>Optional</code>. The path of the source repository for pushing.</li>
+</ul>
+</li>
+</ul>
+<h2><a id="user-content-troubleshooting" class="anchor" aria-hidden="true" href="#troubleshooting"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h2>
+<ul>
+<li>
+<p><a href="https://github.com/zarplata/concourse-git-bitbucket-pr-resource/issues/15">Mark PR with "build started" creates a new version of a PR</a>.</p>
+<p>The Concourse is not available to skipping versions but have the workaround.
+You should add the <em>resource with the same settings</em> as <code>pull-request</code> for changing the build status only.</p>
+<pre><code>- name: test-pull-requests
+  plan:
+  - get: pull-request
+    trigger: true
+    version: every
+  - get: node
+  - put: pull-request-status
+    params:
+      state: INPROGRESS
+      key: concourse-build
+      description: Building on Concourse
+</code></pre>
+</li>
+</ul>
+</article></div>
 </div>
 
 </body>

@@ -10,7 +10,115 @@
 <p>https://github.com/mockersf/concourse-slack-notifier</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-slack-notifier----" class="anchor" aria-hidden="true" href="#concourse-slack-notifier----"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-slack-notifier <a href="https://opensource.org/licenses/Apache-2.0" rel="nofollow"><img src="https://camo.githubusercontent.com/6d2c8436a90774c92035815dd65726da0d82bd70/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d4170616368655f322e302d79656c6c6f772e737667" alt="License: Apache-2.0" data-canonical-src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" style="max-width:100%;"></a> <a href="https://travis-ci.org/mockersf/concourse-slack-notifier" rel="nofollow"><img src="https://camo.githubusercontent.com/d47f7e88e09e17e6198a0aed0139adb75694fe63/68747470733a2f2f7472617669732d63692e6f72672f6d6f636b657273662f636f6e636f757273652d736c61636b2d6e6f7469666965722e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/mockersf/concourse-slack-notifier.svg?branch=master" style="max-width:100%;"></a> <a href="https://hub.docker.com/r/mockersf/concourse-slack-notifier/" rel="nofollow"><img src="https://camo.githubusercontent.com/60ad55bbc226869d7ac0e48c2fc35523b0688586/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6d6f636b657273662f636f6e636f757273652d736c61636b2d6e6f7469666965722e737667" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/mockersf/concourse-slack-notifier.svg" style="max-width:100%;"></a> <a href="https://microbadger.com/images/mockersf/concourse-slack-notifier" rel="nofollow"><img src="https://camo.githubusercontent.com/35458ed220e6be222109cabe56848b4f6c96a6a3/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f6d6f636b657273662f636f6e636f757273652d736c61636b2d6e6f7469666965722e737667" alt="Image Informtations" data-canonical-src="https://images.microbadger.com/badges/image/mockersf/concourse-slack-notifier.svg" style="max-width:100%;"></a></h1>
+<p>A structured and opinionated Slack notification resource for <a href="https://concourse.ci/" rel="nofollow">Concourse</a>. It started as a rewrite of <a href="https://github.com/arbourd/concourse-slack-alert-resource">arbourd/concourse-slack-alert-resource</a> in Rust to add a few features, mainly reading the message from a file or being able to send shorter messages that still had a similar format.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/custom.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/custom.png" style="max-width:100%;"></a></p>
+<p>The message is built by using Concourse's <a href="https://concourse-ci.org/implementing-resources.html#resource-metadata" rel="nofollow">resource metadata</a> to show the pipeline, job, build number and a URL.</p>
+<h2><a id="user-content-installing" class="anchor" aria-hidden="true" href="#installing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installing</h2>
+<p>Use this resource by adding the following to the resource_types section of a pipeline config:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+
+- <span class="pl-ent">name</span>: <span class="pl-s">slack-notifier</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">mockersf/concourse-slack-notifier</span></pre></div>
+<p>See the <a href="https://concourse-ci.org/resource-types.html" rel="nofollow">Concourse docs</a> for more details on adding <code>resource_types</code> to a pipeline config.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>url</code>: <em>Required.</em> Slack webhook URL.</li>
+<li><code>channel</code>: <em>Optional</em>. Target channel where messages are posted. If unset the default channel of the webhook is used.</li>
+<li><code>concourse_url</code>: <em>Optional.</em> The external URL that points to Concourse. Defaults to the env variable <code>ATC_EXTERNAL_URL</code>.</li>
+<li><code>username</code>: <em>Optional.</em> Concourse local user (or basic auth) username. Required for non-public pipelines if using alert type <code>fixed</code> or <code>broke</code></li>
+<li><code>password</code>: <em>Optional.</em> Concourse local user (or basic auth) password. Required for non-public pipelines if using alert type <code>fixed</code> or <code>broke</code></li>
+<li><code>ca_cert</code>: <em>Optional.</em> A CA certificate for the Concourse instance. This is used to validate the certificate of Concourse when the instance's certificate is signed by a custom authority (or itself).</li>
+<li><code>ignore_ssl</code>: <em>Optional.</em> This option allows unsecure access to Concourse (not verifying certificates).</li>
+<li><code>disabled</code>: <em>Optional.</em> This option will disable all notifications from this resource.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+
+- <span class="pl-ent">name</span>: <span class="pl-s">notify</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">slack-notifier</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">url</span>: <span class="pl-s">https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-no-operation" class="anchor" aria-hidden="true" href="#check-no-operation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: No operation.</h3>
+<h3><a id="user-content-in-no-operation" class="anchor" aria-hidden="true" href="#in-no-operation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: No operation.</h3>
+<h3><a id="user-content-out-send-a-message-to-slack" class="anchor" aria-hidden="true" href="#out-send-a-message-to-slack"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Send a message to Slack.</h3>
+<p>Sends a structured message to Slack based on the alert type and mode.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>alert_type</code>: <em>Optional.</em> The type of alert to send to Slack. See <a href="#alert-types">Alert Types</a>. Defaults to <code>custom</code>.</li>
+<li><code>channel</code>: <em>Optional.</em> Channel where this message is posted. Defaults to the <code>channel</code> setting in Source.</li>
+<li><code>message</code>: <em>Optional.</em> The status message at the top of the alert. Defaults to name of alert type.</li>
+<li><code>message_file</code>: <em>Optional.</em> The path to a file to use as message.</li>
+<li><code>fail_if_message_file_missing</code>: <em>Optional.</em> Will fail if <code>message_file</code> is set but the file is missing. Defaults to <code>false</code>.</li>
+<li><code>color</code>: <em>Optional.</em> The color of the notification bar as a hexadecimal. Defaults to the icon color of the alert type.</li>
+<li><code>mode</code>: <em>Optional.</em> The amount of information displayed in the message. See <a href="#modes">Modes</a>. Defaults to <code>normal_with_info</code>.</li>
+<li><code>disabled</code>: <em>Optional.</em> This notification is disabled.</li>
+<li><code>message_as_code</code>: <em>Optional.</em> Message text will be wrapped in <code>``` [...] ```</code>, if message is in mode <code>normal</code> or <code>normal_with_info</code>.</li>
+</ul>
+<p>basic configuration:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">notify</span></pre></div>
+<p>with an alert type, a mode and a message</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">notify</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">message</span>: <span class="pl-s">my job failed</span>
+      <span class="pl-ent">mode</span>: <span class="pl-s">concise</span>
+      <span class="pl-ent">alert_type</span>: <span class="pl-s">failed</span></pre></div>
+<h4><a id="user-content-alert-types" class="anchor" aria-hidden="true" href="#alert-types"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Alert Types</h4>
+<ul>
+<li>
+<p><code>custom</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/custom.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/custom.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>success</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/success.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/success.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>failed</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/failed.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/failed.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>started</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/started.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/started.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>aborted</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/aborted.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/aborted.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>fixed</code></p>
+<p>Fixed is a special alert type that only alerts if the previous build did not succeed. Fixed requires <code>username</code> and <code>password</code> to be set for the resource if the pipeline is not public.</p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/fixed.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/fixed.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>broke</code></p>
+<p>Broke is a special alert type that only alerts if the previous build succeed. Broke requires <code>username</code> and <code>password</code> to be set for the resource if the pipeline is not public.</p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/broke.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/broke.png" width="75%" style="max-width:100%;"></a>
+</li>
+</ul>
+<h4><a id="user-content-modes" class="anchor" aria-hidden="true" href="#modes"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modes</h4>
+<p>Examples notifications with a messages with the different modes:</p>
+<ul>
+<li>
+<p><code>concise</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/concise.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/concise.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>normal</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/normal.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/normal.png" width="75%" style="max-width:100%;"></a>
+</li>
+<li>
+<p><code>normal_with_info</code></p>
+<a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/normal_with_info.png"><img src="https://raw.githubusercontent.com/mockersf/concourse-slack-notifier/master/img/normal_with_info.png" width="75%" style="max-width:100%;"></a>
+</li>
+</ul>
+</article></div>
 </div>
 
 </body>

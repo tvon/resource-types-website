@@ -10,7 +10,115 @@
 <p>https://github.com/jpatel-pivotal/google-drive-concourse-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-google-drive-concourse-resource" class="anchor" aria-hidden="true" href="#google-drive-concourse-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>google-drive-concourse-resource</h1>
+<p>Uses google drive as a resource in concourse jobs/tasks as a way to pass output from 1 task to another in a given pipeline.</p>
+<p><strong>Only supports tar and txt files for now</strong></p>
+<p><strong>Uses modified Time for versioning so you always retrieve the latest file</strong></p>
+<p><strong>Uses Google Drive API v2</strong></p>
+<h2><a id="user-content-pre-requisites" class="anchor" aria-hidden="true" href="#pre-requisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pre-Requisites</h2>
+<ol>
+<li>Follow this doc to create a service principal for the app to use and provide domain wide authority: <a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount#callinganapi" rel="nofollow">https://developers.google.com/identity/protocols/OAuth2ServiceAccount#callinganapi</a></li>
+<li>You will be using values from the JSON file you downloaded the step above to interact with your drive.</li>
+<li>Create a folder on your google drive and provide the service principal you created access to edit that folder. This will be the folder where we will be doing gets/puts to.</li>
+</ol>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>drive_client_email</code>: Required. The Client email for the service principal to use for drive interactions.</p>
+</li>
+<li>
+<p><code>drive_client_id</code>: Required. The client id of the service principal to use for drive interactions.</p>
+</li>
+<li>
+<p><code>drive_private_key_id</code>: Required. The private key id of the service principal to use for drive interactions.</p>
+</li>
+<li>
+<p><code>drive_private_key</code>: Required. The private key of the service principal to use for drive interactions.</p>
+</li>
+<li>
+<p><code>drive_folder_id</code>: Required. The folder <strong>id</strong> for all drive interactions. We are using ID and <strong>NOT</strong> the folder's name.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-extract-versions-from-the" class="anchor" aria-hidden="true" href="#check-extract-versions-from-the"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Extract versions from the</h3>
+<p>Currently we are returning the latest file's name based on modified Time of that file.</p>
+<h3><a id="user-content-in-download-a-file-from-google-drive" class="anchor" aria-hidden="true" href="#in-download-a-file-from-google-drive"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Download a file from google drive</h3>
+<p>We use the <code>file_name</code> to write the downloaded file on the local system.</p>
+<ul>
+<li><code>file_name</code>: The name of the latest version of the file that we need to fetch.</li>
+</ul>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>None</p>
+<h3><a id="user-content-out-upload-a-file-to-google-drive" class="anchor" aria-hidden="true" href="#out-upload-a-file-to-google-drive"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Upload a file to google drive</h3>
+<p>Given a file specified by <code>file_name</code> parameter, upload it to a folder in google drive. Currently all uploads go to the root of the folder.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>file_name</code>: Required. Path to the local file to upload to google drive</li>
+</ul>
+<h2><a id="user-content-example-configuration" class="anchor" aria-hidden="true" href="#example-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configuration</h2>
+<p>The following concourse pipeline downloads a repository from github and uploads a file from it to a folder on google drive. Then it downloads it again and prints that file.</p>
+<pre><code>
+---
+resource_types:
+- name: google-drive
+  type: docker-image
+  source:
+    repository: jpatel4pivotal/google-drive-concourse-resource
+jobs:
+- name: test-put-gdrive-conc-resource
+  serial: true
+  plan:
+  - get: source
+    trigger: true
+  - put: gdrive
+    params:
+      file_name: "source/azure/ci/cloud_init_script.txt"
+
+- name: test-get-gdrive-conc-resource
+  serial: true
+  plan:
+  - get: gdrive
+    passed: [test-put-gdrive-conc-resource]
+    trigger: true
+  - task: validate-file-from-gdrive
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: boogabee/datapeci
+          tag: "latest"
+      inputs:
+      - name: gdrive
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          ls -altrh gdrive
+          ls -altrh /tmp/
+          cat gdrive/cloud_init_script.txt
+
+resources:
+- name: source
+  type: git
+  source:
+    uri: {{git_uri}}
+    branch: master
+    username: {{git_user}}
+    password: {{git_pass}}
+- name: gdrive
+  type: google-drive
+  source:
+    drive_client_email: {{gdrive_client_email}}
+    drive_client_id: {{gdrive_client_id}}
+    drive_private_key_id: {{gdrive_priv_key_id}}
+    drive_private_key: {{gdrive_priv_key}}
+    drive_folder_id: {{gdrive_folder_id}}
+
+
+</code></pre>
+</article></div>
 </div>
 
 </body>

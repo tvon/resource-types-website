@@ -10,7 +10,226 @@
 <p>https://github.com/cf-platform-eng/concourse-pypi-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-pypi-package-resource" class="anchor" aria-hidden="true" href="#pypi-package-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>PyPI Package Resource</h1>
+<p>A <a href="http://concourse.ci" rel="nofollow">Concourse CI</a> resource for Python <a href="https://pypi.org" rel="nofollow">PyPI</a> packages. This is an enhanced fork of <a href="https://github.com/cf-platform-eng/concourse-pypi-resource">cf-platform-eng/concourse-pypi-resource</a>, that adds compatibility to most PyPI repository types and extended package selection parameters.</p>
+<p>It can be used to check/download existing packages and to manages your own builds as well. Internally it uses <a href="https://pip.pypa.io/en/stable/reference/pip_download/#options" rel="nofollow">Pip 10.0.1</a> for <em>check</em> and <em>in</em> (downloads) and [twine] for <em>out</em>put.</p>
+<p>Docker image publicly available on Docker Hub: <a href="https://hub.docker.com/r/punkadiddle/concourse-pypi-resource" rel="nofollow">https://hub.docker.com/r/punkadiddle/concourse-pypi-resource</a>.</p>
+<h2><a id="user-content-resource-configuration" class="anchor" aria-hidden="true" href="#resource-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Configuration</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>default</th>
+<th>status</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PACKAGE SELECTION</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>-</td>
+<td>required</td>
+<td>name of the package</td>
+</tr>
+<tr>
+<td><code>pre_release</code></td>
+<td><code>false</code></td>
+<td>optional</td>
+<td>check dev and pre-release versions (see <a href="https://www.python.org/dev/peps/pep-0440" rel="nofollow">PEP-440</a>)</td>
+</tr>
+<tr>
+<td><code>release</code></td>
+<td><code>true</code></td>
+<td>optional</td>
+<td>check release versions</td>
+</tr>
+<tr>
+<td><code>filename_match</code></td>
+<td>-/-</td>
+<td>optional</td>
+<td>only include packages containing this string (e.g. <code>py2.py3</code>, <code>.whl</code>)</td>
+</tr>
+<tr>
+<td><code>packaging</code></td>
+<td><code>any</code></td>
+<td>optional</td>
+<td>only include <code>source</code> or <code>binary</code> (or <code>any</code>) packages</td>
+</tr>
+<tr>
+<td><code>platform</code></td>
+<td>-/-</td>
+<td>optional</td>
+<td>only include releases compatible with this platform (implicit default will be the os used for Concourse's workers)</td>
+</tr>
+<tr>
+<td><code>python_abi</code></td>
+<td>-/-</td>
+<td>optional</td>
+<td>TODO</td>
+</tr>
+<tr>
+<td><code>python_implementation</code></td>
+<td>-/-</td>
+<td>optional</td>
+<td>TODO</td>
+</tr>
+<tr>
+<td><code>python_version</code></td>
+<td>-/-</td>
+<td>optional</td>
+<td>only include packages compatible with this Python interpreter version number (see pip's <code>--python-version</code>)</td>
+</tr>
+<tr>
+<td><strong>REPOSITORY</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>repository.test</code></td>
+<td><code>false</code></td>
+<td>optional</td>
+<td>set to <code>true</code> as shortcut to use the <a href="https://test.pypi.org/" rel="nofollow">PyPI test server</a> for <code>index_url</code> and <code>repository_url</code></td>
+</tr>
+<tr>
+<td><code>repository.index_url</code></td>
+<td><a href="https://pypi.org/simple" rel="nofollow">PyPI</a></td>
+<td>optional</td>
+<td>url to a pip compatible index for check and download</td>
+</tr>
+<tr>
+<td><code>repository.repository_url</code></td>
+<td><a href="https://upload.pypi.org/legacy" rel="nofollow">PyPI</a></td>
+<td>optional</td>
+<td>url to a twine compatible repository for upload</td>
+</tr>
+<tr>
+<td><code>repository.username</code></td>
+<td>-/-</td>
+<td>req. for uploads</td>
+<td>username for PyPI server authentication</td>
+</tr>
+<tr>
+<td><code>repository.password</code></td>
+<td>-/-</td>
+<td>req. for uploads</td>
+<td>password for PyPI server authentication</td>
+</tr>
+<tr>
+<td><code>repository.authenticate</code></td>
+<td>out</td>
+<td>optional</td>
+<td>set to <code>always</code> to authenticate to a private repository for check and download also</td>
+</tr>
+</tbody>
+</table>
+<h3><a id="user-content-deprecated-parameters-since-version-020" class="anchor" aria-hidden="true" href="#deprecated-parameters-since-version-020"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deprecated parameters (since version 0.2.0)</h3>
+<ul>
+<li><code>python_version</code>: gets mapped to <code>filename_match</code> if it's not a version number. <code>python_version</code> is now only used for the actual interpreter version to have a transparent mapping to pip.</li>
+<li><del><code>repository</code></del>: (special index-server name if it is specified in <code>~/.pypirc</code>). This is no longer available to the current implementation of check and in. Also there's no way to inject a <code>.pypirc</code> file into this Concourse resource type.</li>
+<li><code>repository</code>, <code>test</code>, <code>username</code> and <code>password</code>: get mapped to <code>repository.&lt;key&gt;</code>. This allows to configure private repositories through a single yaml-map parameter value, thus removing redundancy from the pipeline.</li>
+</ul>
+<h2><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">pypi</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">punkadiddle/concourse-pypi-resource</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">my-public-package</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">pypi</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">name</span>: <span class="pl-s">my_package</span>
+    <span class="pl-ent">packaging</span>: <span class="pl-s">any</span>
+    <span class="pl-ent">repository</span>:
+      <span class="pl-ent">username</span>: <span class="pl-s">user</span>
+      <span class="pl-ent">password</span>: <span class="pl-s">pass</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">my-private-package</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">pypi</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">name</span>: <span class="pl-s">my_package</span>
+    <span class="pl-ent">pre_release</span>: <span class="pl-c1">true</span>
+    <span class="pl-c"><span class="pl-c">#</span> In a live pipeline you would probably set the while repository configuration</span>
+    <span class="pl-c"><span class="pl-c">#</span> through a single yaml parameter:</span>
+    <span class="pl-c"><span class="pl-c">#</span> repository: ((my-private-repository))</span>
+    <span class="pl-ent">repository</span>:
+      <span class="pl-ent">authenticate</span>: <span class="pl-s">always</span>
+      <span class="pl-ent">index_url</span>: <span class="pl-s">http://nexus.local:8081/repository/pypi-private/simple</span>
+      <span class="pl-ent">repository_url</span>: <span class="pl-s">http://nexus.local:8081/repository/pypi-private/</span>
+      <span class="pl-ent">username</span>: <span class="pl-s">admin</span>
+      <span class="pl-ent">password</span>: <span class="pl-s">admin123</span></pre></div>
+<h2><a id="user-content-get-download-the-latest-version" class="anchor" aria-hidden="true" href="#get-download-the-latest-version"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>get</code>: Download the latest version</h2>
+<p>No parameters.
+<strong>TODO</strong></p>
+<ul>
+<li><code>version.version</code>: <em>Optional</em>, defaults to latest version</li>
+</ul>
+<h3><a id="user-content-additional-files-populated" class="anchor" aria-hidden="true" href="#additional-files-populated"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional files populated</h3>
+<ul>
+<li><code>version</code>: <a href="https://www.python.org/dev/peps/pep-0440/" rel="nofollow">Python version number</a> of the downloaded package</li>
+<li><code>semver</code>: <a href="https://semver.org/" rel="nofollow">Semver</a>-formatted version number that can be processed with a Concourse SemVer Resource.</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">plan</span>:
+- <span class="pl-ent">get</span>: <span class="pl-s">my-public-package</span>
+- <span class="pl-ent">get</span>: <span class="pl-s">my-private-package</span>
+  <span class="pl-ent">version</span>: <span class="pl-s">{version: '4.2'}</span></pre></div>
+<h2><a id="user-content-put-upload-a-new-version" class="anchor" aria-hidden="true" href="#put-upload-a-new-version"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>put</code>: Upload a new version</h2>
+<ul>
+<li><code>glob</code>: <em>Required</em> A <a href="https://docs.python.org/2/library/glob.html" rel="nofollow">glob</a> expression matching the package file to upload.</li>
+</ul>
+<h3><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">plan</span>:
+- <span class="pl-ent">put</span>: <span class="pl-s">my-pypi-package</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">glob</span>: <span class="pl-s"><span class="pl-pds">'</span>task-out-folder/my_package-*.tar.gz<span class="pl-pds">'</span></span></pre></div>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<p>To run the unit tests, go to the root of the repository and run:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> install pipenv</span>
+pip3 install --user pipenv
+<span class="pl-c"><span class="pl-c">#</span> setup and run unittests</span>
+make <span class="pl-c1">test</span></pre></div>
+<p>To build the docker image for the resource:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> package</span>
+make dist
+<span class="pl-c"><span class="pl-c">#</span> optionally upload</span>
+make push</pre></div>
+<p>Run local test runs like this:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> check</span>
+docker run -i concourse-pypi-resource:latest-rc check <span class="pl-k">&lt;</span> test/input/check-nexus.json <span class="pl-k">|</span> jq
+<span class="pl-c"><span class="pl-c">#</span> in</span>
+docker run --rm -i --volume destdir concourse-pypi-resource:latest-rc <span class="pl-k">in</span> destdir <span class="pl-k">&lt;</span> test/input/in-nexus.json <span class="pl-k">|</span> jq</pre></div>
+<h3><a id="user-content-private-repository-integration-tests-using-sonatype-nexus-3" class="anchor" aria-hidden="true" href="#private-repository-integration-tests-using-sonatype-nexus-3"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Private repository integration tests (using Sonatype Nexus 3)</h3>
+<ul>
+<li>Spin-up a docker instance of <a href="https://hub.docker.com/r/sonatype/nexus3" rel="nofollow">Nexus 3</a>:
+<div class="highlight highlight-source-shell"><pre>docker run -d -p 8081:8081 --name nexus sonatype/nexus3</pre></div>
+</li>
+<li>Create pypi hosted repositories called <code>pypi-private</code> and <code>pypi-release</code> (enable redeploy).</li>
+<li>Disable user anonymous access.</li>
+</ul>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> ensure test-packages are built</span>
+make <span class="pl-c1">test</span>
+pipenv run python -m pytest <span class="pl-s"><span class="pl-pds">"</span>test/nexus-integration.py<span class="pl-pds">"</span></span></pre></div>
+<p>Test using Concourse CI. Check that the provided params match your repository.</p>
+<div class="highlight highlight-source-shell"><pre>fly -t <span class="pl-c1">test</span> sp -p demo -c test/ci/pipeline.yml -l test/ci/params.yml</pre></div>
+<h3><a id="user-content-public-integration-tests" class="anchor" aria-hidden="true" href="#public-integration-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Public Integration Tests</h3>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> provide login data to be able to upload concourse-pypi-resource</span>
+<span class="pl-k">export</span> TWINE_USERNAME=<span class="pl-k">&lt;</span>...<span class="pl-k">&gt;</span>
+<span class="pl-k">export</span> TWINE_PASSWORD=<span class="pl-k">&lt;</span>...<span class="pl-k">&gt;</span>
+python -m pytest -v test/pypi-integration.py 
+
+<span class="pl-c"><span class="pl-c">#</span> or skip the upload</span>
+python -m pytest -v -k <span class="pl-s"><span class="pl-pds">'</span>not test_upload<span class="pl-pds">'</span></span> test/pypi-integration.py 
+</pre></div>
+</article></div>
 </div>
 
 </body>

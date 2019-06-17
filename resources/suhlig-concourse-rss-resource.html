@@ -10,7 +10,71 @@
 <p>https://github.com/suhlig/concourse-rss-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body markdown" data-path="README.markdown"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-rss-resource" class="anchor" aria-hidden="true" href="#concourse-rss-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-rss-resource</h1>
+<p><a href="https://travis-ci.org/suhlig/concourse-rss-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/a0c0f7dee7a704c07eb6cb13409ed9e72f68707d/68747470733a2f2f7472617669732d63692e6f72672f7375686c69672f636f6e636f757273652d7273732d7265736f757263652e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/suhlig/concourse-rss-resource.svg?branch=master" style="max-width:100%;"></a></p>
+<p><a href="https://concourse-ci.org/" title="Concourse Homepage" rel="nofollow">Concourse</a> <a href="https://concourse-ci.org/implementing-resources.html" title="Implementing a Resource" rel="nofollow">resource</a> for RSS feeds. See the <a href="example/README.markdown">example</a> folder for a pipeline that sends a Slack notification when a new Postgres release is available.</p>
+<h1><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h1>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">rss-resource</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">suhlig/concourse-rss-resource</span>
+      <span class="pl-ent">tag</span>: <span class="pl-s">latest</span></pre></div>
+<h1><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h1>
+<ul>
+<li><code>url</code>: <em>Required.</em> The URL of the feed. Anything that can be parsed by Ruby's <a href="http://ruby-doc.org/stdlib-2.3.1/libdoc/rss/rdoc/RSS/Parser.html" rel="nofollow">RSS::Parser</a> should be good.</li>
+</ul>
+<h1><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h1>
+<h2><a id="user-content-check-extract-items-from-the-feed" class="anchor" aria-hidden="true" href="#check-extract-items-from-the-feed"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Extract items from the feed</h2>
+<p>The resource will fetch the feed specified in <code>url</code> and will version items by their <code>pubDate</code> attribute.</p>
+<p><strong>Example</strong></p>
+<p>As of writing this README, the <a href="https://www.postgresql.org/versions.rss" rel="nofollow">PostgreSQL versions feed</a> has a number of items with a <code>pubDate</code> of "<code>Thu, 27 Oct 2016 00:00:00 +0000</code>" (<code>9.6.1</code>, <code>9.5.5</code>, <code>9.4.10</code>, <code>9.3.15</code>, <code>9.2.19</code>, <code>9.1.24</code>, and <code>9.0.23</code>), of which <code>9.6.1</code> is the first and is being returned from <code>check</code>.</p>
+<h2><a id="user-content-in-fetch-an-item-from-the-feed" class="anchor" aria-hidden="true" href="#in-fetch-an-item-from-the-feed"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch an item from the feed</h2>
+<p>The resource will select the first item of the feed that has the requested <code>pubDate</code>. For each attribute of the that item, it writes the attribute value to a file into the destination directory.</p>
+<p><strong>Example</strong></p>
+<p>Asked for the version with a <code>pubDate</code> of "<code>Thu, 27 Oct 2016 00:00:00 +0000</code>" on <code>in</code>, the resource will write the following files to the destination directory:</p>
+<table>
+<thead>
+<tr>
+<th>File Name</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>9.6.1</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td><a href="https://www.postgresql.org/docs/9.6/static/release-9-6-1.html" rel="nofollow">https://www.postgresql.org/docs/9.6/static/release-9-6-1.html</a></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>9.6.1 is the latest release in the 9.6 series.</td>
+</tr>
+<tr>
+<td><code>pubDate</code></td>
+<td>Thu, 27 Oct 2016 00:00:00 +0000</td>
+</tr>
+<tr>
+<td><code>guid</code></td>
+<td><a href="https://www.postgresql.org/docs/9.6/static/release-9-6-1.html" rel="nofollow">https://www.postgresql.org/docs/9.6/static/release-9-6-1.html</a></td>
+</tr>
+</tbody>
+</table>
+<p>You can then read these files in a task and, for example, construct a <a href="https://github.com/cloudfoundry-community/slack-notification-resource">Slack notification</a> saying which new PostgreSQL version is available.</p>
+<h2><a id="user-content-out-not-implemented" class="anchor" aria-hidden="true" href="#out-not-implemented"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Not implemented</h2>
+<p>There is no output from this resource.</p>
+<h1><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h1>
+<h2><a id="user-content-one-time-setup" class="anchor" aria-hidden="true" href="#one-time-setup"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>One-time Setup</h2>
+<div class="highlight highlight-source-shell"><pre>bundle install</pre></div>
+<h2><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the Tests</h2>
+<p>Tests assume you have a running docker daemon:</p>
+<div class="highlight highlight-source-shell"><pre>bundle <span class="pl-c1">exec</span> rake</pre></div>
+<h2><a id="user-content-docker-image" class="anchor" aria-hidden="true" href="#docker-image"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Docker Image</h2>
+<p>After a <code>git push</code> to the master branch, if the build was successful, Travis <a href="https://docs.travis-ci.com/user/docker/#Pushing-a-Docker-Image-to-a-Registry" rel="nofollow">automatically pushes an updated docker image</a>.</p>
+</article></div>
 </div>
 
 </body>

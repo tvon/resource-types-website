@@ -10,7 +10,276 @@
 <p>https://github.com/spring-io/artifactory-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body adoc" data-path="README.adoc"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-artifactory-resource-" class="anchor" aria-hidden="true" href="#artifactory-resource-"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Artifactory Resource <span><a href="https://ci.spring.io/teams/artifactory-resource/pipelines/artifactory-resource?groups=Build" rel="nofollow"><img src="https://camo.githubusercontent.com/088cd32776114ff5df0e5dc7a4c77addadfa834a/68747470733a2f2f63692e737072696e672e696f2f6170692f76312f7465616d732f61727469666163746f72792d7265736f757263652f706970656c696e65732f61727469666163746f72792d7265736f757263652f6a6f62732f6275696c642f6261646765" alt="Build Status" data-canonical-src="https://ci.spring.io/api/v1/teams/artifactory-resource/pipelines/artifactory-resource/jobs/build/badge" style="max-width:100%;"></a></span></h1>
+<div id="user-content-preamble">
+<div>
+<div>
+<p>A <a href="https://concourse.ci/" rel="nofollow">Concourse</a> resource to deploy and retrieve artifacts from a <a href="https://www.jfrog.com/artifactory/" rel="nofollow">JFrog Artifactory</a> server.</p>
+</div>
+</div>
+</div>
+<div>
+<h2 id="user-content-overview"><a id="user-content-overview" class="anchor" aria-hidden="true" href="#overview"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<div>
+<div>
+<p>This Concourse resource can be used to check, deploy and retrieve artifacts from a JFrog artifactory server.
+It makes use of the "builds" and "artifact properties" features of Artifactory to link deployed artifacts to their builds.</p>
+</div>
+</div>
+</div>
+<div>
+<h2 id="user-content-configuration"><a id="user-content-configuration" class="anchor" aria-hidden="true" href="#configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration</h2>
+<div>
+<div>
+<h3 id="user-content-resource-configuration"><a id="user-content-resource-configuration" class="anchor" aria-hidden="true" href="#resource-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Configuration</h3>
+<div>
+<p>To use the <code>artifactory-resource</code> you must declare it in the <code>resource_types</code> section of your <code>pipeline.yml</code> file:</p>
+</div>
+<div>
+<div>Resource configuration</div>
+<div>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">artifactory-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">springio/artifactory-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">${releaseVersion}</span></pre></div>
+</div>
+</div>
+</div>
+<div>
+<h3 id="user-content-source-configuration"><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h3>
+<div>
+<ul>
+<li>
+<p><code>uri</code>: <strong>Required.</strong> The URI of the artifactory server</p>
+</li>
+<li>
+<p><code>username</code>: <strong>Required.</strong> The artifactory username</p>
+</li>
+<li>
+<p><code>password</code>: <strong>Required.</strong> The artifactory password</p>
+</li>
+<li>
+<p><code>build_name</code>: <strong>Required.</strong> The name of the build</p>
+</li>
+</ul>
+</div>
+<div>
+<div>Source configuration</div>
+<div>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">artifacts</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">artifactory-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">https://repo.example.com</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">admin</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">secret</span>
+    <span class="pl-ent">build_name</span>: <span class="pl-s">my-build</span></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h2 id="user-content-environment-variables"><a id="user-content-environment-variables" class="anchor" aria-hidden="true" href="#environment-variables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Environment variables</h2>
+<div>
+<div>
+<p>Environment variables can be referenced in any part of the configuration by using <code>${…​}</code> notation.
+For example, typically the <code>build_url</code> <code>out</code> parameter would be built using <code>${BUILD_ID}</code></p>
+</div>
+<div>
+<div>Environment variable reference</div>
+<div>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">build</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">artifactory</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">build_url</span>: <span class="pl-s">https://my.concourse.url/builds/${BUILD_ID}</span></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h2 id="user-content-example"><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<div>
+<div>
+<p>The following example shows a pipeline with two jobs.
+The first job deploys built artifacts and the second job retrieves and runs tests against them.</p>
+</div>
+<div>
+<div>Example pipeline</div>
+<div>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">artifactory-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>: <span class="pl-s">{repository: springio/artifactory-resource, tag: ${releaseVersion}}</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">git-repo</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">https://git.example.com/my-org/my-project</span>
+    <span class="pl-ent">branch</span>: <span class="pl-s">master</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">artifactory</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">artifactory-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">{{ARTIFACTORY_URI}}</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">{{USERNAME}}</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">{{PASSWORD}}</span>
+    <span class="pl-ent">build_name</span>: <span class="pl-s">my-project-build</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">build</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">git-repo</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">build</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">git-repo/samples/simple/tasks/build.yml</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">artifactory</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">repo</span>: <span class="pl-s">libs-snapshot-local</span>
+      <span class="pl-ent">build_number</span>: <span class="pl-s"><span class="pl-pds">"</span>example-${BUILD_ID}<span class="pl-pds">"</span></span>
+      <span class="pl-ent">folder</span>: <span class="pl-s">test</span>
+      <span class="pl-ent">build_uri</span>: <span class="pl-s"><span class="pl-pds">"</span>{{CONCOURSE_URI}}/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}<span class="pl-pds">"</span></span>
+- <span class="pl-ent">name</span>: <span class="pl-s">test</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">artifactory</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">passed</span>: <span class="pl-s">[build]</span></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h2 id="user-content-behavior"><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<div>
+<div>
+<h3 id="user-content-check-check-for-new-builds"><a id="user-content-check-check-for-new-builds" class="anchor" aria-hidden="true" href="#check-check-for-new-builds"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new builds</h3>
+<div>
+<p>Queries the artifactory repository for builds runs for the given <code>build_name</code>.
+Returns a list of associated <code>build_numbers</code> ordered by date.</p>
+</div>
+</div>
+<div>
+<h3 id="user-content-in-fetches-build-artifacts"><a id="user-content-in-fetches-build-artifacts" class="anchor" aria-hidden="true" href="#in-fetches-build-artifacts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetches build artifacts</h3>
+<div>
+<p>Fetches artifacts for the build run to the destination folder.
+The directory structure returned is identical to the one that was originally uploaded.</p>
+</div>
+<div>
+<p>Fetched artifacts can also have Maven metadata generated so that the resulting folder can be used as a repository.</p>
+</div>
+<div>
+<p>Files are fetch by querying for artifacts that have <code>build.name</code> and <code>build.number</code> properties associated with them.
+If you are querying artifacts that were not deployed with this resource, you should ensure such properties exist.</p>
+</div>
+<div>
+<h4 id="user-content-parameters"><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<div>
+<ul>
+<li>
+<p><code>debug</code>: If additional debug output should be logged.</p>
+</li>
+<li>
+<p><code>generate_maven_metadata</code>: If maven meta-data should be generated.
+This is required if you with to use timestamp based SNAPSHOT artifacts with Maven.</p>
+</li>
+<li>
+<p><code>save_build_info</code>: If the <code>build-info.json</code> provided by artifactory should be saved.</p>
+</li>
+<li>
+<p><code>download_artifacts</code>: If artifacts should be downloaded or skipped.
+If you only need <code>build-info.json</code> you can set this to <code>false</code>.</p>
+</li>
+<li>
+<p><code>download_checksums</code>: If artifact checksum files should be downloaded (default <code>true</code>).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div>
+<h3 id="user-content-out-deploy-build-artifacts"><a id="user-content-out-deploy-build-artifacts" class="anchor" aria-hidden="true" href="#out-deploy-build-artifacts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Deploy build artifacts</h3>
+<div>
+<p>Deploy artifacts from the specified folder and create a new artifactory "Build Run".
+Uploaded artifacts will have <code>build.name</code> and <code>build.number</code> properties associated with them.</p>
+</div>
+<div>
+<p>Build modules will be also automatically added when dealing with a Maven style directory structure.</p>
+</div>
+<div>
+<h4 id="user-content-params"><a id="user-content-params" class="anchor" aria-hidden="true" href="#params"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Params</h4>
+<div>
+<ul>
+<li>
+<p><code>debug</code>: If additional debug output should be logged.</p>
+</li>
+<li>
+<p><code>repo</code>: <strong>Required.</strong> The artifact repository to deploy to (e.g. <code>libs-snapshot-local</code>).</p>
+</li>
+<li>
+<p><code>build_number</code>: The build number to save (if not specified, an ID based on the current date/time will be used).</p>
+</li>
+<li>
+<p><code>folder</code>: The folder to save.</p>
+</li>
+<li>
+<p><code>include</code>: A list of Ant style patterns for the files to include.</p>
+</li>
+<li>
+<p><code>exclude</code>: A list of Ant style patterns for the files to exclude.</p>
+</li>
+<li>
+<p><code>module_layout</code>: The module layout (<code>maven</code> or <code>none</code>) used to generate <code>build-info</code> module information (defaults to <code>maven</code>).</p>
+</li>
+<li>
+<p><code>build_uri</code>: The URL back to the concourse build (e.g. <code>https://my.concourse.url/builds/${BUILD_ID}</code>).</p>
+</li>
+<li>
+<p><code>strip_snapshot_timestamps</code>: If snapshot timestamps should be removed to allow artifactory to generate them (defaults to <code>true</code>).</p>
+</li>
+<li>
+<p><code>disable_checksum_uploads</code>: If checksum based uploads should be disabled (useful to prevent artifactory from associating the wrong resource with a snapshot version).</p>
+</li>
+<li>
+<p><code>artifact_set</code>: Additional configuration for a subset of the artifacts (see below).</p>
+</li>
+</ul>
+</div>
+<div>
+<p>The <code>artifact_set</code> parameter can be used to apply specific additional configuration to a subset of artifacts.
+You create sets based on <code>include</code> and <code>exclude</code> Ant patterns, then apply any of the following additional configuration:</p>
+</div>
+<div>
+<ul>
+<li>
+<p><code>properties</code>: A map of name/value pairs that will be added as artifactory properties.</p>
+</li>
+</ul>
+</div>
+<div>
+<p>Here’s a typical example:</p>
+</div>
+<div>
+<div>Artifact sets</div>
+<div>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">params</span>:
+  <span class="pl-ent">artifact_set</span>:
+  - <span class="pl-ent">include</span>:
+    - <span class="pl-s"><span class="pl-pds">"</span>/**/*.zip<span class="pl-pds">"</span></span>
+    <span class="pl-ent">exclude</span>:
+    - <span class="pl-s"><span class="pl-pds">"</span>/**/foo.zip<span class="pl-pds">"</span></span>
+    <span class="pl-ent">properties</span>:
+      <span class="pl-ent">zip-type</span>: <span class="pl-s">docs</span>
+      <span class="pl-ent">zip-deployed</span>: <span class="pl-c1">false</span></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></article></div>
 </div>
 
 </body>

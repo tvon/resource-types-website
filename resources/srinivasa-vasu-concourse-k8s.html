@@ -10,7 +10,351 @@
 <p>https://github.com/srinivasa-vasu/concourse-k8s</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-k8s" class="anchor" aria-hidden="true" href="#concourse-k8s"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-k8s</h1>
+<p>Deploy to <a href="https://github.com/kubernetes/kubernetes">Kubernetes</a> from <a href="https://concourse.ci/" rel="nofollow">Concourse</a>.</p>
+<h2><a id="user-content-resource-type" class="anchor" aria-hidden="true" href="#resource-type"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type</h2>
+<p>Define the resource type in the pipeline:</p>
+<pre><code>resource_types:
+- name: k8s
+  type: docker-image
+  source:
+    repository: srinivasavasu/concourse-k8s
+</code></pre>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>Add the source configuration to the pipeline:</p>
+<pre><code>- name: kubernetes-deployment
+  type: k8s
+  source:
+    cluster_url: {{K8S_CLUSTER_URL}}
+    namespace: {{K8S_NAMESPACE}}
+    cluster_ca: {{K8S_CA_BASE64}}
+    admin_user: {{K8S_ADMIN_USER}}
+    admin_token: {{K8S_ADMIN_TOKEN}}
+</code></pre>
+<p>Replace the var between <code>{{ }}</code> with actual values or define it in the pipeline so that it can be referred like above</p>
+<ul>
+<li><code>cluster_url</code>: <em>Required.</em> URL to Kubernetes Master API service</li>
+<li><code>cluster_ca</code>: <em>Optional.</em> Base64 encoded PEM. Required if <code>cluster_url</code> is https.</li>
+<li><code>admin_user</code>: <em>Optional.</em> Admin user for Kubernetes.  <code>admin_user</code>/<code>admin_token</code> or <code>admin_key</code>/<code>admin_cert</code> are required if <code>cluster_url</code> is https.</li>
+<li><code>admin_token</code>: <em>Optional.</em> Admin user token for Kubernetes.  <code>admin_user</code>/<code>admin_token</code> or <code>admin_key</code>/<code>admin_cert</code> are required if <code>cluster_url</code> is https.</li>
+<li><code>admin_key</code>: <em>Optional.</em> Base64 encoded PEM. Required if <code>cluster_url</code> is https and no <code>admin_user</code>/<code>admin/token</code> is provided.</li>
+<li><code>admin_cert</code>: <em>Optional.</em> Base64 encoded PEM. Required if <code>cluster_url</code> is https and no <code>admin_user</code>/<code>admin/token</code> is provided.</li>
+<li><code>namespace</code>: <em>Optional.</em> Kubernetes namespace the objects will be deployed into. (Default: default)</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-checks-for-newer-versions" class="anchor" aria-hidden="true" href="#check-checks-for-newer-versions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Checks for newer versions</h3>
+<h3><a id="user-content-in-not-implemented-yet" class="anchor" aria-hidden="true" href="#in-not-implemented-yet"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Not implemented yet</h3>
+<h3><a id="user-content-out-deploys-various-k8s-objects" class="anchor" aria-hidden="true" href="#out-deploys-various-k8s-objects"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Deploys various k8s objects</h3>
+<h2><a id="user-content-deploy-configuration-put" class="anchor" aria-hidden="true" href="#deploy-configuration-put"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deploy Configuration (PUT)</h2>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<pre><code>  - put: kubernetes-deployment
+    params:
+      resource_type: deployment
+      resource_name: app-name
+      image_name: {{REPO_URL}}
+      image_tag: {{APP_TAG_VERSION}}
+      env_values:
+      - name: name1
+        value: value1
+      - name: name2
+        value: value2
+      command:
+      - /bin/sh
+      - c
+      - "echo 'hello thr'"
+      port_values:
+      - name: web
+        containerPort: "8080"
+      readiness_probe:
+        httpGet:
+          path: /management/health
+          port: web
+</code></pre>
+<ul>
+<li><code>resource_type</code>: <em>Required.</em> K8s resource type (like deployment, service, configmap etc)</li>
+<li><code>resource_name</code>: <em>Required.</em> Name of the k8s resource</li>
+</ul>
+<p>Based on the <code>resource_type</code> few other params may be required. Following k8s objects can be configured now,</p>
+<ul>
+<li>Deployment</li>
+<li>Service</li>
+<li>ConfigMap</li>
+<li>Secret</li>
+<li>Ingress</li>
+<li>Job</li>
+<li>StatefulSet</li>
+<li>MultiContainerDeployment (deploying 1/n initContainers and 1/n containers in a deployment manifest)</li>
+</ul>
+<p>Support will be added to configure more objects in the future.</p>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<h3><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Out</h3>
+<p>Define the resource:</p>
+<pre><code>resources:
+- name: kubernetes-deployment
+  type: k8s
+  source:
+    cluster_url: {{K8S_CLUSTER_URL}}
+    namespace: {{K8S_NAMESPACE}}
+    cluster_ca: {{K8S_CA_BASE64}}
+    admin_user: {{K8S_ADMIN_USER}}
+    admin_token: {{K8S_ADMIN_TOKEN}}
+</code></pre>
+<p>Add to job:</p>
+<h4><a id="user-content-deployment--dp" class="anchor" aria-hidden="true" href="#deployment--dp"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>deployment | dp</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: deployment '*'
+      resource_name: app '*'
+      replica: 1
+      image_name: app_name '*'
+      image_tag: app_tag '*'
+      env_values:
+      - name: app_env_key
+        value: app_env_value
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "500m"
+        limits:
+          memory: "512Mi"
+          cpu: "1"
+      command:
+      - "echo hello there"
+      port_values:
+      - name: web
+        containerPort: "8080"
+      readiness_probe:
+        httpGet:
+          path: /management/health
+          port: web
+        initialDelaySeconds: 20
+        periodSeconds: 15
+        failureThreshold: 3
+      livenessProbe:
+        httpGet:
+          path: /management/health
+          port: web
+        initialDelaySeconds: 120
+      volumes:
+        - name: volume_name
+          mountPath: volume_mount_path
+</code></pre>
+<h4><a id="user-content-service--sv" class="anchor" aria-hidden="true" href="#service--sv"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>service | sv</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: service '*'
+      resource_name: app_name '*'
+      stateful: true '*'(Mandatory for creating headless service, if not optional)
+      port_values: '*'
+      - name: web
+        port: "8080"
+        targetPort: "8080"
+</code></pre>
+<h4><a id="user-content-configmap--cm" class="anchor" aria-hidden="true" href="#configmap--cm"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>configmap | cm</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: configmap '*'
+      resource_name: app_name '*'
+      config_data: '*'
+        app.properties: |
+          key1=value1
+          key2=value2
+</code></pre>
+<h4><a id="user-content-secret--se" class="anchor" aria-hidden="true" href="#secret--se"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>secret | se</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: secret '*'
+      resource_name: app_name '*'
+      config_data: '*'
+        app.properties: |
+          key1=value1
+          key2=value2
+</code></pre>
+<h4><a id="user-content-job--jb" class="anchor" aria-hidden="true" href="#job--jb"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>job | jb</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: job '*'
+      resource_name: app '*'
+      image_name: app_name '*'
+      image_tag: app_tag '*'
+      env_values:
+      - name: app_env_key
+        value: app_env_value
+      command:
+      - "echo hello there"
+</code></pre>
+<h4><a id="user-content-ingress--ig" class="anchor" aria-hidden="true" href="#ingress--ig"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ingress | ig</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: ingress '*'
+      resource_name: app_name '*'
+      service_port: "8080" '*'
+      host: app-name.domain.com '*'
+</code></pre>
+<h4><a id="user-content-statefulset--st" class="anchor" aria-hidden="true" href="#statefulset--st"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>statefulset | st</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: statefulset '*'
+      resource_name: app '*'
+      image_name: app_name '*'
+      image_tag: app_tag '*'
+      service_name: app_service_name '*'
+      volume_name: app_storage_name '*'
+      storage_class_name: app_storage_class_name '*'
+      storage_volume: 10Gi
+      env_values:
+      - name: app_env_key
+        value: app_env_value
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "500m"
+        limits:
+          memory: "512Mi"
+          cpu: "1"
+      command:
+      - "echo hello there"
+      port_values:
+      - name: web
+        containerPort: "8080"
+      readiness_probe:
+        httpGet:
+          path: /management/health
+          port: web
+        initialDelaySeconds: 20
+        periodSeconds: 15
+        failureThreshold: 3
+      livenessProbe:
+        httpGet:
+          path: /management/health
+          port: web
+        initialDelaySeconds: 120
+      volumes:
+        - name: volume_name
+          mountPath: volume_mount_path
+          config: volume_configmap_ref
+</code></pre>
+<h4><a id="user-content-multicontainerdeployment--md" class="anchor" aria-hidden="true" href="#multicontainerdeployment--md"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>multicontainerdeployment | md</h4>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: multicontainerdeployment '*'
+      resource_name: app '*'
+      replica: 1
+      init_containers: '*'
+        - name: init_app_name
+          image: init_app_image
+          command:
+            - '/bin/sh'
+            - '-c'
+            - |
+                while true
+                do
+                  echo "Hi there!"
+                  break
+                done
+      main_containers: '*'
+      - name: app_name
+        image: app_image
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: app_env_key
+          value: app_env_value
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        ports:
+        - name: web
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /management/health
+            port: web
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /management/health
+            port: web
+          initialDelaySeconds: 120
+</code></pre>
+<p><em>entries marked with '*' are mandatory</em></p>
+<p><strong>You can also have multiple puts in a plan as well</strong></p>
+<pre><code>jobs:
+  # ...
+  plan:
+  - put: kubernetes-deployment
+    params:
+      resource_type: deployment
+      resource_name: spring-music
+      image_name: {{REPO_URL}}
+      image_tag: {{APP_TAG_VERSION}}
+      env_values:
+      - name: SPRING_PROFILES_ACTIVE
+        value: prod
+      - name: SPRING_DATA_MONGODB_DATABASE
+        value: app1
+      - name: SPRING_DATA_MONGODB_URI
+        value: "mongodb://app1-mongodb-0.app1-mongodb.bbase:27017"
+      - name: JAVA_OPTS
+        value: " -Xmx256m -Xms256m"
+      command:
+      - /bin/sh
+      - c
+      - "echo 'hello thr'"
+      port_values:
+      - name: web
+        containerPort: "8080"
+      readiness_probe:
+        httpGet:
+          path: /management/health
+          port: web
+  - put: kubernetes-deployment
+    params:
+      resource_type: configmap
+      resource_name: spring-music
+      config_data:
+        game-properties-file-name: game.properties
+        game.properties: |
+          enemies=aliens
+          lives=3
+  - put: kubernetes-deployment
+    params:
+      resource_type: service
+      resource_name: spring-music
+      port_values:
+      - name: web
+        port: "8080"
+</code></pre>
+</article></div>
 </div>
 
 </body>

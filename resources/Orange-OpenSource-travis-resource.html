@@ -10,7 +10,126 @@
 <p>https://github.com/Orange-OpenSource/travis-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-travis-resource" class="anchor" aria-hidden="true" href="#travis-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Travis Resource</h1>
+<p>Track travis builds and can trigger them.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>repository</code>: <em>Required.</em> The name of the repository, e.g. <code>Orange-OpenSource/travis-resource</code>.</p>
+</li>
+<li>
+<p><code>branch</code>: <em>Optional.</em> The branch to track. Defaults to the last build found on travis.</p>
+</li>
+<li>
+<p><code>branch-regex</code>: <em>Optional.</em> The branch to track filtering by a regex (e.g: "v.*" to find all branches starting with "v"). Defaults to the last build found on travis.</p>
+</li>
+<li>
+<p><code>check-all-builds</code>: <em>Optional.</em> If set to <code>true</code> it will retrieve all builds (not just passed ones). Defaults to <code>false</code>.</p>
+</li>
+<li>
+<p><code>check-on-state</code>: <em>Optional.</em> On which build's state check will be triggered, possible values are <code>created</code>, <code>started</code>, <code>passed</code>,
+<code>failed</code> and <code>errored</code>. Defaults to <code>passed</code>. <strong>Note:</strong> if <code>check-all-builds</code> is set to <code>true</code> this value is ignored.</p>
+</li>
+<li>
+<p><code>pro</code>: <em>Optional.</em> If set to <code>true</code> it will use travis pro api. Defaults to <code>false</code>.</p>
+</li>
+<li>
+<p><code>travis-url</code>: <em>Optional.</em> If set it will override default travis api with this one.</p>
+</li>
+<li>
+<p><code>github-token</code>: <em>if <code>travis-token</code> set it becomes unnecessary</em> A github token to authenticate to travis.</p>
+</li>
+<li>
+<p><code>travis-token</code>: <em>if <code>github-token</code> set it becomes unnecessary</em> A travis token to authenticate to travis. <strong>Note:</strong> Do not confuse the access token with the token found on your travis profile page.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-builds" class="anchor" aria-hidden="true" href="#check-check-for-new-builds"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new builds.</h3>
+<p>Find the last build triggered on travis for the repository set and branch (if given).</p>
+<h3><a id="user-content-in-fetch-the-last-build-triggered-on-travis-and-retrieve-information-about-it" class="anchor" aria-hidden="true" href="#in-fetch-the-last-build-triggered-on-travis-and-retrieve-information-about-it"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch the last build triggered on travis and retrieve information about it.</h3>
+<p>Find information the last build triggered on travis for the repository set and and branch (if given) and place information about the build inside the destination folder.</p>
+<p>The name of this file placed in destination foler is <code>build-info.json</code> and will give information in this format:</p>
+<div class="highlight highlight-source-json"><pre>{
+	<span class="pl-s"><span class="pl-pds">"</span>builds<span class="pl-pds">"</span></span>: [
+		{
+			<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">93712979</span>,
+			<span class="pl-s"><span class="pl-pds">"</span>repository_id<span class="pl-pds">"</span></span>: <span class="pl-c1">6711424</span>,
+			<span class="pl-s"><span class="pl-pds">"</span>commit_id<span class="pl-pds">"</span></span>: <span class="pl-c1">26643017</span>,
+			<span class="pl-s"><span class="pl-pds">"</span>number<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>18<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>state<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>passed<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>started_at<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-11-28T23:02:01Z<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>finished_at<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-11-28T23:04:07Z<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>duration<span class="pl-pds">"</span></span>: <span class="pl-c1">126</span>,
+			<span class="pl-s"><span class="pl-pds">"</span>job_ids<span class="pl-pds">"</span></span>: [
+				<span class="pl-c1">93712980</span>
+			],
+			<span class="pl-s"><span class="pl-pds">"</span>event_type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>push<span class="pl-pds">"</span></span>
+		}
+	],
+	<span class="pl-s"><span class="pl-pds">"</span>commits<span class="pl-pds">"</span></span>: [
+		{
+			<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">26643017</span>,
+			<span class="pl-s"><span class="pl-pds">"</span>sha<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>b3a3f680f3a3d02d2a677322b24a13aa63d2a2f6<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>branch<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>master<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>fix install script<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>committed_at<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2015-11-28T23:01:40Z<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>author_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>ArthurHlt<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>author_email<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>arthurh.halet@gmail.com<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>committer_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>ArthurHlt<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>committer_email<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>arthurh.halet@gmail.com<span class="pl-pds">"</span></span>,
+			<span class="pl-s"><span class="pl-pds">"</span>compare_url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>https://github.com/ArthurHlt/github-blob-sender/compare/712868bf61f0...b3a3f680f3a3<span class="pl-pds">"</span></span>
+		}
+	]
+}</pre></div>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>download-logs</code>: <em>Optional.</em> If set to true it will download logs for every jobs in a build and put them in <code>travis-logs</code> folder inside the destination folder, log files follow this filename pattern: <code>job-{job id}.log</code>. Defaults to <code>false</code>.</li>
+</ul>
+<h3><a id="user-content-out-restart-a-build-on-travis" class="anchor" aria-hidden="true" href="#out-restart-a-build-on-travis"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Restart a build on travis.</h3>
+<p>Restart a particular build set by user.
+By default it will restart the build give by the file <code>build-info.json</code>.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>build</code>: <em>Optional.</em> A build number associated to a repository to restart. It can be value <code>latest</code> to trigger the latest finished build.</p>
+</li>
+<li>
+<p><code>branch</code>: <em>Optional.</em> A branch associated to a repository to restart (It will restart the last build found in this branch). <strong>Note:</strong> if <code>build</code> is set this parameter will be ignored</p>
+</li>
+<li>
+<p><code>repository</code>: <em>Optional.</em> The repository where we can found the build number in travis. If it's not set <code>build</code> parameter will be associated to the repository given in source configuration</p>
+</li>
+<li>
+<p><code>skip-wait</code>: <em>Optional.</em> Don't wait travis to finish the build. Defaults to <code>false</code></p>
+</li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">travis</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">orangeopensource/travis-resource-image</span>
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">travis-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">travis</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">user/main-project</span>
+    <span class="pl-ent">github-token</span>: <span class="pl-s">mygithubtoken</span>
+    <span class="pl-c"><span class="pl-c">#</span>or travis-token: mytravistoken</span>
+    <span class="pl-c"><span class="pl-c">#</span>branch: master</span>
+    <span class="pl-c"><span class="pl-c">#</span>check-all-builds: false</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">build-rootfs</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">travis-resource</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">travis-resource</span>
+    <span class="pl-ent">params</span>:
+        <span class="pl-ent">build</span>: <span class="pl-s">latest</span>
+        <span class="pl-ent">repository</span>: <span class="pl-s">user/project-with-main-project-in-dependence</span>
+        <span class="pl-c"><span class="pl-c">#</span>branch: master</span></pre></div>
+</article></div>
 </div>
 
 </body>

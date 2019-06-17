@@ -10,7 +10,75 @@
 <p>https://github.com/Cuttlerat/concourse-telegram-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h2><a id="user-content-telegram-resource" class="anchor" aria-hidden="true" href="#telegram-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Telegram resource</h2>
+<p>Telegram notification resource for <a href="https://github.com/concourse/concourse">ConcourseCI</a></p>
+<h2><a id="user-content-config" class="anchor" aria-hidden="true" href="#config"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Config</h2>
+<p><strong>Source:</strong></p>
+<ul>
+<li><code>bot_token</code>: <strong>Required</strong> Bot token, for example <code>123456789:ABCDEFGHIJKLMNOPQRSTUVWQYZabcdefghi</code></li>
+<li><code>chat_id</code>: <strong>Required</strong> Chat id</li>
+<li><code>ci_url</code>: URL of your CI, if not defined will be used from <code>$ATC_EXTERNAL_URL</code></li>
+<li><code>command</code>: <strong>Required for get</strong> Command which will trigger a job, for example <code>/build</code></li>
+<li><code>admins</code>: Array of usernames (without @) who can use a command to trigger job, if not defined all users will be able to trigger a job</li>
+</ul>
+<p><strong>Params:</strong></p>
+<ul>
+<li><code>message</code>: Message which will send with build info</li>
+</ul>
+<h2><a id="user-content-input" class="anchor" aria-hidden="true" href="#input"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Input</h2>
+<p>You can use <code>input</code> to get args from a command sent to bot.
+All args will be stored in <code>&lt;resourse_name&gt;/input_args</code></p>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<pre><code>resource_types:
+- name: telegram-notification
+  type: docker-image
+  source:
+    repository: cuttlerat/concourse-telegram-resource
+    tag: latest
+
+resources:
+- name: telegram
+  type: telegram-notification
+  source:
+    bot_token: ((telegram_bot_token))
+    chat_id: ((telegram_chat_id))
+    ci_url: "http://example.com"
+    admins: ((telegram_admins))
+    command: "/build"
+
+jobs:
+- name: test_task
+  plan:
+  - get: telegram
+    trigger: true
+  - task: Send message
+    on_success:
+      put: telegram
+      params:
+        message: Build successful
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: alpine, tag: "latest"}
+      inputs:
+        - name: telegram
+      run:
+        path: sh
+        args:
+          - -exc
+          - |
+             [[ -f telegram/input_args ]] &amp;&amp; cat telegram/input_args || exit 0
+</code></pre>
+<h3><a id="user-content-example-command-for-trigger" class="anchor" aria-hidden="true" href="#example-command-for-trigger"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example command for trigger</h3>
+<p><code>/build</code></p>
+<h3><a id="user-content-example-output-message" class="anchor" aria-hidden="true" href="#example-output-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example output message</h3>
+<p><strong>Build successful</strong><br>
+<strong>URL:</strong> <a href="http://example.com/teams/main/pipelines/test/jobs/test_task/builds/1" rel="nofollow">Link</a><br>
+<strong>Pipeline:</strong> test<br>
+<strong>Job:</strong> test_task<br>
+<strong>Build number:</strong> 1</p>
+</article></div>
 </div>
 
 </body>

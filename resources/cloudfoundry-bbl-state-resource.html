@@ -10,7 +10,122 @@
 <p>https://github.com/cloudfoundry/bbl-state-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-the-bbl-state-dir-concourse-resource" class="anchor" aria-hidden="true" href="#the-bbl-state-dir-concourse-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>the bbl state dir concourse resource</h1>
+<p>This is a concourse resource for provisioning bosh directors and using <a href="https://github.com/cloudfoundry/bosh-bootloader">bbl</a> to manipulate cloud-stored bbl-states.</p>
+<p>It's built to play nice with <a href="https://github.com/cloudfoundry/bosh-deployment-resource">bosh-deployment-resource</a> and <a href="https://github.com/concourse/pool-resource">pool-resource</a>.</p>
+<p>to bring this in to your concourse pipeline:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">bbl-state-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">cfinfrastructure/bbl-state-resource</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<h4><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example:</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">bbl-state</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">bbl-state-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">bucket</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">iaas</span>: <span class="pl-s">gcp</span>
+    <span class="pl-ent">gcp_region</span>: <span class="pl-s">us-east1</span>
+    <span class="pl-ent">gcp_service_account_key</span>: <span class="pl-s">{{bbl_gcp_service_account_key}}</span></pre></div>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters:</h4>
+<p><code>bucket</code>: <strong>required</strong>: the name of the bucket where you'd like your state-dir tarballs to be stored.</p>
+<p><code>iaas</code>: <strong>required</strong>: gcp, for now, but we'll take aws soon. This is the iaas where you want your new bosh directors.</p>
+<p><code>lb_type</code>: optional: <code>cf</code> or <code>concourse</code>, denotes the varietals of the load balancers you'd like to deploy with your director</p>
+<p><code>lb_domain</code>: optional: for cf, the system domain, for concourse, the web domain. NOTE: randomly named bosh directors will share a single domain at the moment and that will not go well. these features don't mix.</p>
+<p><code>gcp_service_account_key</code>: <strong>required</strong>: your gcp service account key, formatted as JSON.</p>
+<p><code>gcp_region</code>: <strong>required</strong>: the gcp region where you'd like your environments.</p>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-put-deploy-upgrade-and-destroy-bosh-directors-and-its-containing-environment" class="anchor" aria-hidden="true" href="#put-deploy-upgrade-and-destroy-bosh-directors-and-its-containing-environment"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>put</code>: Deploy, upgrade, and destroy BOSH directors and its containing environment</h3>
+<p>There are two primary modes of operation for bbl-state puts:</p>
+<ol>
+<li>By default, without a name configured, we'll generate random environment names for each <code>put: { command: up }</code>.</li>
+<li>If you've configured a name, name_file, or a state_dir, the resource will manipulate that environment.</li>
+</ol>
+<h4><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">bbl-up-a-specifically-named-environment</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">up</span>
+      <span class="pl-ent">name</span>: <span class="pl-s">my-lonely-bosh-director</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">bbl-up-a-randomly-named-environment</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">up</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">bbl-update-that-randomly-named-env</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">passed</span>: <span class="pl-s">[bbl-up-a-randomly-named-environment]</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">up</span>
+      <span class="pl-ent">name_file</span>: <span class="pl-s">bbl-state/name</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">bbl-delete-that-env-you-just-updated</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">bbl-state-resource</span>
+    <span class="pl-ent">passed</span>: <span class="pl-s">[bbl-update-that-env-from-before]</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">down</span>
+      <span class="pl-ent">state_dir</span>: <span class="pl-s">bbl-state</span></pre></div>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters:</h4>
+<p><code>command</code>: <strong>required</strong>: <code>up</code>, <code>down</code>, <code>destroy</code>, <code>rotate</code>, or <code>cleanup-leftovers</code>. Any top-level command available to bbl.</p>
+<p><code>args</code>: optional: a yaml hash containing additional flags as key-value pairs. these might be load balancer options or <code>filter: env-name</code> for leftovers. note that these use dashes, not underscores.</p>
+<p><code>name</code>: optional: the name of the environment you'd like to manipulate. overrides name_file and state_dir.</p>
+<p><code>name_file</code>: optional: a file you'd like to load name from, useful if you're manipulating an env stored in a pool-resource. overrides state_dir.</p>
+<p><code>state_dir</code>: optional: an already-fetched bbl state directory containing the state for the environment you'd like to manipulate.</p>
+<h3><a id="user-content-get-download-bbl-states" class="anchor" aria-hidden="true" href="#get-download-bbl-states"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>get</code>: Download bbl states</h3>
+<p><code>get</code>s download bbl-states, directories generated by bbl that contain information about a BOSH director and its associated iaas environment.</p>
+<h4><a id="user-content-examples-1" class="anchor" aria-hidden="true" href="#examples-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">get-from-previous-put-and-add-it-to-a-pool</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">passed</span>: <span class="pl-s">[bbl-up-a-randomly-named-environment]</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">concourse-pool-of-bbl-states</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">add</span>: <span class="pl-s">bbl-state</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">delete-a-random-unclaimed-env-nightly</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">time-resource-nightly</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">lock</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">concourse-pool-of-bbl-states</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">acquire</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">bbl-state</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">name_file</span>: <span class="pl-s">lock/name</span>
+      <span class="pl-ent">command</span>: <span class="pl-s">down</span>
+    <span class="pl-ent">on_success</span>:
+      <span class="pl-ent">put</span>: <span class="pl-s">lock</span>
+      <span class="pl-ent">resource</span>: <span class="pl-s">concourse-pool-of-bbl-states</span>
+      <span class="pl-ent">params</span>:
+        <span class="pl-ent">remove</span>: <span class="pl-s">lock</span></pre></div>
+<h4><a id="user-content-parameters-2" class="anchor" aria-hidden="true" href="#parameters-2"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters:</h4>
+<p>none! names, checksums, and timestamps are encoded in our concourse versions, so we've got to fetch those specific ones.</p>
+<blockquote>
+<p>note: <code>get</code>s don't have access to the file system for dynamic configuration, anyways, so name_files and state_dirs can't be reached.
+If you want to get a specific state-dir, you'll have to use concourse primitives like <code>passed</code> to filter things down or do a put with a noop-ish bbl command like <code>env-id</code>.</p>
+</blockquote>
+<p>Special outputs that you wouldn't find in a normal bbl-state include:</p>
+<ol>
+<li><code>bbl-state/name</code>, which contains the environment name</li>
+<li><code>bbl-state/metadata</code>, which is useful for plugging in to concourse/pool-resource</li>
+</ol>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development:</h2>
+<p>things happen via the Makefile:</p>
+<p>make help</p>
+</article></div>
 </div>
 
 </body>

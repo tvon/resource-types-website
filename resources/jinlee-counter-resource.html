@@ -10,7 +10,115 @@
 <p>https://github.com/jinlee/counter-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><p><a href=""><img src="https://camo.githubusercontent.com/70152ea31bf23d0c4b5c588c7cad8179a935ac19/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6a696e6c65652f636f756e7465722d7265736f757263652e737667" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/jinlee/counter-resource.svg" style="max-width:100%;"></a></p>
+<h1><a id="user-content-a-simple-counter-resource-for-concourse" class="anchor" aria-hidden="true" href="#a-simple-counter-resource-for-concourse"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>A Simple Counter Resource for Concourse</h1>
+<p>A simple incrementing counter to version <a href="https://concourse.ci/" rel="nofollow">concourse</a> pipelines.</p>
+<h2><a id="user-content-overview" class="anchor" aria-hidden="true" href="#overview"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p>This is a simple resource that's meant to act as a simpler versioning scheme
+than the concourse provided <a href="https://github.com/concourse/semver-resource">semver</a>.</p>
+<p>The <code>semver</code> resource is great for a pipeline that publishes something for
+consumption (such as an executable or library).</p>
+<p>However, there are a lot of cases in which a simple incrementing count would do.
+This resource is for pipelines that do not need the concept of a major, minor,
+or patch version.</p>
+<p>If you currently use the <code>semver</code> resource but bump just one of major, minor, or
+patch, then this might be for you.</p>
+<h2><a id="user-content-resource-configuration" class="anchor" aria-hidden="true" href="#resource-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Configuration</h2>
+<p>Currently s3 is the only backend that is supported for storing the state of the
+counter. As such, the <code>source</code> configuration for the counter resource deals with
+defining the s3 object that will store the counter.</p>
+<p><em>Required</em> fields:</p>
+<ul>
+<li><code>bucket</code>: The name of the s3 bucket</li>
+<li><code>key</code>: The name of the key within the bucket</li>
+</ul>
+<p><em>Optional</em> fields:</p>
+<ul>
+<li><code>aws_access_key_id</code>: The access key used for s3 access</li>
+<li><code>aws_secret_access_key</code>: The secret key used for s3 access</li>
+<li><code>region</code>: The region of the bucket</li>
+</ul>
+<p>Note that <a href="https://boto3.readthedocs.io/en/latest/" rel="nofollow">boto3</a> is used internally. This means that any other way of
+providing <a href="https://boto3.readthedocs.io/en/latest/guide/configuration.html" rel="nofollow">credentials</a> can be used (instance profiles, environment
+variables, or aws configure).</p>
+<p>The following is an example resource configuration:</p>
+<pre><code>resources:
+- name: counter
+  type: counter-resource
+  source:
+    bucket: 'test-bucket'
+    key: 'some_folder/counter/count'
+
+resource_types:
+- name: counter-resource
+  type: docker-image
+  source:
+    repository: jinlee/counter-resource
+</code></pre>
+<h2><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h2>
+<p>This section defines the parameters you can pass when using the resource in a
+task.</p>
+<h3><a id="user-content-get" class="anchor" aria-hidden="true" href="#get"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Get</h3>
+<p>There's only one optional parameter for the <code>get</code> task:</p>
+<ul>
+<li><code>inc</code>: Defaults to false. If set to true, will increment the counter
+locally, but not on s3</li>
+</ul>
+<p>Note that concourse does seem to support the many ways of passing boolean values
+in yaml. Check the <a href="example.yml">example</a>.</p>
+<h3><a id="user-content-put" class="anchor" aria-hidden="true" href="#put"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Put</h3>
+<p>There's only one required parameter for the <code>put</code> task:</p>
+<ul>
+<li><code>file</code>: The path to the file with the count. In most cases this should be
+the same file placed with the <code>get</code> task. However, it can be any file with a
+single non-negative value.</li>
+</ul>
+<h2><a id="user-content-usage" class="anchor" aria-hidden="true" href="#usage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
+<p>The <code>get</code> task will place a file in <code>resource-name/count</code>, where the content is
+the count.</p>
+<p>This resource should be the most useful when used in the first job of the
+pipeline. Its purpose is to tag a single run of the pipeline with a unique
+number. Use it with <code>inc: true</code> at the beginning of the job, and place the put
+task as the very last step. This ensures that you will only bump up the counter
+if the entire job was successful. Otherwise you would be bumping up the counter
+unnecessarily.</p>
+<p>A simple <code>get</code> with an increment (with an example of how to use it with the <a href="https://github.com/concourse/s3-resource">s3
+resource</a>):</p>
+<pre><code>plan:
+- get: counter
+  params: {inc: yes}
+- task:
+  ... produce artifact-$(cat counter/count).jar ...
+- put: s3
+  params: {file: artifact-*.jar}
+- put: counter
+  params: {file: counter/count}
+</code></pre>
+<p>If the counter is required in a downstream job, leave out the <code>inc</code>:</p>
+<pre><code>plan:
+- get: counter
+  passed: [prev-job]
+- task:
+  ... do something ...
+</code></pre>
+<p>Check out the <a href="example.yml">example</a> pipeline using the counter resource.</p>
+<h2><a id="user-content-required-s3-policy" class="anchor" aria-hidden="true" href="#required-s3-policy"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Required S3 Policy</h2>
+<p>The resource requires just two s3 actions: <code>s3:GetObject</code> and <code>s3:PutObject</code>.</p>
+<p>The IAM Policy should look something like this:</p>
+<pre><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [ "s3:GetObject", "s3:PutObject" ],
+      "Resource": [
+        "arn:aws:s3:::test-bucket/some_folder/counter/count"
+      ]
+    }
+  ]
+}
+</code></pre>
+</article></div>
 </div>
 
 </body>

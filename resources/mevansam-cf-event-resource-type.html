@@ -10,7 +10,129 @@
 <p>https://github.com/mevansam/cf-event-resource-type</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-cloud-foundry-event-resource" class="anchor" aria-hidden="true" href="#cloud-foundry-event-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cloud Foundry Event Resource</h1>
+<p>Detects cloud foundry events within a given target. The following events will be reported along with the application name, GUID and timestamp.</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>created</td>
+<td>New application pushed</td>
+</tr>
+<tr>
+<td>modified</td>
+<td>Application updated via push or restage</td>
+</tr>
+<tr>
+<td>scaled</td>
+<td>Application was scaled up or down</td>
+</tr>
+<tr>
+<td>routed-added</td>
+<td>A route was added to an application</td>
+</tr>
+<tr>
+<td>routed-deleted</td>
+<td>A route was deleted from an application</td>
+</tr>
+<tr>
+<td>deleted</td>
+<td>Application was deleted</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>api</code>: <em>Required.</em> The Cloud Foundry API endpoint.</p>
+</li>
+<li>
+<p><code>user</code>: <em>Required.</em> The Cloud Foundry user.</p>
+</li>
+<li>
+<p><code>password</code>: <em>Required.</em> The Cloud Foundry user's password.</p>
+</li>
+<li>
+<p><code>org</code>: <em>Required.</em> The target <code>organization</code>.</p>
+</li>
+<li>
+<p><code>space</code>: <em>Required.</em> The target <code>space</code>.</p>
+</li>
+<li>
+<p><code>apps</code>: *Optional. List of application names for which events will be retrieved.</p>
+</li>
+<li>
+<p><code>skip-ssl-validation</code>: *Optional. Skips verification of SSL certificates.</p>
+</li>
+<li>
+<p><code>debug</code>: *Optional. Enables debug logging of the concourse resource type.</p>
+</li>
+<li>
+<p><code>trace</code>: *Optional. Enable tracing HTTP request/responses to the Cloud Controller API.</p>
+</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+
+- <span class="pl-ent">name</span>: <span class="pl-s">cf-event-type</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">mevansam/cf-event</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+
+- <span class="pl-ent">name</span>: <span class="pl-s">cf-event</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">cf-event-type</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">api</span>: <span class="pl-s">https://api.local.pcfdev.io</span>
+    <span class="pl-ent">user</span>: <span class="pl-s">admin</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">admin</span>
+    <span class="pl-ent">org</span>: <span class="pl-s">pcfdev-org</span>
+    <span class="pl-ent">space</span>: <span class="pl-s">pcfdev-space</span>
+    <span class="pl-ent">skip-ssl-validation</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">apps</span>:
+    - <span class="pl-s">app1</span>
+    - <span class="pl-s">app2</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-events" class="anchor" aria-hidden="true" href="#check-check-for-new-events"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new events.</h3>
+<p>Queries the Cloud Foundry target's Event API and retrieves events for the given applications or all apps within the space. Only events that occurred after that last cached event will be retrieved. If no events are cached then the last application push event will be returned.</p>
+<h3><a id="user-content-in-fetch-most-recent-events" class="anchor" aria-hidden="true" href="#in-fetch-most-recent-events"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch most recent events.</h3>
+<p>Creates content within the download directory that can be retrieved by jobs to determine the type of event, timestamp, etc.</p>
+<p>Creates the following files in the download directory:</p>
+<ul>
+<li>
+<p><code>Env.sh</code> exports the values passed in within the source configuration as shell variables.</p>
+<p>Example:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-k">export</span> CF_API=<span class="pl-s"><span class="pl-pds">"</span>https://api.local.pcfdev.io<span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> CF_USER=<span class="pl-s"><span class="pl-pds">"</span>admin<span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> CF_PASSWORD=<span class="pl-s"><span class="pl-pds">"</span>admin<span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> CF_ORG=<span class="pl-s"><span class="pl-pds">"</span>pcfdev-org<span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> CF_SPACE=<span class="pl-s"><span class="pl-pds">"</span>pcfdev-space<span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> CF_SKIP_SSL_VALIDATION=<span class="pl-s"><span class="pl-pds">"</span>--skip-ssl-validation<span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> CF_APPS=<span class="pl-s"><span class="pl-pds">"</span>app1 app2 <span class="pl-pds">"</span></span></pre></div>
+</li>
+<li>
+<p><code>version</code> list of applications and event data.</p>
+</li>
+<li>
+<p><code>metadata</code> contains data around application events and when their timestamps</p>
+</li>
+<li>
+<p><code>[app name].event</code> contains the event for the <code>app name</code></p>
+</li>
+<li>
+<p><code>[app name].timestamp</code> contains the timestamp for the event recorded for <code>app name</code> as a Unix timestamp integer value</p>
+</li>
+</ul>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p><em>Not Applicable</em></p>
+</article></div>
 </div>
 
 </body>

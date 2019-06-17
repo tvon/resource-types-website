@@ -10,7 +10,280 @@
 <p>https://github.com/cathive/concourse-sonarqube-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-sonarqube-resource-for-concourse-ci" class="anchor" aria-hidden="true" href="#sonarqube-resource-for-concourse-ci"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a href="https://sonarqube.org/" rel="nofollow">SonarQube</a> Resource for <a href="https://concourse.ci/" rel="nofollow">Concourse CI</a></h1>
+<p>Performs SonarQube analyses and tracks the state of SonarQube <a href="https://docs.sonarqube.org/display/SONAR/Quality+Gates" rel="nofollow">quality gates</a>.</p>
+<p>This resource works with <a href="https://sonarcloud.io/" rel="nofollow">SonarCloud</a> and self-hosted instaces of SonarQube.</p>
+<p>If you want to implement a real quality gate in your build pipeline, you might want to also use the <a href="https://github.com/cathive/concourse-sonarqube-qualitygate-task">concourse-sonarqube-qualitygate-task</a> which can be used to break a build if certain quality goals (as reported by SonarQube) are not reached.</p>
+<h2><a id="user-content-requirements" class="anchor" aria-hidden="true" href="#requirements"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Requirements</h2>
+<ul>
+<li>A running SonarQube instance (this resource was tested on v6.5–v7.1, but it should
+work with every version of SonarQube ≥ v5.3)</li>
+<li>The base URL of your SonarQube server has to be configured correctly! Otherwise
+the resource will be unable to fetch analysis results when invoking it's <code>in</code>
+action. (<code>sonar.core.serverBaseURL</code> in <code>conf/sonar.properties</code>)</li>
+</ul>
+<h2><a id="user-content-installation" class="anchor" aria-hidden="true" href="#installation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p>Add a new resource type to your Concourse CI pipeline:</p>
+<div class="highlight highlight-source-yaml"><pre> <span class="pl-ent">resource_types</span>:
+ - <span class="pl-ent">name</span>: <span class="pl-s">sonar-runner</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">cathive/concourse-sonarqube-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest </span><span class="pl-c"><span class="pl-c">#</span> For reproducible builds use a specific tag and don't rely on "latest".</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>host_url</code>: <em>Required.</em> The address of the SonarQube instance,
+e.g. "<a href="https://sonarcloud.io/" rel="nofollow">https://sonarcloud.io/</a>" (when using SonarCloud). Must end with a slash.</p>
+</li>
+<li>
+<p><code>organization</code>: The organization to be used when submitting stuff to a sonarqube
+instance. This field is <em>required</em> when using SonarCloud to perform the analysis
+of your code.</p>
+</li>
+<li>
+<p><code>login</code>: The login or authentication token of a SonarQube user with Execute Analysis
+permission. Can be left out if SonarQube instance does not require any authentication.</p>
+</li>
+<li>
+<p><code>password</code>: The password that goes with the sonar.login username. This should be left blank if an
+authentication token is being used.</p>
+</li>
+<li>
+<p><code>maven_settings</code>: Maven settings to be used when performing SonarQube analysis.
+Only used if the scanner_type during the out phase has been set to / determined to use
+Maven.</p>
+</li>
+<li>
+<p><code>__debug</code>: This flag is used to debug any problems that might occur when using the resource
+itself. It enables extra debug output on the console and sets the <code>-x</code> flag during shell
+execution. It is usually not a good idea to set this flag to <code>true</code> in a production environment,
+because it might leak passwords and access key credentials to the console where it might
+be accessed by unauthorized / anonymous users.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<p>The resource implements all three actions (check, in and out).
+The analysis is triggered by the out action and check/in will be used to wait for
+the result of the analysis and pull in the project status. Tasks can use this
+information to break the build (if desired) if any of the criterias of the
+quality gate associated with a project are not met.</p>
+<h3><a id="user-content-out-trigger-sonarqube-analysis" class="anchor" aria-hidden="true" href="#out-trigger-sonarqube-analysis"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>out: Trigger SonarQube analysis</h3>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>project_path</code>: <em>Required</em> Path to the resource that shall be analyzed.
+If the path contains a file called "sonar-project.properties" it will be picked
+up during analysis.</p>
+</li>
+<li>
+<p><code>scanner_type</code>: Type of scanner to be used. Possible values are:</p>
+<ul>
+<li><code>auto</code> (default) Uses the maven-Scanner if a pom.xml is found in the directory
+specified by sources, cli otherwise.</li>
+<li><code>cli</code> Forces usage of the command line scanner, even if a Maven project object
+model (pom.xml) is found in the sources directory.</li>
+<li><code>maven</code> Forces usage of the Maven plugin to perform the scan.</li>
+</ul>
+</li>
+<li>
+<p><code>project_key</code>: Project key (default value is read from sonar-project.properties)</p>
+</li>
+<li>
+<p><code>project_key_file</code>: File to be used to read the Project key.
+When this option has been specified, it has precedence over the <code>project_key</code> parameter.</p>
+</li>
+<li>
+<p><code>project_name</code>: Project name (default value is read from sonar-project.properties)</p>
+</li>
+<li>
+<p><code>project_description</code>: Project description (default value is read from sonar-project.properties)</p>
+</li>
+<li>
+<p><code>project_version</code>: Project version (default value is read from sonar-project.properties)</p>
+</li>
+<li>
+<p><code>project_version_file</code>: File to be used to read the Project version.
+When this option has been specified, it has precedence over the <code>project_version</code> parameter.</p>
+</li>
+<li>
+<p><code>autodetect_branch_name</code>: Try to figure out the branch automatically.
+This works if the <code>project_path</code> contains recognized SCM metadata from a supported
+revision control system. (Currently: only Git is supported!)</p>
+</li>
+<li>
+<p><code>branch_name</code>: Name of the branch. Overrides <code>autodetect_branch_name</code> if it has been set.</p>
+</li>
+<li>
+<p><code>branch_target</code>: Name of the branch where you intend to merge your short-lived branch at the end of its life.
+If left blank, this defaults to the master branch. It can also be used while initializing a long-lived
+branch to sync the issues from a branch other than the Main Branch.
+(See <a href="https://docs.sonarqube.org/display/PLUG/Branch+Plugin" rel="nofollow">Branch Plugin documentation</a> for further
+details)</p>
+</li>
+<li>
+<p><code>sources</code>: A list of paths to directories containing source files.</p>
+</li>
+<li>
+<p><code>tests</code>: A list of paths to directories containing source files.</p>
+</li>
+<li>
+<p><code>additional_properties</code>: Optional object/dictionary that may contain any additional properties
+that one might want to pass when running the sonar-scanner.</p>
+</li>
+<li>
+<p><code>additional_properties_file</code>: Optional path to a file containing properties
+that should be passed to the sonar-scanner.</p>
+</li>
+<li>
+<p><code>maven_settings_file</code>: Path to a Maven settings file that shall be used.
+Only used if the scanner_type during has been set to / determined to use Maven.
+If the resource itself has a maven_settings configuration, this key will override
+it's value.</p>
+</li>
+<li>
+<p><code>sonar_maven_plugin_version</code>: sonar-maven-plugin version (default is empty and using the latest version)</p>
+</li>
+</ul>
+<h3><a id="user-content-in-fetch-result-of-sonarqube-analysis" class="anchor" aria-hidden="true" href="#in-fetch-result-of-sonarqube-analysis"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>in: Fetch result of SonarQube analysis</h3>
+<p>The action will place two JSON files into the resource's folder which are fetched from
+the SonarQube Web API:</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>quality_gate</code>: <em>Optional</em> <em>JSON</em> Enable quality_gate checker and control <code>get</code> step success/failure.
+<ul>
+<li><code>ignore_all_warn</code>: <em>bool</em> Ignore all <code>WARN</code> metrics and let <code>get</code> step success</li>
+<li><code>ignore_all_error</code>: <em>bool</em> Ignore all <code>ERROR</code> metrics and let <code>get</code> step success</li>
+<li><code>ignore_warns</code>: <em>array</em> A list of metric keys for <code>WARN</code> metric to ignore while quality_gate checking.</li>
+<li><code>ignore_errors</code>: <em>array</em> A list of metric keys for <code>ERROR</code> metric to ignore while quality_gate checking.</li>
+</ul>
+</li>
+</ul>
+<p>Note: for <code>ignore_warns</code>/<code>ignore_errors</code>, possible value could be found through</p>
+<ul>
+<li><code>https://&lt;your-sonar_host&gt;/quality_gates/show/&lt;quality_gate_id&gt;</code></li>
+<li><code>https://&lt;your-sonar_host&gt;/api/qualitygates/show?id=&lt;quality_gate_id&gt;</code></li>
+</ul>
+<h3><a id="user-content-outputs" class="anchor" aria-hidden="true" href="#outputs"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Outputs</h3>
+<ul>
+<li>qualitygate_project_status.json
+Quality gate status of the compute engine task that was triggered by the resource
+during the out action.
+Format: <a href="https://next.sonarqube.com/sonarqube/web_api/api/qualitygates/project_status" rel="nofollow">https://next.sonarqube.com/sonarqube/web_api/api/qualitygates/project_status</a></li>
+<li>ce_task_info.json
+Information about the compute engine task that performed the analysis.
+Format: <a href="https://next.sonarqube.com/sonarqube/web_api/api/ce/task" rel="nofollow">https://next.sonarqube.com/sonarqube/web_api/api/ce/task</a></li>
+</ul>
+<h2><a id="user-content-full-example" class="anchor" aria-hidden="true" href="#full-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Full example</h2>
+<p>The following example pipeline shows how to use the resource to break the build if
+a project doesn't meet the requirements of the associated quality gate.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+
+- <span class="pl-ent">name</span>: <span class="pl-s">sonar-runner</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">cathive/concourse-sonarqube-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest </span><span class="pl-c"><span class="pl-c">#</span> For reproducible builds use a specific tag and don't rely on "latest".</span>
+
+<span class="pl-ent">resources</span>:
+
+- <span class="pl-ent">name</span>: <span class="pl-s">sources</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">https://github.com/example/example.git</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">artifact</span>
+  <span class="pl-ent">type</span>: <span class="pl-c1">s3</span>
+  <span class="pl-c"><span class="pl-c">#</span> ... configuration ommited</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">code-analysis</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">sonar-runner</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">host_url</span>: <span class="pl-s">https://sonarqube.example.com/</span>
+    <span class="pl-ent">login</span>: <span class="pl-s">((sonarqube-auth-token))</span>
+    <span class="pl-ent">project_key</span>: <span class="pl-s">com.example.my_project</span>
+
+<span class="pl-ent">jobs</span>:
+
+<span class="pl-c"><span class="pl-c">#</span> The build job performs fetches stuff from the "sources" resource</span>
+<span class="pl-c"><span class="pl-c">#</span> and executes a task that builds and tests everyhing. Once compilation,</span>
+<span class="pl-c"><span class="pl-c">#</span> test execution and &lt;whatever&gt; has been performed, we copy the whole</span>
+<span class="pl-c"><span class="pl-c">#</span> working directory into the output folder "sonarqube-analysis-input"</span>
+<span class="pl-c"><span class="pl-c">#</span> and push the package that has been created by the "build" task to the</span>
+<span class="pl-c"><span class="pl-c">#</span> artifact resource and utilize the sonarqube-resource to perform static</span>
+<span class="pl-c"><span class="pl-c">#</span> code analysis.</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">build-and-analyze</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">sources</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">build</span>
+    <span class="pl-ent">config</span>:
+      <span class="pl-ent">platform</span>: <span class="pl-s">linux</span>
+      <span class="pl-ent">image_resource</span>:
+        <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+        <span class="pl-ent">source</span>:
+          <span class="pl-ent">repository</span>: <span class="pl-s">debian</span>
+          <span class="pl-ent">tag</span>: <span class="pl-s"><span class="pl-pds">'</span>jessie<span class="pl-pds">'</span></span>
+      <span class="pl-ent">inputs</span>:
+      - <span class="pl-ent">name</span>: <span class="pl-s">sources</span>
+      <span class="pl-ent">outputs</span>:
+      <span class="pl-c"><span class="pl-c">#</span> Hint: The sonar-runner needs more than just the</span>
+      <span class="pl-c"><span class="pl-c">#</span> sources to perform a full analysis. Line coverage reports, unit test reports,</span>
+      <span class="pl-c"><span class="pl-c">#</span> Java class files and mutation test results should also be present.</span>
+      <span class="pl-c"><span class="pl-c">#</span> Therefore, you'll have to make sure that your build script provides the sources</span>
+      <span class="pl-c"><span class="pl-c">#</span> and the compilation/test results in your Concourse CI build plan.</span>
+      <span class="pl-c"><span class="pl-c">#</span> (And that is the reason, why we need the following output)</span>
+      - <span class="pl-ent">name</span>: <span class="pl-s">sonarqube-analysis-input</span>
+      <span class="pl-ent">run</span>:
+        <span class="pl-ent">path</span>: <span class="pl-s">build.sh</span>
+        <span class="pl-ent">dir</span>: <span class="pl-s">sources</span>
+  - <span class="pl-ent">in_parallel</span>:
+    - <span class="pl-ent">put</span>: <span class="pl-s">code-analysis</span>
+      <span class="pl-ent">params</span>:
+        <span class="pl-ent">project_path</span>: <span class="pl-s">sonarqube-analysis-input</span>
+        <span class="pl-ent">additional_properties</span>:
+          <span class="pl-c"><span class="pl-c">#</span> Will be passed as "-Dsonar.javascript.lcov.reportPaths="coverage/lcov.info" to the scanner.</span>
+          <span class="pl-ent">sonar.javascript.lcov.reportPaths</span>: <span class="pl-s">coverage/lcov.info</span>
+      <span class="pl-ent">get_params</span>:
+        <span class="pl-ent">quality_gate</span>:
+          <span class="pl-ent">ignore_errors</span>: <span class="pl-s">['new_coverage', 'violations']</span>
+          <span class="pl-ent">ignore_warns</span>: <span class="pl-s">['new_duplicated_lines_density', 'violations']</span>
+    - <span class="pl-ent">put</span>: <span class="pl-s">artifact</span>
+
+<span class="pl-c"><span class="pl-c">#</span> The qualitygate task breaks the build if the analysis result from SonarQube</span>
+<span class="pl-c"><span class="pl-c">#</span> indicates that any of our quality metrics have not been met.</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">qualitygate</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">in_parallel</span>:
+    - <span class="pl-ent">get</span>: <span class="pl-s">artifact</span>
+      <span class="pl-ent">passed</span>:
+      - <span class="pl-s">build-and-analyze</span>
+    - <span class="pl-ent">get</span>: <span class="pl-s">code-analysis</span>
+      <span class="pl-ent">passed</span>:
+      - <span class="pl-s">build-and-analyze</span>
+      <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">check-sonarqube-quality-gate</span>
+    <span class="pl-ent">config</span>:
+      <span class="pl-ent">platform</span>: <span class="pl-s">linux</span>
+      <span class="pl-ent">image_resource</span>:
+        <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+        <span class="pl-ent">source</span>:
+          <span class="pl-ent">repository</span>: <span class="pl-s">cathive/concourse-sonarqube-qualitygate-task</span>
+          <span class="pl-ent">tag</span>: <span class="pl-s">latest </span><span class="pl-c"><span class="pl-c">#</span> Use one of the versioned tags for reproducible builds!</span>
+      <span class="pl-ent">inputs</span>:
+      - <span class="pl-ent">name</span>: <span class="pl-s">code-analysis</span>
+      <span class="pl-ent">run</span>:
+        <span class="pl-ent">path</span>: <span class="pl-s">/sonarqube-qualitygate-check</span>
+        <span class="pl-ent">dir</span>: <span class="pl-s">code-analysis</span>
+
+<span class="pl-c"><span class="pl-c">#</span> We deploy only artifacts that have made it through our quality gate!</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">artifact</span>
+    <span class="pl-ent">passed</span>:
+    - <span class="pl-s">qualitygate</span>
+</pre></div>
+</article></div>
 </div>
 
 </body>

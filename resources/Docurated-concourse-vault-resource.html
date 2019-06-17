@@ -10,7 +10,77 @@
 <p>https://github.com/Docurated/concourse-vault-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><p><a href="https://microbadger.com/images/docurated/concourse-vault-resource" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/4b46835dbf60682fb0093f1326c19ebf8014e750/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f646f637572617465642f636f6e636f757273652d7661756c742d7265736f757263652e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/docurated/concourse-vault-resource.svg" style="max-width:100%;"></a></p>
+<h1><a id="user-content-vault-resource" class="anchor" aria-hidden="true" href="#vault-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Vault Resource</h1>
+<p>Reads secrets from <a href="https://www.vaultproject.io/" rel="nofollow">Vault</a>. Authentication is done (by default) using the <a href="https://www.vaultproject.io/docs/auth/aws-ec2.html" rel="nofollow">aws-ec2 method</a>, which must be configured before using this resource.
+It can also use the <a href="https://www.vaultproject.io/docs/auth/approle.html" rel="nofollow">AppRole method</a> to authenticate.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>url</code>: <em>Optional.</em> The location of the Vault server. Defaults to <code>https://vault.service.consul:8200</code>.</p>
+</li>
+<li>
+<p><code>role</code>: <em>Optional.</em> The role to authenticate as. Defaults to <code>concourse</code>.</p>
+</li>
+<li>
+<p><code>nonce</code>: <em>Optional.</em> Client nonce whitelisted by Vault for this EC2 auth. Defaults to <code>vault-concourse-nonce</code>, which should probably be changed.</p>
+</li>
+<li>
+<p><code>paths</code>: <em>Optional.</em> If specified (as a list of glob patterns), only changes
+to the specified files will yield new versions from <code>check</code>.</p>
+</li>
+<li>
+<p><code>expose_token</code>: <em>Optional.</em> If specified, this option will expose the token to make it available to other resources</p>
+</li>
+<li>
+<p><code>auth_method</code>: <em>Optional.</em> By default will use the <code>aws-ec2</code> method. If <code>AppRole</code> is specified, it will read the <code>role_id</code> and <code>secret_id</code> parameter to authenticate on the approle endpoint.</p>
+</li>
+<li>
+<p><code>role_id</code>: <em>Optional.</em> Use a specific role id to authenticate. This parameter is used only with <code>auth_method: AppRole</code>.</p>
+</li>
+<li>
+<p><code>secret_id</code>: <em>Optional.</em> Use a specific secret id to authenticate. This parameter is used only with <code>auth_method: AppRole</code>.</p>
+</li>
+<li>
+<p><code>tls_skip_verify</code>: <em>Optional.</em> Skips Vault SSL verification by exporting
+<code>VAUKT_SKIP_VERIFY=1</code>.</p>
+</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>Resource configuration using aws-ec2 authentication:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">vault</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">vault</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">url</span>: <span class="pl-s">https://secure.legitcompany.com:8200</span>
+    <span class="pl-ent">role</span>: <span class="pl-s">build-server</span>
+    <span class="pl-ent">nonce</span>: <span class="pl-s">cantguessme</span></pre></div>
+<p>Resource configuration using AppRole authentication:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">vault</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">vault</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">url</span>: <span class="pl-s">https://secure.legitcompany.com:8200</span>
+    <span class="pl-ent">auth_method</span>: <span class="pl-s">AppRole</span>
+    <span class="pl-ent">role_id</span>: <span class="pl-s">e6889709-5ff8-c670-a083-79f1c5035709</span>
+    <span class="pl-ent">secret_id</span>: <span class="pl-s">e6889709-5ff8-c670-a083-79f1c5035709</span></pre></div>
+<p>Fetching secrets:</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">vault</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">paths</span>:
+      - <span class="pl-s">secret/build/git</span>
+      - <span class="pl-s">secret/build/aws/s3</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-versions" class="anchor" aria-hidden="true" href="#check-check-for-new-versions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new versions.</h3>
+<p>Essentially a noop, the current date is always returned as <code>{"date": "$DATE"}</code></p>
+<h3><a id="user-content-in-read-secrets-from-vault" class="anchor" aria-hidden="true" href="#in-read-secrets-from-vault"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Read secrets from Vault</h3>
+<p>Reads secrets from Vault and stores them on disk as JSON files.</p>
+<p>The path of the secret will match the path on disk - ie in the example above, <code>vault/build/git.json</code> and <code>vault/build/aws/s3.json</code> will be created.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>paths</code>: <em>Required.</em> List of paths to read from the Vault secret mount.</li>
+</ul>
+</article></div>
 </div>
 
 </body>

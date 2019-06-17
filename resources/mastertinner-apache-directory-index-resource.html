@@ -10,7 +10,47 @@
 <p>https://github.com/mastertinner/apache-directory-index-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-apache-directory-index-resource" class="anchor" aria-hidden="true" href="#apache-directory-index-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Apache Directory Index Resource</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/bba21497b915815471148f174d2f3c2bf9ffbf96/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f6275696c642f6d617374657274696e6e65722f6170616368652d6469726563746f72792d696e6465782d7265736f757263652e737667"><img src="https://camo.githubusercontent.com/bba21497b915815471148f174d2f3c2bf9ffbf96/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f6275696c642f6d617374657274696e6e65722f6170616368652d6469726563746f72792d696e6465782d7265736f757263652e737667" alt="Docker Build Status" data-canonical-src="https://img.shields.io/docker/build/mastertinner/apache-directory-index-resource.svg" style="max-width:100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/ab7edeeefe279c78445860bcaa105c236a1b1dc1/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6d617374657274696e6e65722f6170616368652d6469726563746f72792d696e6465782d7265736f757263652e737667"><img src="https://camo.githubusercontent.com/ab7edeeefe279c78445860bcaa105c236a1b1dc1/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6d617374657274696e6e65722f6170616368652d6469726563746f72792d696e6465782d7265736f757263652e737667" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/mastertinner/apache-directory-index-resource.svg" style="max-width:100%;"></a></p>
+<p>A Concourse resource for the Apache Directory Index.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">apache-directory-index</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">mastertinner/apache-directory-index-resource</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">tomcat-8</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">apache-directory-index</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">directory</span>: <span class="pl-s">https://archive.apache.org/dist/tomcat/tomcat-8/</span>
+    <span class="pl-ent">folder_pattern</span>: <span class="pl-s">v$VERSION</span>
+    <span class="pl-ent">file_pattern</span>: <span class="pl-s">bin/apache-tomcat-$VERSION.tar.gz</span></pre></div>
+<ul>
+<li><code>directory</code> is the path of where the your versioned folders reside</li>
+<li><code>folder_pattern</code> describes the pattern of how the folders are named (use <code>$VERSION</code> as a placeholder for the version)</li>
+<li><code>file_pattern</code> describes the pattern of where the file resides and how it's named (use <code>$VERSION</code> as a placeholder for the version)</li>
+</ul>
+<p><em>Important</em>: Your version needs to follow the <code>version_pattern</code> defined in &lt;scripts/check&gt; (e.g. <code>1.2.3-beta.4</code>).</p>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-versions" class="anchor" aria-hidden="true" href="#check-check-for-new-versions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new versions</h3>
+<p>Checks if there are new versions of the source.</p>
+<h3><a id="user-content-in-download-a-version" class="anchor" aria-hidden="true" href="#in-download-a-version"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Download a version</h3>
+<p>Places the following files in the destination:</p>
+<ul>
+<li><code>(filename)</code>: The file fetched from the directory index</li>
+<li><code>url</code>: Contains the URL of the downloaded file</li>
+<li><code>version</code>: The version identified in the file name</li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">download-tomcat-8</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">tomcat-8</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span></pre></div>
+</article></div>
 </div>
 
 </body>

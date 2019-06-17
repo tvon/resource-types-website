@@ -10,7 +10,98 @@
 <p>https://github.com/concourse/cf-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-cloud-foundry-resource" class="anchor" aria-hidden="true" href="#cloud-foundry-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cloud Foundry Resource</h1>
+<p>An output only resource (at the moment) that will deploy an application to a
+Cloud Foundry deployment.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>Note: you must provide either <code>username</code> and <code>password</code> or <code>client_id</code> and <code>client_secret</code>.</p>
+<ul>
+<li><code>api</code>: <em>Required.</em> The address of the Cloud Controller in the Cloud Foundry
+deployment.</li>
+<li><code>username</code>: <em>Optional.</em> The username used to authenticate.</li>
+<li><code>password</code>: <em>Optional.</em> The password used to authenticate.</li>
+<li><code>client_id</code>: <em>Optional.</em> The client id used to authenticate.</li>
+<li><code>client_secret</code>: <em>Optional.</em> The client secret used to authenticate.</li>
+<li><code>organization</code>: <em>Required.</em> The organization to push the application to.</li>
+<li><code>space</code>: <em>Required.</em> The space to push the application to.</li>
+<li><code>skip_cert_check</code>: <em>Optional.</em> Check the validity of the CF SSL cert.
+Defaults to <code>false</code>.</li>
+<li><code>verbose</code>: <em>Optional.</em> Invoke <code>cf</code> cli using <code>CF_TRACE=true</code> to print all API calls made to Cloud Foundry.</li>
+</ul>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-out-deploy-an-application-to-a-cloud-foundry" class="anchor" aria-hidden="true" href="#out-deploy-an-application-to-a-cloud-foundry"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Deploy an application to a Cloud Foundry</h3>
+<p>Pushes an application to the Cloud Foundry detailed in the source
+configuration. A <a href="http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html" rel="nofollow">manifest</a> that describes the application must
+be specified.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>manifest</code>: <em>Required.</em> Path to a application manifest file.</li>
+<li><code>path</code>: <em>Optional.</em> Path to the application to push. If this isn't set then
+it will be read from the manifest instead.</li>
+<li><code>current_app_name</code>: <em>Optional.</em> This should be the name of the application
+that this will re-deploy over. If this is set the resource will perform a
+zero-downtime deploy.</li>
+<li><code>environment_variables</code>: <em>Optional.</em> It is not necessary to set the variables in <a href="http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html" rel="nofollow">manifest</a> if this parameter is set.</li>
+<li><code>vars</code>: <em>Optional.</em> Map of variables to pass to manifest</li>
+<li><code>vars_files</code>: <em>Optional.</em> List of variables files to pass to manifest</li>
+<li><code>docker_username</code>: <em>Optional.</em> This is used as the username to authenticate against a protected docker registry.</li>
+<li><code>docker_password</code>: <em>Optional.</em> This should be the users password when authenticating against a protected docker registry.</li>
+<li><code>show_app_log</code>: <em>Optional.</em> Tails the app log during startup, useful to debug issues when using blue/green deploys together with the <code>current_app_name</code> option.</li>
+<li><code>no_start</code>: <em>Optional.</em> Deploys the app but does not start it. This parameter is ignored when <code>current_app_name</code> is specified.</li>
+</ul>
+<h2><a id="user-content-pipeline-example" class="anchor" aria-hidden="true" href="#pipeline-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pipeline example</h2>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">job-deploy-app</span>
+  <span class="pl-ent">public</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">serial</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">resource-web-app</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">build</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">resource-web-app/build.yml</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">resource-deploy-web-app</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">manifest</span>: <span class="pl-s">build-output/manifest.yml</span>
+      <span class="pl-ent">environment_variables</span>:
+        <span class="pl-ent">key</span>: <span class="pl-s">value</span>
+        <span class="pl-ent">key2</span>: <span class="pl-s">value2</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">resource-web-app</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">https://github.com/cloudfoundry-community/simple-go-web-app.git</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">resource-deploy-web-app</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">cf</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">api</span>: <span class="pl-s">https://api.run.pivotal.io</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">EMAIL</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">PASSWORD</span>
+    <span class="pl-ent">organization</span>: <span class="pl-s">ORG</span>
+    <span class="pl-ent">space</span>: <span class="pl-s">SPACE</span>
+    <span class="pl-ent">skip_cert_check</span>: <span class="pl-c1">false</span></pre></div>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li>golang is <em>required</em> - version 1.9.x is tested; earlier versions may also
+work.</li>
+<li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+work.</li>
+<li>godep is used for dependency management of the golang packages.</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following commands for both <code>alpine</code> and <code>ubuntu</code> images:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t cf-resource -f dockerfiles/alpine/Dockerfile <span class="pl-c1">.</span>
+docker build -t cf-resource -f dockerfiles/ubuntu/Dockerfile <span class="pl-c1">.</span></pre></div>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+locally.</p>
+</article></div>
 </div>
 
 </body>

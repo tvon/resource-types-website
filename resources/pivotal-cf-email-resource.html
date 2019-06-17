@@ -10,7 +10,157 @@
 <p>https://github.com/pivotal-cf/email-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-email-resource" class="anchor" aria-hidden="true" href="#email-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Email Resource</h1>
+<p>A <a href="http://concourse-ci.org" rel="nofollow">Concourse</a> resource that sends emails.</p>
+<h2><a id="user-content-getting-started" class="anchor" aria-hidden="true" href="#getting-started"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Getting started</h2>
+<p>Add the following <a href="https://concourse-ci.org/resource-types.html" rel="nofollow">Resource Type</a> to your Concourse pipeline</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">email</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">pcfseceng/email-resource</span></pre></div>
+<p>Look at the <a href="https://github.com/pivotal-cf/email-resource/blob/master/example/demo-pipeline.yml">demo pipeline</a> for a complete example.</p>
+<p>This resource acts as an SMTP client, using <code>PLAIN</code> auth over TLS.  So you need an SMTP server that supports all that.</p>
+<p>For development, we've been using <a href="https://aws.amazon.com/ses/" rel="nofollow">Amazon SES</a> with its <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html" rel="nofollow">SMTP support</a></p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<h3><a id="user-content-source" class="anchor" aria-hidden="true" href="#source"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>source</code>:</h3>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>Within smtp:</p>
+<ul>
+<li><code>host</code>: <em>Required.</em> SMTP Host name</li>
+<li><code>port</code>: <em>Required.</em> SMTP Port, must be entered as a string</li>
+<li><code>anonymous</code>: <em>Optional.</em> Whether or not to require credential.  true/false are valid options.  If omitted default is false</li>
+<li><code>username</code>: <em>Required, Conditionally.</em> Username to authenticate with.  Ignored if <code>anonymous: true</code></li>
+<li><code>password</code>: <em>Required, Conditionally.</em> Password to authenticate with.  Ignored if <code>anonymous: true</code></li>
+<li><code>skip_ssl_validation</code>: <em>Optional.</em> Whether or not to skip ssl validation.  true/false are valid options.  If omitted default is false</li>
+<li><code>ca_cert</code>: <em>Optional.</em> Certificates content to verify servers with custom certificates. Only considered if <code>skip_ssl_validation</code> is <code>false</code>.</li>
+<li><code>host_origin</code>: <em>Optional.</em> Host to send <code>Hello</code> from.  If not provided <code>localhost</code> is used</li>
+<li><code>login_auth</code>: <em>Optional.</em> This will enable the flag to use Login Auth for authenticated. true/false are valid options. If omitted default is false</li>
+</ul>
+<p>Within source:</p>
+<ul>
+<li><code>from</code>: <em>Required.</em> Email Address to be sent from.</li>
+<li><code>to</code>: <em>Required.Conditionally.</em> Array of email addresses to send email to.  Not required if job params contains a file reference that has to recipients.</li>
+<li><code>cc</code>: <em>Optional</em> Array of email addresses to cc send email to.</li>
+<li><code>bcc</code>: <em>Optional</em> Array of email addresses to bcc send email to.</li>
+</ul>
+<p>An example source configuration is below.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">send-an-email</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">email</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">smtp</span>:
+      <span class="pl-ent">host</span>: <span class="pl-s">smtp.example.com</span>
+      <span class="pl-ent">port</span>: <span class="pl-s"><span class="pl-pds">"</span>587<span class="pl-pds">"</span></span> <span class="pl-c"><span class="pl-c">#</span> this must be a string</span>
+      <span class="pl-ent">username</span>: <span class="pl-s">a-user</span>
+      <span class="pl-ent">password</span>: <span class="pl-s">my-password</span>
+    <span class="pl-ent">from</span>: <span class="pl-s">build-system@example.com</span>
+    <span class="pl-ent">to</span>: <span class="pl-s">[ "dev-team@example.com", "product@example.net" ] </span><span class="pl-c"><span class="pl-c">#</span>optional if `params.additional_recipient` is specified</span></pre></div>
+<p>An example source configuration is below supporting sending email when anonymous is permitted.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">send-an-email</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">email</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">smtp</span>:
+      <span class="pl-ent">host</span>: <span class="pl-s">smtp.example.com</span>
+      <span class="pl-ent">port</span>: <span class="pl-s"><span class="pl-pds">"</span>587<span class="pl-pds">"</span></span> <span class="pl-c"><span class="pl-c">#</span> this must be a string</span>
+      <span class="pl-ent">anonymous</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">from</span>: <span class="pl-s">build-system@example.com</span>
+    <span class="pl-ent">to</span>: <span class="pl-s">[ "dev-team@example.com", "product@example.net" ]</span></pre></div>
+<p>An exmaple using custom certificates:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">send-an-email</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">email</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">smtp</span>:
+      <span class="pl-ent">host</span>: <span class="pl-s">smtp.example.com</span>
+      <span class="pl-ent">port</span>: <span class="pl-s"><span class="pl-pds">"</span>587<span class="pl-pds">"</span></span> <span class="pl-c"><span class="pl-c">#</span> this must be a string</span>
+      <span class="pl-ent">anonymous</span>: <span class="pl-c1">true</span>
+      <span class="pl-ent">ca_cert</span>: <span class="pl-s">|</span>
+<span class="pl-s">        -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">        ...</span>
+<span class="pl-s">        -----END CERTIFICATE-----</span>
+<span class="pl-s"></span>    <span class="pl-ent">from</span>: <span class="pl-s">build-system@example.com</span>
+    <span class="pl-ent">to</span>: <span class="pl-s">[ "dev-team@example.com", "product@example.net" ]</span></pre></div>
+<p>Note that <code>to</code> is an array, and that <code>port</code> is a string.
+If you're using <code>fly configure</code> with the <code>--load-vars-from</code> (<code>-l</code>) substitutions, every <code>{{ variable }}</code>
+<a href="http://concourse-ci.org/fly.html" rel="nofollow">automatically gets converted to a string</a>.
+But for literals you need to surround it with quotes.</p>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<p>This is an output-only resource, so <code>check</code> and <code>in</code> actions are no-ops.</p>
+<h3><a id="user-content-out-send-an-email" class="anchor" aria-hidden="true" href="#out-send-an-email"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Send an email</h3>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>headers</code>: <em>Optional.</em> Path to plain text file containing additional mail headers</li>
+<li><code>subject</code>: <em>Optional.</em> Path to plain text file containing the subject. Either <code>subject</code> or <code>subject_text</code> required. <code>subject_text</code> takes precedence.</li>
+<li><code>subject_text</code>: <em>Optional.</em> The subject as text. Either <code>subject</code> or <code>subject_text</code> required. <code>subject_text</code> takes precedence.</li>
+<li><code>body</code>: <em>Optional.</em> Path to file containing the email body. Either <code>body</code> or <code>body_text</code> required. <code>body_text</code> takes precedence.</li>
+<li><code>body_text</code>: <em>Optional.</em> The email body as text. Either <code>body</code> or <code>body_text</code> required. <code>body_text</code> takes precedence.</li>
+<li><code>send_empty_body</code>: <em>Optional.</em> If true, send the email even if the body is empty (defaults to <code>false</code>).</li>
+<li><code>to</code>: <em>Optional.</em> Path to plain text file containing recipients which could be determined at build time. You can run a task before, which figures out the email of the person who committed last to a git repository (<code>git -C $source_path --no-pager show $(git -C $source_path rev-parse HEAD) -s --format='%ae' &gt; output/email.txt</code>).  This file can contain <code>,</code> delimited list of email address if wanting to send to multiples.</li>
+<li><code>cc</code>: <em>Optional.</em> Path to plain text file containing recipients which could be determined at build time. This file can contain <code>,</code> delimited list of email address if wanting to send to multiples.</li>
+<li><code>bcc</code>: <em>Optional.</em> Path to plain text file containing recipients which could be determined at build time. This file can contain <code>,</code> delimited list of email address if wanting to send to multiples.</li>
+<li><code>debug</code>: <em>Optional.</em> If set to <code>true</code> additional information send to stderr</li>
+<li><code>attachment_globs:</code> <em>Optional.</em> If provided will attach any file to the email that matches the glob path(s)</li>
+</ul>
+<p>For example, a build plan might contain this:</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">send-an-email</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">subject</span>: <span class="pl-s">generated-subject-file</span>
+      <span class="pl-ent">body</span>: <span class="pl-s">generated-body-file</span></pre></div>
+<p>For example, a build plan might contain this if using generated list of recipient(s):</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">send-an-email</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">subject</span>: <span class="pl-s">generated-subject-file</span>
+      <span class="pl-ent">body</span>: <span class="pl-s">generated-body-file</span>
+      <span class="pl-ent">to</span>: <span class="pl-s">generated-to-file</span></pre></div>
+<p>You can use the values below in any of the source files or text properties to access the corresponding metadata made available by concourse, as documented <a href="https://concourse-ci.org/implementing-resource-types.html" rel="nofollow">here</a></p>
+<ul>
+<li><code>${BUILD_ID}</code></li>
+<li><code>${BUILD_NAME}</code></li>
+<li><code>${BUILD_JOB_NAME}</code></li>
+<li><code>${BUILD_PIPELINE_NAME}</code></li>
+<li><code>${ATC_EXTERNAL_URL}</code></li>
+<li><code>${BUILD_TEAM_NAME}</code></li>
+</ul>
+<p>For example:</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">send-an-email</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">subject_text</span>: <span class="pl-s"><span class="pl-pds">"</span>Build finished: ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME}<span class="pl-pds">"</span></span>
+      <span class="pl-ent">body_text</span>: <span class="pl-s"><span class="pl-pds">"</span>Build finished: ${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}<span class="pl-pds">"</span></span></pre></div>
+<h4><a id="user-content-html-email" class="anchor" aria-hidden="true" href="#html-email"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTML Email</h4>
+<p>To send HTML email set the <code>headers</code> parameter to a file containing the following:</p>
+<pre><code>MIME-version: 1.0
+Content-Type: text/html; charset="UTF-8"
+</code></pre>
+<h2><a id="user-content-build-from-the-source" class="anchor" aria-hidden="true" href="#build-from-the-source"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Build from the source</h2>
+<p><code>email-resource</code> is written in <a href="https://golang.org/" rel="nofollow">Go</a>.
+To build the binary yourself, follow these steps:</p>
+<ul>
+<li>Install <code>Go</code>.</li>
+<li>Install <a href="https://github.com/Masterminds/glide">Glide</a>, a dependency management tool for Go.</li>
+<li>Clone the repo:
+<ul>
+<li><code>mkdir -p $(go env GOPATH)/src/github.com/pivotal-cf</code></li>
+<li><code>cd $(go env GOPATH)/src/github.com/pivotal-cf</code></li>
+<li><code>git clone git@github.com:pivotal-cf/email-resource.git</code></li>
+</ul>
+</li>
+<li>Install dependencies:
+<ul>
+<li><code>cd email-resource</code></li>
+<li><code>glide install</code></li>
+<li><code>go build -o bin/check check/cmd/*.go</code></li>
+<li><code>go build -o bin/in in/cmd/*.go</code></li>
+<li><code>go build -o bin/out out/cmd/*.go</code></li>
+</ul>
+</li>
+</ul>
+<p>To cross compile, set the <code>$GOOS</code> and <code>$GOARCH</code> environment variables.
+For example: <code>GOOS=linux GOARCH=amd64 go build</code>.</p>
+<h2><a id="user-content-testing" class="anchor" aria-hidden="true" href="#testing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
+<p>To run the unit tests, use <code>go test $(glide nv)</code>.</p>
+</article></div>
 </div>
 
 </body>

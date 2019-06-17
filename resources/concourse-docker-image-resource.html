@@ -10,7 +10,324 @@
 <p>https://github.com/concourse/docker-image-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-docker-image-resource" class="anchor" aria-hidden="true" href="#docker-image-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Docker Image Resource</h1>
+<p>Tracks and builds <a href="https://docker.io" rel="nofollow">Docker</a> images.</p>
+<p>Note: docker registry must be <a href="https://docs.docker.com/registry/spec/api/" rel="nofollow">v2</a>.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>repository</code>: <em>Required.</em> The name of the repository, e.g.
+<code>concourse/docker-image-resource</code>.</p>
+<p>Note: When configuring a private registry <strong>using a non-root CA</strong>,
+you must include the port (e.g. :443 or :5000) even though the docker CLI
+does not require it.</p>
+</li>
+<li>
+<p><code>tag</code>: <em>Optional.</em> The tag to track. Defaults to <code>latest</code>.</p>
+</li>
+<li>
+<p><code>username</code>: <em>Optional.</em> The username to authenticate with when pushing.</p>
+</li>
+<li>
+<p><code>password</code>: <em>Optional.</em> The password to use when authenticating.</p>
+</li>
+<li>
+<p><code>aws_access_key_id</code>: <em>Optional.</em> AWS access key to use for acquiring ECR
+credentials.</p>
+</li>
+<li>
+<p><code>aws_secret_access_key</code>: <em>Optional.</em> AWS secret key to use for acquiring ECR
+credentials.</p>
+</li>
+<li>
+<p><code>aws_session_token</code>: <em>Optional.</em> AWS session token (assumed role) to use for acquiring ECR
+credentials.</p>
+</li>
+<li>
+<p><code>insecure_registries</code>: <em>Optional.</em> An array of CIDRs or <code>host:port</code> addresses
+to whitelist for insecure access (either <code>http</code> or unverified <code>https</code>).
+This option overrides any entries in <code>ca_certs</code> with the same address.</p>
+</li>
+<li>
+<p><code>registry_mirror</code>: <em>Optional.</em> A URL pointing to a docker registry mirror service.</p>
+</li>
+<li>
+<p><code>ca_certs</code>: <em>Optional.</em> An array of objects with the following format:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">ca_certs</span>:
+- <span class="pl-ent">domain</span>: <span class="pl-s">example.com:443</span>
+  <span class="pl-ent">cert</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END CERTIFICATE-----</span>
+<span class="pl-s"></span>- <span class="pl-ent">domain</span>: <span class="pl-s">10.244.6.2:443</span>
+  <span class="pl-ent">cert</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END CERTIFICATE-----</span></pre></div>
+<p>Each entry specifies the x509 CA certificate for the trusted docker registry
+residing at the specified domain. This is used to validate the certificate of
+the docker registry when the registry's certificate is signed by a custom
+authority (or itself).</p>
+<p>The domain should match the first component of <code>repository</code>, including the
+port. If the registry specified in <code>repository</code> does not use a custom cert,
+adding <code>ca_certs</code> will break the check script. This option is overridden by
+entries in <code>insecure_registries</code> with the same address or a matching CIDR.</p>
+</li>
+<li>
+<p><code>client_certs</code>: <em>Optional.</em> An array of objects with the following format:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">client_certs</span>:
+- <span class="pl-ent">domain</span>: <span class="pl-s">example.com:443</span>
+  <span class="pl-ent">cert</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END CERTIFICATE-----</span>
+<span class="pl-s"></span>  <span class="pl-ent">key</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN RSA PRIVATE KEY-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END RSA PRIVATE KEY-----</span>
+<span class="pl-s"></span>- <span class="pl-ent">domain</span>: <span class="pl-s">10.244.6.2:443</span>
+  <span class="pl-ent">cert</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN CERTIFICATE-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END CERTIFICATE-----</span>
+<span class="pl-s"></span>  <span class="pl-ent">key</span>: <span class="pl-s">|</span>
+<span class="pl-s">    -----BEGIN RSA PRIVATE KEY-----</span>
+<span class="pl-s">    ...</span>
+<span class="pl-s">    -----END RSA PRIVATE KEY-----</span></pre></div>
+<p>Each entry specifies the x509 certificate and key to use for authenticating
+against the docker registry residing at the specified domain. The domain
+should match the first component of <code>repository</code>, including the port.</p>
+</li>
+<li>
+<p><code>max_concurrent_downloads</code>: <em>Optional.</em> Maximum concurrent downloads.</p>
+<p>Limits the number of concurrent download threads.</p>
+</li>
+<li>
+<p><code>max_concurrent_uploads</code>: <em>Optional.</em> Maximum concurrent uploads.</p>
+<p>Limits the number of concurrent upload threads.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-images" class="anchor" aria-hidden="true" href="#check-check-for-new-images"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new images.</h3>
+<p>The current image digest is fetched from the registry for the given tag of the
+repository.</p>
+<h3><a id="user-content-in-fetch-the-image-from-the-registry" class="anchor" aria-hidden="true" href="#in-fetch-the-image-from-the-registry"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch the image from the registry.</h3>
+<p>Pulls down the repository image by the requested digest.</p>
+<p>The following files will be placed in the destination:</p>
+<ul>
+<li><code>/image</code>: If <code>save</code> is <code>true</code>, the <code>docker save</code>d image will be provided
+here.</li>
+<li><code>/repository</code>: The name of the repository that was fetched.</li>
+<li><code>/tag</code>: The tag of the repository that was fetched.</li>
+<li><code>/image-id</code>: The fetched image ID.</li>
+<li><code>/digest</code>: The fetched image digest.</li>
+<li><code>/rootfs.tar</code>: If <code>rootfs</code> is <code>true</code>, the contents of the image will be
+provided here.</li>
+<li><code>/metadata.json</code>: Collects custom metadata. Contains the container  <code>env</code> variables and running <code>user</code>.</li>
+<li><code>/docker_inspect.json</code>: Output of the <code>docker inspect</code> on <code>image_id</code>. Useful if collecting <code>LABEL</code> <a href="https://docs.docker.com/engine/userguide/labels-custom-metadata/" rel="nofollow">metadata</a> from your image.</li>
+</ul>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>save</code>: <em>Optional.</em> Place a <code>docker save</code>d image in the destination.</li>
+<li><code>rootfs</code>: <em>Optional.</em> Place a <code>.tar</code> file of the image in the destination.</li>
+<li><code>skip_download</code>: <em>Optional.</em> Skip <code>docker pull</code> of image. Artifacts based
+on the image will not be present.</li>
+</ul>
+<p>As with all concourse resources, to modify params of the implicit <code>get</code> step after each <code>put</code> step you may also set these parameters under a <code>put</code> <code>get_params</code>. For example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">put</span>: <span class="pl-s">foo</span>
+<span class="pl-ent">params</span>: <span class="pl-s">{...}</span>
+<span class="pl-ent">get_params</span>: <span class="pl-s">{skip_download: true}</span></pre></div>
+<h3><a id="user-content-out-push-an-image-or-build-and-push-a-dockerfile" class="anchor" aria-hidden="true" href="#out-push-an-image-or-build-and-push-a-dockerfile"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Push an image, or build and push a <code>Dockerfile</code>.</h3>
+<p>Push a Docker image to the source's repository and tag. The resulting
+version is the image's digest.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>additional_tags</code>: <em>Optional.</em> Path to a file containing a
+whitespace-separated list of tags. The Docker build will additionally be
+pushed with those tags.</p>
+</li>
+<li>
+<p><code>build</code>: <em>Optional.</em> The path of a directory containing a <code>Dockerfile</code> to
+build.</p>
+</li>
+<li>
+<p><code>build_args</code>: <em>Optional.</em> A map of Docker build-time variables. These will be
+available as environment variables during the Docker build.</p>
+<p>While not stored in the image layers, they are stored in image metadata and
+so it is recommend to avoid using these to pass secrets into the build
+context. In multi-stage builds <code>ARG</code>s in earlier stages will not be copied
+to the later stages, or in the metadata of the final stage.</p>
+<p>The
+<a href="https://concourse-ci.org/implementing-resources.html#resource-metadata" rel="nofollow">build metadata</a>
+environment variables provided by Concourse will be expanded in the values
+(the syntax is <code>$SOME_ENVVAR</code> or <code>${SOME_ENVVAR}</code>).</p>
+<p>Example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">build_args</span>:
+  <span class="pl-ent">DO_THING</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">HOW_MANY_THINGS</span>: <span class="pl-c1">2</span>
+  <span class="pl-ent">EMAIL</span>: <span class="pl-s">me@yopmail.com</span>
+  <span class="pl-ent">CI_BUILD_ID</span>: <span class="pl-s">concourse-$BUILD_ID</span></pre></div>
+</li>
+<li>
+<p><code>build_args_file</code>: <em>Optional.</em> Path to a JSON file containing Docker
+build-time variables.</p>
+<p>Example file contents:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-s">{ "EMAIL": "me@yopmail.com", "HOW_MANY_THINGS": 1, "DO_THING": false }</span></pre></div>
+</li>
+<li>
+<p><code>cache</code>: <em>Optional.</em> Default <code>false</code>. When the <code>build</code> parameter is set,
+first pull <code>image:tag</code> from the Docker registry (so as to use cached
+intermediate images when building). This will cause the resource to fail
+if it is set to <code>true</code> and the image does not exist yet.</p>
+</li>
+<li>
+<p><code>cache_from</code>: <em>Optional.</em> An array of images to consider as cache, in order to
+reuse build steps from a previous build. The array elements are paths to
+directories generated by a <code>get</code> step with <code>save: true</code>. This has a similar
+aim of <code>cache</code>, but it loads the images from disk instead of pulling them
+from the network, so that Concourse resource caching can be used. It also
+allows more than one image to be specified, which is useful for multi-stage
+Dockerfiles. If you want to cache an image used in a <code>FROM</code> step, you should
+put it in <code>load_bases</code> instead.</p>
+</li>
+<li>
+<p><code>cache_tag</code>: <em>Optional.</em> Default <code>tag</code>. The specific tag to pull before
+building when <code>cache</code> parameter is set. Instead of pulling the same tag
+that's going to be built, this allows picking a different tag like
+<code>latest</code> or the previous version. This will cause the resource to fail
+if it is set to a tag that does not exist yet.</p>
+</li>
+<li>
+<p><code>dockerfile</code>: <em>Optional.</em> The path of the <code>Dockerfile</code> in the directory if
+it's not at the root of the directory.</p>
+</li>
+<li>
+<p><code>import_file</code>: <em>Optional.</em> A path to a file to <code>docker import</code> and then push.</p>
+</li>
+<li>
+<p><code>labels</code>: <em>Optional.</em> A map of labels that will be added to the image.</p>
+<p>Example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">labels</span>:
+  <span class="pl-ent">commit</span>: <span class="pl-s">b4d4823</span>
+  <span class="pl-ent">version</span>: <span class="pl-s">1.0.3</span></pre></div>
+</li>
+<li>
+<p><code>labels_file</code>: <em>Optional.</em> Path to a JSON file containing the image labels.</p>
+<p>Example file contents:</p>
+<div class="highlight highlight-source-json"><pre>{ <span class="pl-s"><span class="pl-pds">"</span>commit<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>b4d4823<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1.0.3<span class="pl-pds">"</span></span> }</pre></div>
+</li>
+<li>
+<p><code>load</code>: <em>Optional.</em> The path of a directory containing an image that was
+fetched using this same resource type with <code>save: true</code>.</p>
+</li>
+<li>
+<p><code>load_base</code>: <em>Optional.</em> A path to a directory containing an image to <code>docker load</code> before running <code>docker build</code>. The directory must have <code>image</code>,
+<code>image-id</code>, <code>repository</code>, and <code>tag</code> present, i.e. the tree produced by <code>/in</code>.</p>
+</li>
+<li>
+<p><code>load_bases</code>: <em>Optional.</em> Same as <code>load_base</code>, but takes an array to load
+multiple images.</p>
+</li>
+<li>
+<p><code>load_file</code>: <em>Optional.</em> A path to a file to <code>docker load</code> and then push.
+Requires <code>load_repository</code>.</p>
+</li>
+<li>
+<p><code>load_repository</code>: <em>Optional.</em> The repository of the image loaded from <code>load_file</code>.</p>
+</li>
+<li>
+<p><code>load_tag</code>: <em>Optional.</em> Default <code>latest</code>. The tag of image loaded from <code>load_file</code></p>
+</li>
+<li>
+<p><code>pull_repository</code>: <em>Optional.</em> <strong>DEPRECATED. Use <code>get</code> and <code>load</code> instead.</strong> A
+path to a repository to pull down, and then push to this resource.</p>
+</li>
+<li>
+<p><code>pull_tag</code>: <em>Optional.</em>  <strong>DEPRECATED. Use <code>get</code> and <code>load</code> instead.</strong> Default
+<code>latest</code>. The tag of the repository to pull down via <code>pull_repository</code>.</p>
+</li>
+<li>
+<p><code>tag</code>: <strong>DEPRECATED - Use <code>tag_file</code> instead</strong></p>
+</li>
+<li>
+<p><code>tag_file</code>: <em>Optional.</em> The value should be a path to a file containing the name
+of the tag.</p>
+</li>
+<li>
+<p><code>tag_as_latest</code>: <em>Optional.</em>  Default <code>false</code>. If true, the pushed image will
+be tagged as <code>latest</code> in addition to whatever other tag was specified.</p>
+</li>
+<li>
+<p><code>tag_prefix</code>: <em>Optional.</em> If specified, the tag read from the file will be
+prepended with this string. This is useful for adding <code>v</code> in front of version
+numbers.</p>
+</li>
+<li>
+<p><code>target_name</code>: <em>Optional.</em>  Specify the name of the target build stage.
+Only supported for multi-stage Docker builds</p>
+</li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">git-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>: <span class="pl-c"><span class="pl-c">#</span> ...</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">git-resource-image</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">concourse/git-resource</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">username</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">password</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">git-resource-rootfs</span>
+  <span class="pl-ent">type</span>: <span class="pl-c1">s3</span>
+  <span class="pl-ent">source</span>: <span class="pl-c"><span class="pl-c">#</span> ...</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">build-rootfs</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">git-resource</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">git-resource-image</span>
+    <span class="pl-ent">params</span>: <span class="pl-s">{build: git-resource}</span>
+    <span class="pl-ent">get_params</span>: <span class="pl-s">{rootfs: true}</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">git-resource-rootfs</span>
+    <span class="pl-ent">params</span>: <span class="pl-s">{file: git-resource-image/rootfs.tar}</span></pre></div>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li>golang is <em>required</em> - version 1.9.x is tested; earlier versions may also
+work.</li>
+<li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+work.</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following commands for both <code>alpine</code> and <code>ubuntu</code> images:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t docker-image-resource -f dockerfiles/alpine/Dockerfile <span class="pl-c1">.</span>
+docker build -t docker-image-resource -f dockerfiles/ubuntu/Dockerfile <span class="pl-c1">.</span></pre></div>
+<p>To use the newly built image, push it to a docker registry that's accessible to
+Concourse and configure your pipeline to use it:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">docker-image-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">privileged</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">example.com:5000/docker-image-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">some-image</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image-resource</span>
+  <span class="pl-s">...</span></pre></div>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+locally.</p>
+</article></div>
 </div>
 
 </body>

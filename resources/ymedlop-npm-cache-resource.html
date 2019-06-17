@@ -10,7 +10,194 @@
 <p>https://github.com/ymedlop/npm-cache-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><p><a href="https://microbadger.com/images/ymedlop/npm-cache-resource" title="Get your own version badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/d33fcc639214ce036ba3ee19b8d46b1a6d6853e7/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f76657273696f6e2f796d65646c6f702f6e706d2d63616368652d7265736f757263652e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/version/ymedlop/npm-cache-resource.svg" style="max-width:100%;"></a> <a href="https://microbadger.com/images/ymedlop/npm-cache-resource" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/b14f7d42e0127c620c4ed9e40c39e470f5497b7e/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263652e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource.svg" style="max-width:100%;"></a> <a href="https://microbadger.com/images/ymedlop/npm-cache-resource" title="Get your own commit badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/5ea5c59427701b7bd854cc6dd7f0b82dd445278d/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f636f6d6d69742f796d65646c6f702f6e706d2d63616368652d7265736f757263652e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/commit/ymedlop/npm-cache-resource.svg" style="max-width:100%;"></a> <a href="https://microbadger.com/images/ymedlop/npm-cache-resource" title="Get your own license badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/9c08239abbe84a8853500762a5510709a7c81d8a/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f6c6963656e73652f796d65646c6f702f6e706d2d63616368652d7265736f757263652e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/license/ymedlop/npm-cache-resource.svg" style="max-width:100%;"></a>
+<a href="https://img.shields.io/docker/pulls/ymedlop/npm-cache-resource.svg" rel="nofollow"><img src="https://camo.githubusercontent.com/922003a27d074f76bd0637cefd77458bff166147/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f796d65646c6f702f6e706d2d63616368652d7265736f757263652e737667" alt="" data-canonical-src="https://img.shields.io/docker/pulls/ymedlop/npm-cache-resource.svg" style="max-width:100%;"></a>
+<a href="https://anchore.io/image/dockerhub/ff3248a908b44da88fb3f1db2e1927466cba0975ce68e4ecf4ce13aee153483a?repo=ymedlop%2Fnpm-cache-resource&amp;tag=latest" rel="nofollow"><img src="https://camo.githubusercontent.com/e637b98d091a791284ce74c08fbc77d61e541f4d/68747470733a2f2f616e63686f72652e696f2f736572766963652f6261646765732f696d6167652f66663332343861393038623434646138386662336631646232653139323734363663626130393735636536386534656366346365313361656531353334383361" alt="Anchore Image Overview" data-canonical-src="https://anchore.io/service/badges/image/ff3248a908b44da88fb3f1db2e1927466cba0975ce68e4ecf4ce13aee153483a" style="max-width:100%;"></a></p>
+<h1><a id="user-content-npm-cache-resource" class="anchor" aria-hidden="true" href="#npm-cache-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>npm-cache-resource</h1>
+<p>a Concourse resource for caching dependencies downloaded by NPM - built on <a href="https://hub.docker.com/r/mhart/alpine-node" rel="nofollow">mhart/alpine-node</a>.</p>
+<p><a href="https://raw.githubusercontent.com/ymedlop-sandbox/npm-cache-resource/gh-pages/images/example-pipeline.png" rel="nofollow"><img src="https://raw.githubusercontent.com/ymedlop-sandbox/npm-cache-resource/gh-pages/images/example-pipeline.png" alt="EXAMPLE PIPELINE" style="max-width:100%;"></a></p>
+<h2><a id="user-content-versions" class="anchor" aria-hidden="true" href="#versions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Versions</h2>
+<ul>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/master/Dockerfile">latest</a> ( npm 5.1.0 - yarn latest - alpine-node:latest ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/b14f7d42e0127c620c4ed9e40c39e470f5497b7e/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263652e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource.svg" style="max-width:100%;"></a></li>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/alpine-node-v9/Dockerfile">9</a> ( npm 5.1.0 - yarn latest - alpine-node:9 ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource:9" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/f69aa5115acd9f57affe6f5a35a9b7f16c32adc8/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263653a392e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource:9.svg" style="max-width:100%;"></a></li>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/alpine-node-v8/Dockerfile">8</a> ( npm 5.1.0 - yarn latest - alpine-node:8 ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource:8" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/36c28cbb5128deac85c6d761cb0af4c28aadb921/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263653a382e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource:8.svg" style="max-width:100%;"></a></li>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/alpine-node-v7/Dockerfile">7</a> ( npm 4.0.5 - alpine-node:7 ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource:7" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/599a650d73115b511a024a5df88e7ed3801208c1/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263653a372e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource:7.svg" style="max-width:100%;"></a></li>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/alpine-node-v6/Dockerfile">6</a> ( npm 3.10.10 - alpine-node:6 ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource:6" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/7a52c3837e2692f33dba1901c3377af3121ff177/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263653a362e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource:6.svg" style="max-width:100%;"></a></li>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/alpine-node-v4/Dockerfile">4</a> ( npm 2.15.11 - alpine-node:4 ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource:4" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/c8dac45fcd954e00305778b8bcf2679d31678fd3/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263653a342e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource:4.svg" style="max-width:100%;"></a></li>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/alpine-node-v0.12/Dockerfile">0.12</a> ( npm 2.15.11 - alpine-node:0.12 ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource:0.12" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/ef02d17dbdbdb20d106d669812fe4de99cf86acb/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263653a302e31322e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource:0.12.svg" style="max-width:100%;"></a></li>
+<li><a href="https://github.com/ymedlop-sandbox/npm-cache-resource/blob/alpine-node-v0.10/Dockerfile">0.10</a>( npm 2.15.11 - alpine-node:0.10 ) <a href="https://microbadger.com/images/ymedlop/npm-cache-resource:0.1'" title="Get your own image badge on microbadger.com" rel="nofollow"><img src="https://camo.githubusercontent.com/1f4201de643f5a3a65af68947564cea781025ef8/68747470733a2f2f696d616765732e6d6963726f6261646765722e636f6d2f6261646765732f696d6167652f796d65646c6f702f6e706d2d63616368652d7265736f757263653a302e31302e737667" alt="" data-canonical-src="https://images.microbadger.com/badges/image/ymedlop/npm-cache-resource:0.10.svg" style="max-width:100%;"></a></li>
+</ul>
+<h2><a id="user-content-resource-configuration" class="anchor" aria-hidden="true" href="#resource-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Configuration</h2>
+<pre><code>resource_types:
+
+  - name: npm-cache
+    type: docker-image
+    source: {repository: ymedlop/npm-cache-resource, tag: "4"}
+</code></pre>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>&lt;&lt;:</code>: <em>Required.</em> The source is the same as the corresponding git resource</li>
+</ul>
+<h3><a id="user-content-configuration-to-access-a-git-private-repo" class="anchor" aria-hidden="true" href="#configuration-to-access-a-git-private-repo"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration to access a Git Private Repo</h3>
+<h4><a id="user-content-ssh" class="anchor" aria-hidden="true" href="#ssh"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SSH:</h4>
+<ul>
+<li><code>private_key</code>: <em>Required.</em> Private key.</li>
+</ul>
+<h4><a id="user-content-https" class="anchor" aria-hidden="true" href="#https"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP(S):</h4>
+<ul>
+<li><code>username_key</code>: <em>Required.</em> Username for HTTP(S) auth. This is needed when only HTTP/HTTPS protocol for git is available (which does not support private key auth) and auth is required.</li>
+<li><code>password_key</code>: <em>Required.</em> Password for HTTP(S) auth.</li>
+<li><code>skip_ssl_verification</code>: <em>Optional.</em> Skips git ssl verification by exporting GIT_SSL_NO_VERIFY=true.</li>
+</ul>
+<h3><a id="user-content-configuration-to-access-a-npm-registry-or-private-registry-by-user-and-password" class="anchor" aria-hidden="true" href="#configuration-to-access-a-npm-registry-or-private-registry-by-user-and-password"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration to access a NPM Registry or Private Registry by User and Password.</h3>
+<ul>
+<li><code>registry-url</code>: <em>Optional.</em> Private NPM registry to log in to (Default: <a href="https://registry.npmjs.org" rel="nofollow">https://registry.npmjs.org</a>)</li>
+<li><code>registry-user</code>: <em>Required.</em> Registry Username.</li>
+<li><code>registry-pass</code>:  <em>Required.</em> Registry User Password.</li>
+<li><code>registry-email</code>: <em>Required.</em> Registry User Email.</li>
+<li><code>registry-scope</code>: <em>Optional.</em> Registry Scope.</li>
+</ul>
+<h3><a id="user-content-configuration-to-access-a-private-registry-by-base64-token" class="anchor" aria-hidden="true" href="#configuration-to-access-a-private-registry-by-base64-token"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration to access a Private Registry by Base64 Token</h3>
+<ul>
+<li><code>registry</code>: <em>Required.</em> The location our private npm registry.</li>
+<li><code>token</code>: <em>Required.</em> Our npm token.</li>
+</ul>
+<h1><a id="user-content-nodejs-environment-variables" class="anchor" aria-hidden="true" href="#nodejs-environment-variables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js Environment variables</h1>
+<ul>
+<li><code>node-env</code>: Set NODE_ENV. (Default: development)</li>
+</ul>
+<h3><a id="user-content-configuration-for-projects-living-in-subdirectories" class="anchor" aria-hidden="true" href="#configuration-for-projects-living-in-subdirectories"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration for projects living in subdirectories</h3>
+<ul>
+<li><code>project-path</code>: <em>Optional</em> Relative path of subdirectory containing the project (i.e. where the <code>package.json</code> is).</li>
+</ul>
+<h3><a id="user-content-configuration-use-npm-ci-command" class="anchor" aria-hidden="true" href="#configuration-use-npm-ci-command"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration use npm ci command</h3>
+<ul>
+<li><code>npm-ci-support</code>: <em>Optional</em> Allow to use npm ci instead of npm install to install the npm modules into our resource. (Default: false)</li>
+</ul>
+<h3><a id="user-content-configuration-use-yarn-cli" class="anchor" aria-hidden="true" href="#configuration-use-yarn-cli"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration use yarn cli</h3>
+<ul>
+<li><code>yarn-support</code>: <em>Optional</em> Allow to use yarn to install the npm modules into our resource. (Default: false)</li>
+</ul>
+<h3><a id="user-content-configuration-use-bower-cli" class="anchor" aria-hidden="true" href="#configuration-use-bower-cli"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration use bower cli</h3>
+<ul>
+<li><code>bower-support</code>: <em>Optional</em> Allow to use bower to install packages into our resource (Bower dependency has to be in our package.json). (Default: false)</li>
+</ul>
+<pre><code>Whatever tool you use to generate the encoded username and password string, try to encode the string admin:admin123, which should result in YWRtaW46YWRtaW4xMjM=. `
+Another example for a valid setup is jane:testpassword123 resulting in amFuZTp0ZXN0cGFzc3dvcmQxMjM=.
+
+In our demo we are using admin:123456 resulting in YWRtaW46MTIzNDU2
+</code></pre>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<pre><code>resources:
+
+  # a perfectly normal source repository with lashings and lashings of dependencies
+  - name: repo
+    type: git
+    source: &amp;repo-source # apply a YAML anchor so we can refer to this in the cache resource
+      uri: https://github.com/ymedlop/npm-cache-resource.git
+      branch: npm-package-example
+
+  # a resource caching the dependencies listed in the source repository
+  - name: npm-repo-cache
+    type: npm-cache # as defined above
+    source:
+      &lt;&lt;: *repo-source # the source is the same as the corresponding git resource ...
+      paths: # ... except that it's only interested in files listing dependencies
+        - package.json
+
+</code></pre>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-commits" class="anchor" aria-hidden="true" href="#check-check-for-new-commits"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new commits</h3>
+<p>The repository is cloned (or pulled if already present), and any commits from the given version on are returned. If no version is given, the ref for HEAD is returned.</p>
+<p>Any commits that contain the string [ci skip] will be ignored. This allows you to commit to your repository without triggering a new version.</p>
+<h3><a id="user-content-in-pulls-a-package-from-npm" class="anchor" aria-hidden="true" href="#in-pulls-a-package-from-npm"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Pulls a package from npm</h3>
+<p>Clones the repository to the destination, and locks it down to a given ref. It will return the same given ref as version. And fetch npm package from the package.json`.</p>
+<h4><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h4>
+<pre><code>jobs:
+
+  - name: cache
+    plan:
+
+      - get: repo
+        trigger: true
+
+      - get: npm-repo-cache
+
+  - name: test
+    plan:
+
+      - get: repo
+        trigger: true
+        passed: [cache]
+
+      - get: npm-repo-cache
+        passed: [cache]
+
+      - task: run tests
+        config:
+
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: mhart/alpine-node, tag: "6"}
+
+          inputs:
+            - name: repo
+              path: /src
+            - name: npm-repo-cache
+              path: /cache
+
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                mv cache/node_modules src
+                cd src &amp;&amp; npm test
+
+  - name: build
+    plan:
+
+      - get: repo
+        trigger: true
+        passed: [cache]
+
+      - get: npm-repo-cache
+        passed: [cache]
+
+      - task: run build
+        config:
+
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: mhart/alpine-node, tag: "6"}
+
+          inputs:
+            - name: repo
+              path: /src
+            - name: npm-repo-cache
+              path: /cache
+
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                mv cache/node_modules src
+                cd src &amp;&amp; npm run build
+</code></pre>
+<h3><a id="user-content-out-nothing-to-do-here" class="anchor" aria-hidden="true" href="#out-nothing-to-do-here"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Nothing to do here....</h3>
+<h2><a id="user-content-getting-started" class="anchor" aria-hidden="true" href="#getting-started"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Getting Started</h2>
+<p>You can see more examples <a href="https://github.com/ymedlop-sandbox/npm-cache-resource/tree/examples">here</a>.</p>
+<h1><a id="user-content-credits" class="anchor" aria-hidden="true" href="#credits"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Credits:</h1>
+<ul>
+<li><a href="https://github.com/concourse/git-resource">concourse git resource</a></li>
+<li><a href="https://github.com/projectfalcon/gradle-cache-resource">projectfalcon/gradle-cache-resource</a> We are following this resource to create our npm cache resource.</li>
+</ul>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>See the <a href="LICENSE">LICENSE file</a> for license text and copyright information.</p>
+</article></div>
 </div>
 
 </body>

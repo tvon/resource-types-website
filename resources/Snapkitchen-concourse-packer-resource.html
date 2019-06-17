@@ -10,7 +10,91 @@
 <p>https://github.com/Snapkitchen/concourse-packer-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-packer-resource" class="anchor" aria-hidden="true" href="#concourse-packer-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse packer resource</h1>
+<p>a <a href="https://concourse-ci.org" rel="nofollow">concourse-ci</a> resource for building images via <a href="https://www.packer.io/docs/builders/amazon.html" rel="nofollow">packer</a></p>
+<h2><a id="user-content-table-of-contents" class="anchor" aria-hidden="true" href="#table-of-contents"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>table of contents</h2>
+<ul>
+<li>
+<p><a href="#behavior">behavior</a></p>
+<ul>
+<li>
+<p><a href="#check-not-implemented">check</a></p>
+</li>
+<li>
+<p><a href="#in-not-implemented">in</a></p>
+</li>
+<li>
+<p><a href="#out-build-a-new-image">out</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>behaviour</h2>
+<h3><a id="user-content-check-not-implemented" class="anchor" aria-hidden="true" href="#check-not-implemented"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: not implemented</h3>
+<h3><a id="user-content-in-not-implemented" class="anchor" aria-hidden="true" href="#in-not-implemented"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: not implemented</h3>
+<h3><a id="user-content-out-build-a-new-image" class="anchor" aria-hidden="true" href="#out-build-a-new-image"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: build a new image</h3>
+<p><strong>parameters</strong></p>
+<ul>
+<li>
+<p><code>template</code>: <em>required</em>. the path to the packer template file.</p>
+</li>
+<li>
+<p><code>env_vars</code>: <em>optional</em>. dict of variables to set in the environment.</p>
+</li>
+<li>
+<p><code>env_vars_from_files</code>: <em>optional</em>. dict of vars and file paths to set in the environment.</p>
+</li>
+<li>
+<p><code>var_files</code>: <em>optional</em>. the list of paths to <a href="https://www.packer.io/docs/templates/user-variables.html" rel="nofollow">external JSON variable file(s)</a>.</p>
+</li>
+<li>
+<p><code>vars</code>: <em>optional</em>. dict of explicit packer variable key/value pairs.</p>
+</li>
+<li>
+<p><code>vars_from_files</code>: <em>optional</em>. dict of vars and file paths to use as their value.</p>
+</li>
+<li>
+<p><code>debug</code>: <em>optional</em>. set to <code>true</code> to dump argument values and parsed output. <strong>may result in leaked credentials</strong>. default: <code>false</code></p>
+</li>
+</ul>
+<p>the id of the first artifact produced will be used as the version, with the full artifact details in the output metadata</p>
+<p><strong>note</strong>: in an effort to prevent credentials leaking to logs, the full packer command line will not be printed on failure -- however, you should still mark any relevant variables as <em>sensitive variables</em> in the packer template to prevent packer from printing them in log output</p>
+<p>the packer executable will have a working directory of the concourse input directory, so file paths can be relative to resources, or absolute paths</p>
+<h2><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>examples</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">packer</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">snapkitchen/concourse-packer-resource</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">build-ami</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">packer</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">my-ami</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">my-ami-template</span>
+  - <span class="pl-ent">get</span>: <span class="pl-s">role-credentials</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">build-ami</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">template</span>: <span class="pl-s">my-ami-template/template.json</span>
+      <span class="pl-ent">var_files</span>:
+      - <span class="pl-s">my-ami-template/my-vars.json</span>
+      <span class="pl-ent">env_vars</span>:
+        <span class="pl-ent">AWS_DEFAULT_REGION</span>: <span class="pl-s">((aws_region))</span>
+      <span class="pl-ent">env_vars_from_files</span>:
+        <span class="pl-ent">AWS_ACCESS_KEY_ID</span>: <span class="pl-s">role-credentials/access-key-id</span>
+        <span class="pl-ent">AWS_SECRET_ACCESS_KEY</span>: <span class="pl-s">role-credentials/secret-access-key</span>
+        <span class="pl-ent">AWS_SESSION_TOKEN</span>: <span class="pl-s">role-credentials/session-token</span>
+      <span class="pl-ent">vars</span>:
+        <span class="pl-ent">environment</span>: <span class="pl-s">dev</span>
+        <span class="pl-ent">package_version</span>: <span class="pl-s">1.2.3</span>
+      <span class="pl-ent">vars_from_files</span>:
+        <span class="pl-ent">commit_ref</span>: <span class="pl-s">my-ami-template/.git/short_ref</span></pre></div>
+<h1><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>license</h1>
+<p>see <a href="LICENSE">LICENSE</a></p>
+</article></div>
 </div>
 
 </body>

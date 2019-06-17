@@ -10,7 +10,156 @@
 <p>https://github.com/swce/metadata-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><p><a href="https://registry.hub.docker.com/v2/repositories/swce/metadata-resource/stars/count/" rel="nofollow"><img src="https://camo.githubusercontent.com/d167661171e67048b92c2cff04de5bf49b514e5d/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f73746172732f737763652f6d657461646174612d7265736f757263652e7376673f7374796c653d706c6173746963" alt="Docker Stars" data-canonical-src="https://img.shields.io/docker/stars/swce/metadata-resource.svg?style=plastic" style="max-width:100%;"></a>
+<a href="https://registry.hub.docker.com/v2/repositories/swce/metadata-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/04d17d548dc220d56a4fde1a3dbd91174070c116/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f737763652f6d657461646174612d7265736f757263652e7376673f7374796c653d706c6173746963" alt="Docker pulls" data-canonical-src="https://img.shields.io/docker/pulls/swce/metadata-resource.svg?style=plastic" style="max-width:100%;"></a>
+<a href="https://github.com/swce/metadata-resource"><img src="https://camo.githubusercontent.com/9f2102cf16d2952bd998971e52323e3d93eba625/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f6275696c642f737763652f6d657461646174612d7265736f757263652e737667" alt="Docker build status" data-canonical-src="https://img.shields.io/docker/build/swce/metadata-resource.svg" style="max-width:100%;"></a>
+<a href="https://github.com/swce/metadata-resource"><img src="https://camo.githubusercontent.com/4fdeaaba3e9e9e32e9a52ca5ee3f6885401e8b0e/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f6175746f6d617465642f737763652f6d657461646174612d7265736f757263652e737667" alt="Docker Automated build" data-canonical-src="https://img.shields.io/docker/automated/swce/metadata-resource.svg" style="max-width:100%;"></a></p>
+<p><a href="https://hub.docker.com/r/swce/metadata-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/0d35e7fe44f55bd8bf45703a818fefa620b6ff5e/687474703a2f2f646f636b6572692e636f2f696d6167652f737763652f6d657461646174612d7265736f75726365" alt="dockeri.co" data-canonical-src="http://dockeri.co/image/swce/metadata-resource" style="max-width:100%;"></a></p>
+<h1><a id="user-content-concourse-ci-metadata-resource" class="anchor" aria-hidden="true" href="#concourse-ci-metadata-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse CI Metadata Resource</h1>
+<p>Implements a resource that passes to a task the metadata of the job.</p>
+<p>Caution: misuse may result in angry concourse developers. This resource was created for the sole purpose of linking the Artifactory artifacts to the current build.</p>
+<p>Opinionated pipeline suggestion <a href="#opinionated-pipeline">here</a></p>
+<h2><a id="user-content-thanks" class="anchor" aria-hidden="true" href="#thanks"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Thanks</h2>
+<p>This resource was implemented based on the <a href="https://github.com/vito/build-metadata-resource">build-metadata-resource</a></p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">meta</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">swce/metadata-resource</span>
+      
+<span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">meta</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">meta</span></pre></div>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p><em>None.</em></p>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-produce-a-single-dummy-key" class="anchor" aria-hidden="true" href="#check-produce-a-single-dummy-key"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Produce a single dummy key</h3>
+<p>Produce the current timestamp to invalidate the previous version so every build will get a fresh and relevant copy of the metadata.</p>
+<h3><a id="user-content-in-write-the-metadata-to-the-destination-dir" class="anchor" aria-hidden="true" href="#in-write-the-metadata-to-the-destination-dir"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Write the metadata to the destination dir</h3>
+<ul>
+<li>"$BUILD_ID" &gt; build-id</li>
+<li>"$BUILD_NAME" &gt; build-name</li>
+<li>"$BUILD_JOB_NAME" &gt; build-job-name</li>
+<li>"$BUILD_PIPELINE_NAME" &gt; build-pipeline-name</li>
+<li>"$BUILD_TEAM_NAME" &gt; build-team-name</li>
+<li>"$ATC_EXTERNAL_URL" &gt; atc-external-url</li>
+</ul>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p><em>None.</em></p>
+<h3><a id="user-content-out-unused" class="anchor" aria-hidden="true" href="#out-unused"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Unused</h3>
+<p>Unused</p>
+<h4><a id="user-content-parameters-2" class="anchor" aria-hidden="true" href="#parameters-2"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p><em>None.</em></p>
+<h2><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">meta</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">swce/metadata-resource</span>
+
+<span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">meta</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">meta</span>
+
+<span class="pl-ent">jobs</span>:
+
+  - <span class="pl-ent">name</span>: <span class="pl-s">build</span>
+    <span class="pl-ent">plan</span>:
+      - <span class="pl-ent">get</span>: <span class="pl-s">meta</span>
+      - <span class="pl-ent">task</span>: <span class="pl-s">build</span>
+        <span class="pl-ent">file</span>: <span class="pl-s">tools/tasks/build/task.yml</span>
+
+</pre></div>
+<p>The build job gets in the <code>meta</code> dir all the files with the respected values in them to use as it pleases</p>
+<h2><a id="user-content-opinionated-pipeline" class="anchor" aria-hidden="true" href="#opinionated-pipeline"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Opinionated pipeline</h2>
+<p>Use this resource to link the artifacts created by the build step to the current build. This is helpfull in a couple of ways:</p>
+<ul>
+<li>Artifactory will show the build number in the metadata of the artifacts, which helps understanding which build created the artifacts.</li>
+<li>When working with snapshots and production artifactory repositories, we can easily promote the artifacts of the build from snapshot to production without the need to realize all the artifacts created by the build and copying them one by one. This is done using the promote api call of Artifactory.</li>
+</ul>
+<p>We will use the <a href="https://github.com/swce/keyval-resource">keyval-resource</a> to pass the build number to the step that will release the artifact to production.</p>
+<p>The <code>pipeline.yml</code> file:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">meta</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">swce/metadata-resource</span>
+  - <span class="pl-ent">name</span>: <span class="pl-s">keyval</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">swce/keyval-resource</span>
+
+<span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">meta</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">meta</span>
+  - <span class="pl-ent">name</span>: <span class="pl-s">keyval</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">keyval</span>
+
+<span class="pl-ent">jobs</span>:
+
+  - <span class="pl-ent">name</span>: <span class="pl-s">build</span>
+    <span class="pl-ent">plan</span>:
+      - <span class="pl-ent">get</span>: <span class="pl-s">meta</span>
+      - <span class="pl-ent">task</span>: <span class="pl-s">build</span>
+        <span class="pl-ent">file</span>: <span class="pl-s">tools/tasks/build/task.yml</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">keyval</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">file</span>: <span class="pl-s">keyvalout/keyval.properties</span>
+
+...
+
+  - <span class="pl-ent">name</span>: <span class="pl-s">prod-deploy</span>
+    <span class="pl-ent">plan</span>:
+      - <span class="pl-ent">get</span>: <span class="pl-s">keyval</span>
+      - <span class="pl-ent">task</span>: <span class="pl-s">prod-deploy</span>
+        <span class="pl-ent">file</span>: <span class="pl-s">tools/tasks/prod-deploy/task.yml</span>
+</pre></div>
+<p>The <code>build</code> task:</p>
+<div class="highlight highlight-source-shell"><pre>pipeline_id=<span class="pl-s"><span class="pl-pds">`</span>cat <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${ROOT_FOLDER}</span>/meta/build-name<span class="pl-pds">"</span></span><span class="pl-pds">`</span></span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Pipeline id is <span class="pl-smi">$pipeline_id</span><span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> <span class="pl-s"><span class="pl-pds">"</span>PASSED_PIPELINE_ID=<span class="pl-smi">$pipeline_id</span><span class="pl-pds">"</span></span>
+
+...
+
+gradlew ... -PbuildId=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PASSED_PIPELINE_ID}</span><span class="pl-pds">"</span></span>
+</pre></div>
+<p>The <code>build.gradle</code> file of the project:</p>
+<div class="highlight highlight-source-groovy-gradle"><pre><span class="pl-en">artifactory</span> {
+  publish {
+    publishBuildInfo <span class="pl-k">=</span> <span class="pl-c1">true</span>
+  }
+  clientConfig<span class="pl-k">.</span>info<span class="pl-k">.</span>setBuildNumber(buildId)
+  clientConfig<span class="pl-k">.</span>publisher<span class="pl-k">.</span>addMatrixParam(<span class="pl-k">BuildInfoFields</span><span class="pl-k">.</span><span class="pl-c1">BUILD_NUMBER</span>, buildId)
+}
+</pre></div>
+<p>The <code>prod-deploy</code> task:</p>
+<div class="highlight highlight-source-shell"><pre>  ...
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Promoting build to production repo<span class="pl-pds">"</span></span>
+        <span class="pl-k">local</span> appName=<span class="pl-s"><span class="pl-pds">$(</span>retrieveAppName<span class="pl-pds">)</span></span>
+        <span class="pl-k">local</span> args=<span class="pl-s"><span class="pl-pds">"</span>{<span class="pl-cce">\"</span>status<span class="pl-cce">\"</span>: <span class="pl-cce">\"</span>Deployed<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>comment<span class="pl-cce">\"</span>: <span class="pl-cce">\"</span>moving to production<span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>copy<span class="pl-cce">\"</span>: true,<span class="pl-cce">\"</span>sourceRepo<span class="pl-cce">\"</span>: <span class="pl-cce">\"</span><span class="pl-smi">${REPO_SNAPSHOT}</span><span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>targetRepo<span class="pl-cce">\"</span>: <span class="pl-cce">\"</span><span class="pl-smi">${REPO_RELEASE}</span><span class="pl-cce">\"</span>,<span class="pl-cce">\"</span>properties<span class="pl-cce">\"</span>: {<span class="pl-cce">\"</span>retention.pinned<span class="pl-cce">\"</span>:[<span class="pl-cce">\"</span>7<span class="pl-cce">\"</span>]}}<span class="pl-pds">"</span></span>
+        curl --fail -u <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${artifactory_user}</span>:<span class="pl-smi">${artifactory_password}</span><span class="pl-pds">"</span></span> -H <span class="pl-s"><span class="pl-pds">"</span>Content-Type: application/json<span class="pl-pds">"</span></span> -X POST -d <span class="pl-s"><span class="pl-pds">"</span>'<span class="pl-smi">$args</span>'<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${artifactory_contextUrl}</span>/api/build/promote/<span class="pl-smi">${appName}</span>/<span class="pl-smi">${PASSED_PIPELINE_ID}</span><span class="pl-pds">"</span></span>
+</pre></div>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li>golang is <em>required</em> - version 1.9.x is tested; earlier versions may also
+work.</li>
+<li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+work.</li>
+<li>godep is used for dependency management of the golang packages.</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following command:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t metadata-resource <span class="pl-c1">.</span></pre></div>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+locally.</p>
+</article></div>
 </div>
 
 </body>

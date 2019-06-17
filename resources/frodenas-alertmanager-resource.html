@@ -10,7 +10,185 @@
 <p>https://github.com/frodenas/alertmanager-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-alertmanager-resource-" class="anchor" aria-hidden="true" href="#alertmanager-resource-"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Alertmanager Resource <a href="https://travis-ci.org/frodenas/alertmanager-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/ef739e2d2a8b842babc4400857e31cf18f1b51d0/68747470733a2f2f7472617669732d63692e6f72672f66726f64656e61732f616c6572746d616e616765722d7265736f757263652e706e67" alt="Build Status" data-canonical-src="https://travis-ci.org/frodenas/alertmanager-resource.png" style="max-width:100%;"></a></h1>
+<p>A <a href="http://concourse.ci/" rel="nofollow">Concourse</a> resource to interact with <a href="https://prometheus.io/docs/alerting/alertmanager/" rel="nofollow">Prometheus Alertmanager</a>, allowing you to <code>silence</code> certain alerts and to <code>expire</code> silences.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="center">Required</th>
+<th align="center">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">url</td>
+<td align="center">Y</td>
+<td align="center">String</td>
+<td align="left">Alertmanager URL. If alertmanager is protected by an username and password, specify them at the URL (ie <a href="http://user:pwd@alertmanager.com" rel="nofollow">http://user:pwd@alertmanager.com</a>).</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note</em>: Self signed SSL certificates are not yet supported, in this case, use the <code>http</code> schema.</p>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-does-nothing" class="anchor" aria-hidden="true" href="#check-does-nothing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Does nothing.</h3>
+<h3><a id="user-content-in-fetch-a-silence" class="anchor" aria-hidden="true" href="#in-fetch-a-silence"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch a silence.</h3>
+<p>Places the following file in the destination directory:</p>
+<ul>
+<li><code>silence</code>: Contains the <code>id</code> of the <code>silence</code> created by an <code>out</code> step.</li>
+</ul>
+<h3><a id="user-content-out-silence-an-alert-or-expire-a-silence" class="anchor" aria-hidden="true" href="#out-silence-an-alert-or-expire-a-silence"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Silence an alert or expire a silence.</h3>
+<p>Performs one of the following actions:</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="center">Required</th>
+<th align="center">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">operation</td>
+<td align="center">Y</td>
+<td align="center">String</td>
+<td align="left">Operation to perform: <code>silence</code> or <code>expire</code></td>
+</tr>
+</tbody>
+</table>
+<h5><a id="user-content-silence-parameters" class="anchor" aria-hidden="true" href="#silence-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Silence parameters</h5>
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="center">Required</th>
+<th align="center">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">matchers</td>
+<td align="center">Y</td>
+<td align="center">String</td>
+<td align="left">The <code>matcher</code> groups to silence <em>[1]</em></td>
+</tr>
+<tr>
+<td align="left">creator</td>
+<td align="center">N</td>
+<td align="center">String</td>
+<td align="left">The email of the silence creator</td>
+</tr>
+<tr>
+<td align="left">comments</td>
+<td align="center">N</td>
+<td align="center">String</td>
+<td align="left">A comment to help describe the silence (defaults to the <code>CI pipeline URL</code>)</td>
+</tr>
+<tr>
+<td align="left">expires</td>
+<td align="center">N</td>
+<td align="center">String</td>
+<td align="left">Duration of the silence (defaults to <code>1h</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><em>[1]</em> The following examples will attempt to show the <code>matcher</code> behaviour in action:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Matcher</th>
+<th align="left">Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>service=cf</code></td>
+<td align="left">will add a <code>silence</code> that matches alerts with the <code>service=cf</code> label value pair set</td>
+</tr>
+<tr>
+<td align="left"><code>alertname=CFCellUnhealthy service=cf</code></td>
+<td align="left">will add a <code>silence</code> for the <code>CFCellUnhealthy</code> alert and matches the <code>service=cf</code> label value pair set</td>
+</tr>
+<tr>
+<td align="left"><code>alertname=~CF.*</code></td>
+<td align="left">the <code>=~</code> syntax (similar to prometheus) is used to represent a regex match (regex matching can be used in combination with a direct match)</td>
+</tr>
+</tbody>
+</table>
+<h5><a id="user-content-expire-parameters" class="anchor" aria-hidden="true" href="#expire-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expire parameters</h5>
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="center">Required</th>
+<th align="center">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">silence</td>
+<td align="center">Y</td>
+<td align="center">String</td>
+<td align="left">The path of the silence to expire (a directory containing the <code>silence</code> file)</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="user-content-example-configuration" class="anchor" aria-hidden="true" href="#example-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configuration</h2>
+<h3><a id="user-content-resource-type" class="anchor" aria-hidden="true" href="#resource-type"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">alertmanager-resource</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">frodenas/alertmanager-resource</span></pre></div>
+<h3><a id="user-content-resource" class="anchor" aria-hidden="true" href="#resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">alertmanager</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">alertmanager-resource</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">url</span>: <span class="pl-s">&lt;ALERTMANAGER URL&gt;</span></pre></div>
+<h3><a id="user-content-plan" class="anchor" aria-hidden="true" href="#plan"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plan</h3>
+<p>The below example manages multiple silences at the same plan. The <code>silence</code> parameter for <code>expire</code> operations is the name of the step who created the silence. Normally this is just the same as the name of the resource, but if you have custom names for put (for example if you need to silence multiple alerts), you would put that name instead. For example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">backups</span>
+    <span class="pl-ent">plan</span>:
+      - <span class="pl-ent">put</span>: <span class="pl-s">silence-cf-alerts</span>
+        <span class="pl-ent">resource</span>: <span class="pl-s">alertmanager</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">operation</span>: <span class="pl-s">silence</span>
+          <span class="pl-ent">matchers</span>: <span class="pl-s"><span class="pl-pds">"</span>service=cf<span class="pl-pds">"</span></span>
+          <span class="pl-ent">expires</span>: <span class="pl-c1">30m</span>
+
+      - <span class="pl-ent">put</span>: <span class="pl-s">silence-mysql-alerts</span>
+        <span class="pl-ent">resource</span>: <span class="pl-s">alertmanager</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">operation</span>: <span class="pl-s">silence</span>
+          <span class="pl-ent">matchers</span>: <span class="pl-s"><span class="pl-pds">"</span>service=mysql severity=warning<span class="pl-pds">"</span></span>
+          <span class="pl-ent">expires</span>: <span class="pl-c1">30m</span>
+
+      <span class="pl-s">... do my stuff ...</span>
+
+      - <span class="pl-ent">put</span>: <span class="pl-s">expire-cf-silence</span>
+        <span class="pl-ent">resource</span>: <span class="pl-s">alertmanager</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">operation</span>: <span class="pl-s">expire</span>
+          <span class="pl-ent">silence</span>: <span class="pl-s">silence-cf-alerts</span>
+
+      - <span class="pl-ent">put</span>: <span class="pl-s">expire-mysql-silence</span>
+        <span class="pl-ent">resource</span>: <span class="pl-s">alertmanager</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">operation</span>: <span class="pl-s">expire</span>
+          <span class="pl-ent">silence</span>: <span class="pl-s">silence-mysql-alerts</span></pre></div>
+<h2><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
+<p>Refer to the <a href="CONTRIBUTING.md">contributing guidelines</a>.</p>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>Apache License 2.0, see <a href="LICENSE">LICENSE</a>.</p>
+</article></div>
 </div>
 
 </body>

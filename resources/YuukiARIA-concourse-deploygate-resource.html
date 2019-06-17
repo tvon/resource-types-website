@@ -10,7 +10,111 @@
 <p>https://github.com/YuukiARIA/concourse-deploygate-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-deploygate-resource" class="anchor" aria-hidden="true" href="#deploygate-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>DeployGate Resource</h1>
+<p><a href="https://goreportcard.com/report/github.com/YuukiARIA/concourse-deploygate-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/c23735361401cc85a13c8a34fd68503bfdcfa2cf/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f6769746875622e636f6d2f5975756b69415249412f636f6e636f757273652d6465706c6f79676174652d7265736f75726365" alt="Go Report Card" data-canonical-src="https://goreportcard.com/badge/github.com/YuukiARIA/concourse-deploygate-resource" style="max-width:100%;"></a>
+<a href="https://github.com/YuukiARIA/concourse-deploygate-resource/releases"><img src="https://camo.githubusercontent.com/758b24fc4f08231870764ec0105fd8b9ca64ac8e/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f7461672f5975756b69415249412f636f6e636f757273652d6465706c6f79676174652d7265736f757263652e7376673f636f6c6f723d626c7565" alt="Version" data-canonical-src="https://img.shields.io/github/tag/YuukiARIA/concourse-deploygate-resource.svg?color=blue" style="max-width:100%;"></a></p>
+<p>This is a write-only resource that enables to upload IPA/APK packages to <a href="https://deploygate.com/" rel="nofollow">DeployGate</a>.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>api_key</code> (string): <strong><em>Required.</em></strong> API key of a member or a group.</li>
+<li><code>owner</code> (string): <strong><em>Required.</em></strong> User name or group name.</li>
+</ul>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-check-check-for-new-revisions-of-apps" class="anchor" aria-hidden="true" href="#check-check-for-new-revisions-of-apps"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new revisions of apps.</h3>
+<p>Gets <em>versions</em> of applications belonging to configured organization.</p>
+<p><em>Versions</em> are identified by following attributes:</p>
+<ul>
+<li><code>platform</code>: Either <code>Android</code> or <code>iOS</code>.</li>
+<li><code>package_name</code>: The unique identifier of the application sush as <code>com.company.appname</code>.</li>
+<li><code>revision</code>: Number of revision on DeployGate.</li>
+</ul>
+<h3><a id="user-content-in-get-app-metadata" class="anchor" aria-hidden="true" href="#in-get-app-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Get app metadata.</h3>
+<p>Gets the single app metadata specified by <code>platform</code> and <code>package_name</code> and emits the data to <em>metadata.json</em>.</p>
+<p>Below is an example.</p>
+<details>
+<summary>metadata.json</summary>
+<div class="highlight highlight-source-json"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>My App<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>package_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>com.mycompany.myapp<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>labels<span class="pl-pds">"</span></span>: {},
+  <span class="pl-s"><span class="pl-pds">"</span>os_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Android<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>current_revision<span class="pl-pds">"</span></span>: <span class="pl-c1">16</span>,
+  <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>https://deploygate.com/organizations/MyOrg/platforms/Android/apps/com.mycompany.myapp<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>icon_url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Organization<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>MyOrg<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>description<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>My organization<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>https://deploygate.com/organizations/MyOrg<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>enterprise<span class="pl-pds">"</span></span>: {
+      <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Enterprise<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>mycompanyspace<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>display_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>My Company<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>https://deploygate.com/enterprises/mycompanyspace<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>icon_url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>
+    }
+  }
+}</pre></div>
+</details>
+<p>Note that currently there is no functionality to download applications themselves (IPA/APK files).</p>
+<h3><a id="user-content-out-push-an-app-to-deploygate" class="anchor" aria-hidden="true" href="#out-push-an-app-to-deploygate"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Push an app to DeployGate.</h3>
+<p>Upload the app package specified by <code>file</code> to DeployGate.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>file</code> (string): <strong><em>Required.</em></strong> Path to the <code>*.ipa</code> or <code>*.apk</code> file to upload.</li>
+<li><code>message</code> (string): <em>Optional.</em> Description of the uploaded file.</li>
+<li><code>message_file</code> (string): <em>Optional.</em> Path to a text file containing message.
+Use this instead of <code>message</code> to add a message dynamically generated by some tasks.
+If <code>message_file</code> is specified, <code>message</code> is ignored.</li>
+<li><code>distribution_key</code> (string): <em>Optional.</em> Hash key of distribution page.
+If specified, updates distribution page.</li>
+<li><code>distribution_name</code> (string): <em>Optional.</em> Name of distribution page to update.
+If not exists, new distribution page will be created with specified name.</li>
+<li><code>release_note</code> (string): <em>Optional.</em> Message added to distribution page when updated.</li>
+<li><code>disable_notify</code> (bool): <em>Optional.</em> If <em>true</em>, disables e-mail notification (iOS only).</li>
+<li><code>visibility</code> (string): <em>Optional.</em> This is ignored when updating existing apps.</li>
+</ul>
+<p>These parameters are corresponding to <a href="https://docs.deploygate.com/reference#upload" rel="nofollow">DeployGate API</a>.
+For more exact information, please refer to this official document.</p>
+<h2><a id="user-content-example-configuration" class="anchor" aria-hidden="true" href="#example-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configuration</h2>
+<h3><a id="user-content-resource-configuration" class="anchor" aria-hidden="true" href="#resource-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Configuration</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">deploygate</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">yuukiaria/deploygate-resource</span>
+
+<span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">deploygate</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">deploygate</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">api_key</span>: <span class="pl-s">((your-api-key))</span>
+      <span class="pl-ent">owner</span>: <span class="pl-s">mygroup</span></pre></div>
+<h3><a id="user-content-upload-with-a-simple-message" class="anchor" aria-hidden="true" href="#upload-with-a-simple-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upload with a simple message</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">publish-to-deploygate</span>
+    <span class="pl-ent">plan</span>:
+      - <span class="pl-ent">task</span>: <span class="pl-s">build-apk</span>
+        <span class="pl-ent">file</span>: <span class="pl-s">ci/build-task </span><span class="pl-c"><span class="pl-c">#</span> your build task that produces builds/myapp.apk</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">deploygate</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">file</span>: <span class="pl-s">builds/myapp.apk</span>
+          <span class="pl-ent">message</span>: <span class="pl-s">This is a new release</span></pre></div>
+<h3><a id="user-content-upload-with-a-generated-message" class="anchor" aria-hidden="true" href="#upload-with-a-generated-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upload with a generated message</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">publish-to-deploygate</span>
+    <span class="pl-ent">plan</span>:
+      - <span class="pl-ent">task</span>: <span class="pl-s">build-apk</span>
+        <span class="pl-ent">file</span>: <span class="pl-s">ci/tasks/build-task </span><span class="pl-c"><span class="pl-c">#</span> your build task that produces builds/myapp.apk</span>
+      - <span class="pl-ent">task</span>: <span class="pl-s">create-message</span>
+        <span class="pl-ent">file</span>: <span class="pl-s">ci/tasks/create-message</span>
+      - <span class="pl-ent">put</span>: <span class="pl-s">deploygate</span>
+        <span class="pl-ent">params</span>:
+          <span class="pl-ent">file</span>: <span class="pl-s">builds/myapp.apk</span>
+          <span class="pl-ent">message_file</span>: <span class="pl-s">message/message.txt</span></pre></div>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>This sofware is released under the MIT License, see <a href="https://github.com/YuukiARIA/concourse-deploygate-resource/blob/master/LICENSE">LICENSE</a>.</p>
+</article></div>
 </div>
 
 </body>

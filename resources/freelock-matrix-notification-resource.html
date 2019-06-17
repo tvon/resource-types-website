@@ -10,7 +10,92 @@
 <p>https://github.com/freelock/matrix-notification-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-matrix-notification-resource-for-concourse-ci" class="anchor" aria-hidden="true" href="#matrix-notification-resource-for-concourse-ci"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Matrix Notification Resource for Concourse CI</h1>
+<p>Send notification messages to <a href="http://matrix.org" rel="nofollow">Matrix</a> using a string message or templated message.</p>
+<p>This resource borrows heavily from the <a href="https://github.com/cloudfoundry-community/slack-notification-resource">Slack notification resource</a>. Usage and behavior around text and text_file parameters should be handled exactly the same as in that.</p>
+<h2><a id="user-content-installing" class="anchor" aria-hidden="true" href="#installing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installing</h2>
+<pre><code>resource-types:
+- name: matrix-notification-resource
+  type: docker-image
+  source:
+    repository: freelock/matrix-notification-resource
+</code></pre>
+<h2><a id="user-content-registering-with-matrix" class="anchor" aria-hidden="true" href="#registering-with-matrix"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Registering with Matrix</h2>
+<p>This resource needs an access token for a valid user account. It will not create the user account for you, or retrieve the token.</p>
+<p>To get a token, first create a Matrix user account on your homeserver of choice. Then you can use Curl to get an access token for the account:</p>
+<pre><code>curl -XPOST -d '{"type":"m.login.password", "user":"example", "password":"wordpass"}' "http://matrix.org/_matrix/client/api/r0/login"
+
+{
+    "access_token": "QGV4YW1wbGU6bG9jYWxob3N0.vRDLTgxefmKWQEtgGd",
+    "home_server": "matrix.org",
+    "user_id": "@example:matrix.org"
+}
+</code></pre>
+<p>... add the returned access_token to the resource.</p>
+<p>Then, a user will need to invite the account to the appropriate room, and the account will need to accept the invitation.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>matrix_server_url</code>: <em>Required.</em> Example: <a href="https://matrix.org" rel="nofollow">https://matrix.org</a></li>
+<li><code>token</code>: <em>Required.</em> token to authenticate with Matrix server</li>
+<li><code>room_id</code>: <em>Required.</em> The room to send notifications to -- this account must already be a member of this room.</li>
+<li><code>msgtype</code>: Used to post a custom message type e.g. if you want to attach a json blob. If set to anything other than m.notice, the resource will attach a "build" json object containing the build metadata info. Defaults to <code>m.notice</code>, can be overridden by the put resource.</li>
+<li><code>data_file</code>: <em>Optional.</em> (string) Default file to post to the data key of a custom message type. The contents of this file is generally assumed to be a JSON-encoded string. Can be overridden in the job parameters.</li>
+</ul>
+<p>Pull requests accepted for room_alias, user logins, auto-joins.</p>
+<h4><a id="user-content-out-sends-message-to-matrix-room" class="anchor" aria-hidden="true" href="#out-sends-message-to-matrix-room"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Sends message to Matrix room</h4>
+<p>Send message to specified Matrix Room, with the configured parameters</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>text</code>: (string) Text to send to the Matrix room as the content.body.</li>
+<li><code>text_file</code>: (string) File containing text to send to the Matrix room as the content.body.</li>
+<li><code>msgtype</code>: <em>Optional.</em> Message type, m.notice, m.text (default: m.notice)</li>
+<li><code>data_file</code>: <em>Optional.</em> (string) Filename to post using a custom_event message type. If unset, defaults to the data_file on the resource. If it exists, the file must contain valid JSON.</li>
+<li><code>trigger</code>: <em>Optional.</em> (string) Arbitrary test to add to a "trigger" data item on custom message types.</li>
+<li><code>always_notify</code>: If true, send a notice even if text_file and data_file are empty. If false, and a text_file is specified but empty, a notification will not be sent.</li>
+<li><code>prefix</code>: If set, this will be added to the beginning of a message. Commonly used with $BUILD_PIPELINE_NAME to indicate which pipeline is sending this message.</li>
+<li><code>link</code>: If set to true, will wrap the text in a link to the build using the pattern $ATC_EXTERNAL_URL/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME</li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<h3><a id="user-content-resources" class="anchor" aria-hidden="true" href="#resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resources</h3>
+<pre><code>---
+resources:
+- name: matrix-notification
+  type: matrix-notification-resource
+  source:
+    matrix_server_url: https://matrix.org
+    token: {{matrix_token}}
+    room_id: {{matrix_room_id}}
+    msgtype: com.freelock.data
+    data_file: data
+</code></pre>
+<h3><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Check</h3>
+<p><em>Not supported</em></p>
+<h3><a id="user-content-in" class="anchor" aria-hidden="true" href="#in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>In</h3>
+<p><em>Not supported</em></p>
+<h3><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Out</h3>
+<pre><code>---
+---
+  - put: matrix-notification
+    params:
+      text_file: results/message.txt
+      text: |
+        The build had a result. Check it out at:
+        http://my.concourse.url/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+        or at:
+        http://my.concourse.url/builds/$BUILD_ID
+
+        Result: $TEXT_FILE_CONTENT
+</code></pre>
+<p>Matrix has the ability to attach and store arbitrary JSON. This can be very useful to send arbitrary results that a bot might use for further action. Freelock uses this ability to pass extensive information about various deployment environment settings, while keeping the human-readable portion brief.</p>
+<p>These extra data keys are not sent if using the default <code>m.notice</code> message type, but if you define a custom msgtype, this resource will automatically add a JSON object containing the build data -- Job name, pipeline name, build name (the sequence number within this pipeline), build id, and concourse ATC url. It will also attach the contents of a data file added to the <code>data</code> key, and a <code>trigger</code> key that is useful to easily pass info about a particular Matrix put -- e.g. 'success', 'fail', 'start', 'end', 'info' -- which your Matrix bot might find useful for handling the message.</p>
+<pre><code>  - put: matrix-notification
+    params:
+      msgtype: com.freelock.data
+      data_file: matrix-notification/data
+      trigger: fail
+      message: Test failure.
+</code></pre>
+</article></div>
 </div>
 
 </body>

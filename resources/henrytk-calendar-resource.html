@@ -10,7 +10,92 @@
 <p>https://github.com/henrytk/calendar-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-calendar-resource" class="anchor" aria-hidden="true" href="#concourse-calendar-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Calendar Resource</h1>
+<p>This is an <a href="https://concourse.ci/implementing-resources.html" rel="nofollow">implementation of a Concourse resource</a> which allows you to trigger Concourse jobs and create calendar events using a Google Calendar. It uses a generic calendar client interface so can be extended to work with other calendar providers.</p>
+<h2><a id="user-content-requirements" class="anchor" aria-hidden="true" href="#requirements"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Requirements</h2>
+<ul>
+<li>A Google account. This account will be used by the resource and is not necessarily the account containing the calendar it will manage. Inside the developer console of this account you will need to generate the following:
+<ul>
+<li>A <a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount" rel="nofollow">service account</a>. This is what the calendar resource acts on the behalf of. It will have its own email address, which you will delegate access to later.</li>
+<li>Credentials. This comes in the form of JSON you download. Supply the JSON to the Concourse resource in your pipeline (see <a href="#resource-configuration">Examples: Resource configuration</a> below).</li>
+</ul>
+</li>
+<li>A Google Calendar. This can be in a separate account. You will need to delegate read and/or write access to the service account, which will have its own email address. Read access is required for triggering jobs, whereas write access is required for creating events in a calendar.</li>
+</ul>
+<h2><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<h3><a id="user-content-resource-configuration" class="anchor" aria-hidden="true" href="#resource-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource configuration</h3>
+<p>Here is an example resource configuration for a pipeline:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">calendar</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">henryknott/calendar-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">release-v1.1</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">team-calendar</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">calendar</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">provider</span>: <span class="pl-s">google</span>
+    <span class="pl-ent">calendar_id</span>: <span class="pl-s">calendar-containing-events@gmail.com</span>
+    <span class="pl-ent">event_name</span>: <span class="pl-s">Test</span>
+    <span class="pl-ent">credentials</span>: <span class="pl-s">{"type": "service_account","project_id": "some-random-145222","private_key_id": "REDACTED","private_key": "-----BEGIN PRIVATE KEY-----REDACTED-----END PRIVATE KEY-----\n","client_email": "calendar-dev@some-random-145222.iam.gserviceaccount.com","client_id": "REDACTED","auth_uri": "https://accounts.google.com/o/oauth2/auth","token_uri": "https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/calendar-dev%40some-random-145222.iam.gserviceaccount.com"}</span></pre></div>
+<p><code>provider</code>: The only provider supported currently is Google Calendars.</p>
+<p><code>calendar_id</code>: This uniquely identifies the calendar within your account. For Google calendars this will be the email address of the account.</p>
+<p><code>event_name</code>: Events with this name will trigger a Concourse job when they are happening.</p>
+<p><code>credentials</code>: For Google calendars this will be your service account credentials as JSON. The JSON should be minified and supplied as a single-line value.</p>
+<h3><a id="user-content-pipelines" class="anchor" aria-hidden="true" href="#pipelines"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pipelines</h3>
+<h4><a id="user-content-trigger-a-job" class="anchor" aria-hidden="true" href="#trigger-a-job"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Trigger a job</h4>
+<p>Based on the example resource configuration above you can use a Google calendar event to trigger a job like this:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">calendar-resource-example</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">team-calendar</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">print-calendar-event-details</span>
+    <span class="pl-ent">config</span>:
+      <span class="pl-ent">platform</span>: <span class="pl-s">linux</span>
+      <span class="pl-ent">image_resource</span>:
+        <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+        <span class="pl-ent">source</span>:
+          <span class="pl-ent">repository</span>: <span class="pl-s">busybox</span>
+      <span class="pl-ent">inputs</span>:
+        - <span class="pl-ent">name</span>: <span class="pl-s">team-calendar</span>
+      <span class="pl-ent">run</span>:
+        <span class="pl-ent">path</span>: <span class="pl-s">sh</span>
+        <span class="pl-ent">args</span>:
+        - <span class="pl-s">-c</span>
+        - <span class="pl-s">|</span>
+<span class="pl-s">          cat team-calendar/input</span></pre></div>
+<p>Concourse will poll for new versions of the resource. Any event in the calendar called <code>Test</code> will be considered a new version of the resource, and will therefore trigger this job.</p>
+<h4><a id="user-content-add-a-calendar-event" class="anchor" aria-hidden="true" href="#add-a-calendar-event"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Add a calendar event</h4>
+<p>The resource can also be used to add an event to a Google calendar:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">calendar-resource-example-two</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">task</span>: <span class="pl-s">add-calendar-event</span>
+    <span class="pl-ent">config</span>:
+      <span class="pl-ent">platform</span>: <span class="pl-s">linux</span>
+      <span class="pl-ent">image_resource</span>:
+        <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+        <span class="pl-ent">source</span>:
+          <span class="pl-ent">repository</span>: <span class="pl-s">busybox</span>
+      <span class="pl-ent">run</span>:
+        <span class="pl-ent">path</span>: <span class="pl-s">sh</span>
+        <span class="pl-ent">args</span>:
+        - <span class="pl-s">-c</span>
+        - <span class="pl-s">|</span>
+<span class="pl-s">          echo "This job does nothing in particular, other than add an event to a Google calendar"</span>
+<span class="pl-s"></span>    <span class="pl-ent">on_success</span>:
+      <span class="pl-ent">put</span>: <span class="pl-s">team-calendar</span>
+      <span class="pl-ent">params</span>:
+        <span class="pl-ent">summary</span>: <span class="pl-s">This is the event name/title</span>
+        <span class="pl-ent">description</span>: <span class="pl-s">Put useful descriptive information here.</span>
+        <span class="pl-ent">time_zone</span>: <span class="pl-s">Europe/London</span>
+        <span class="pl-ent">start_time</span>: <span class="pl-s">2016-10-24T13:00:00+01:00</span>
+        <span class="pl-ent">end_time</span>: <span class="pl-s">2016-10-24T14:00:00+01:00</span></pre></div>
+<p>The start and end time values are strings formatted to RFC3339.</p>
+</article></div>
 </div>
 
 </body>

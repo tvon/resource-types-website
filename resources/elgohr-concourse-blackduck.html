@@ -10,7 +10,78 @@
 <p>https://github.com/elgohr/concourse-blackduck</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-blackduck-resource" class="anchor" aria-hidden="true" href="#concourse-blackduck-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Blackduck Resource</h1>
+<p><a href="https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/elgohr/concourse-blackduck" rel="nofollow"><img src="https://camo.githubusercontent.com/cf113db86c281df572962fe544292940f63ebe3d/68747470733a2f2f776470396677773072392e657865637574652d6170692e75732d776573742d322e616d617a6f6e6177732e636f6d2f70726f64756374696f6e2f62616467652f656c676f68722f636f6e636f757273652d626c61636b6475636b" alt="Actions Status" data-canonical-src="https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/elgohr/concourse-blackduck" style="max-width:100%;"></a></p>
+<p>This is a <a href="https://concourse-ci.org/" rel="nofollow">Concourse</a> resource for <a href="https://www.blackducksoftware.com" rel="nofollow">Blackduck</a>.</p>
+<h2><a id="user-content-installing" class="anchor" aria-hidden="true" href="#installing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installing</h2>
+<p><code>Shortcut</code>: <a href="https://github.com/elgohr/concourse-blackduck/blob/master/example-pipeline.yml">Pipeline example</a></p>
+<p>Use this resource by adding the following to
+the <code>resource_types</code> section of a pipeline config:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">blackduck</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">lgohr/blackduck-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source configuration</h2>
+<p>Configure as follows:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">my-blackduck</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">blackduck</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">url</span>: <span class="pl-s">https://my.blackduck.server</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">((my-secret-username))</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">((my-secret-password))</span>
+    <span class="pl-ent">name</span>: <span class="pl-s">myScanProject</span></pre></div>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td><em>Mandatory</em></td>
+<td>URL of your Blackduck instance e.g. <code>https://my-synopsys.com/blackduck</code>.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><em>Mandatory</em></td>
+<td>Project name in Blackduck.</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td><em>Mandatory</em></td>
+<td>Username, which is used to authenticate on Blackduck.</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><em>Mandatory</em></td>
+<td>Password, which is used to authenticate on Blackduck.</td>
+</tr>
+<tr>
+<td><code>insecure</code></td>
+<td><em>Optional</em></td>
+<td>In case your Blackduck uses a self-signed certificate, it's pinned with the first request.</td>
+</tr>
+</tbody>
+</table>
+<p>It seems like Blackduck doesn't support Tokens for API-Access.<br>
+In this way it's not supported here. Sorry.</p>
+<h2><a id="user-content-in-get-results" class="anchor" aria-hidden="true" href="#in-get-results"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Get Results</h2>
+<p>The resource will provide the latest version changes on Blackduck as a file for later use.</p>
+<h2><a id="user-content-out-analysis" class="anchor" aria-hidden="true" href="#out-analysis"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Analysis</h2>
+<p>The resource will analyse your provided content and push it to the provided Blackduck instance.</p>
+<h3><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h3>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">my-blackduck</span>
+    <span class="pl-ent">params</span>: <span class="pl-s">{directory: source-code}</span></pre></div>
+<ul>
+<li><code>directory</code>: <em>Required.</em> The path of the repository to analyze.</li>
+</ul>
+</article></div>
 </div>
 
 </body>

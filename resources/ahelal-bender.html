@@ -10,7 +10,140 @@
 <p>https://github.com/ahelal/bender</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-bender-concourse-resource" class="anchor" aria-hidden="true" href="#bender-concourse-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bender concourse resource</h1>
+<p><a href="https://travis-ci.org/ahelal/bender" rel="nofollow"><img src="https://camo.githubusercontent.com/2560829b74c9f178ffe068b634a70c6a95e4c277/68747470733a2f2f7472617669732d63692e6f72672f6168656c616c2f62656e6465722e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/ahelal/bender.svg?branch=master" style="max-width:100%;"></a> <a href="https://quay.io/repository/ahelal/bender" rel="nofollow"><img src="https://camo.githubusercontent.com/51ea40f97a03769018bafc96d6af06bf17309d3e/68747470733a2f2f717561792e696f2f7265706f7369746f72792f6168656c616c2f62656e6465722f737461747573" alt="Docker Repository on Quay" title="Docker Repository on Quay" data-canonical-src="https://quay.io/repository/ahelal/bender/status" style="max-width:100%;"></a></p>
+<p>A  Concourse resource that can trigger any job (deployments, releases, ...) using slack.</p>
+<p>Check <a href="examples.md">examples</a> page for usage.</p>
+<p><em>NOTE: Bender is still young, Your input and contribution is highly appreciated.</em></p>
+<h2><a id="user-content-deploying-to-concourse" class="anchor" aria-hidden="true" href="#deploying-to-concourse"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deploying to Concourse</h2>
+<p>You can use the docker image by defining the  <a href="https://concourse.ci/configuring-resource-types.html" rel="nofollow">resource type</a> in your pipeline YAML.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types    </span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">bender-resource</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">repository</span>: <span class="pl-s">quay.io/ahelal/bender</span>
+      <span class="pl-ent">tag</span>: <span class="pl-s">latest</span></pre></div>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>slack_token</code>: <em>Required</em>. The slack token to be used. For more info check <a href="https://api.slack.com/docs/token-types#bot" rel="nofollow">slack documentation</a>.</p>
+</li>
+<li>
+<p><code>channel</code>: <em>Required</em>. The channel name to be used by the bot.</p>
+</li>
+<li>
+<p><code>bot_name</code>: <em>Optional</em>, <em>default <code>bender</code></em>. The bot name will be used to identify and filter messages. All messages must be addressed to the bot, eg.: <code>@bot_name some message</code>.</p>
+</li>
+<li>
+<p><code>as_user</code>: <em>Optional.</em>, <em>default <code>true</code></em>. By default use the authed user, if <code>false</code> you can customize the <code>bot_name</code>, <code>bot_icon_emoji</code> and <code>bot_icon_ur</code>.</p>
+</li>
+<li>
+<p><code>bot_icon_emoji</code>: <em>Optional.</em> Emoji to use as the icon for this message. Overrides <code>bot_icon_url</code>. Must be used in conjunction with <code>as_user</code> set to false, otherwise ignored.</p>
+</li>
+<li>
+<p><code>bot_icon_url</code>: <em>Optional.</em> URL to an image to use as the icon for this message. Must be used in conjunction with <code>as_user</code> set to false, otherwise ignored.</p>
+</li>
+<li>
+<p><code>mention</code>: <em>Optional.</em> Only respond to mention <code>@bot_name</code> this will only work with <code>as_user: false</code>, otherwise ignored.</p>
+</li>
+<li>
+<p><code>grammar</code>: <em>Optional.</em> If not defined bender will respond to all mentions <code>@bot_name</code> and If grammar is defined bender will <strong>only</strong> respond to messages matching the regex expression. Use <a href="https://docs.python.org/2/library/re.html" rel="nofollow">python regular expression</a> syntax. See <a href="examples.md">examples</a> page for inspiration.</p>
+</li>
+<li>
+<p><code>template</code>: <em>Optional</em>. A <strong>string</strong> that will be evaluated and written to <code>template_filename</code> can be used as an input file for further jobs in the pipeline.</p>
+</li>
+<li>
+<p><code>template_filename</code>: <em>Optional</em>, <em>default <code>template_file.txt</code></em>. The file name for a generated template.</p>
+</li>
+<li>
+<p><code>slack_unread</code>: <em>Optional</em>, <em>default <code>false</code></em>. If set to true, The state of <strong>slack unread message</strong> will be used instead of of the last version reported by concourse. This will improve speed, but downside you can't have multiple triggers per channel with same token and it's non-standard concourse behavior. This only affects the check method.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-messages-that-match-the-rules" class="anchor" aria-hidden="true" href="#check-check-for-new-messages-that-match-the-rules"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new messages that match the rules</h3>
+<p>Check will report a new version;<code>timestamp</code>; if message fits <strong>all</strong> the criteria.</p>
+<ul>
+<li>
+<p>If <code>mention</code> is <em>true</em> the message must be addressed to <code>@bot_name</code> in the selected <code>channel</code>.</p>
+</li>
+<li>
+<p>If <code>grammar</code> is defined, it <em>must</em> match the regular expression defined in <code>grammar</code>.</p>
+</li>
+</ul>
+<h4><a id="user-content-check-parameters" class="anchor" aria-hidden="true" href="#check-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check Parameters</code></h4>
+<p>Check accepts no params.</p>
+<h3><a id="user-content-in-get-the-message" class="anchor" aria-hidden="true" href="#in-get-the-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Get the message</h3>
+<p>A file <strong>bender.json</strong> will be created with the message payload.</p>
+<p>if <code>template</code> is defined it will be evaluated and written to <code>template_filename</code>. For more info on template syntax read <a href="#template">template section</a>. For example on usage, check the <a href="examples.md">examples</a> page.</p>
+<h4><a id="user-content-in-parameters" class="anchor" aria-hidden="true" href="#in-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in Parameters</code></h4>
+<p>In accepts no params.</p>
+<h3><a id="user-content-out-reply-to-original-message" class="anchor" aria-hidden="true" href="#out-reply-to-original-message"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Reply to original message</h3>
+<p>Replies with a message to the selected <code>channel</code>.</p>
+<h4><a id="user-content-out-parameters" class="anchor" aria-hidden="true" href="#out-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out Parameters</code></h4>
+<ul>
+<li>
+<p><code>reply</code>: <em>Required/optional</em>. A <strong>string</strong> or <strong>file path</strong> to be used as reply. Supports <a href="#template">template format</a>. <em>Must be defined if <code>reply_attachments</code> is not defined.</em></p>
+</li>
+<li>
+<p><code>reply_attachments</code>: <em>Required/optional</em>. A <strong>string</strong> or <strong>JSON file path</strong> to be used as reply in <a href="https://api.slack.com/docs/message-attachments" rel="nofollow">slack attachment format</a>. You can use <a href="https://api.slack.com/docs/messages/builder" rel="nofollow">messages builder</a> Supports <a href="#template">template format</a>. <em>Must be defined if <code>reply</code> is not defined.</em></p>
+</li>
+<li>
+<p><code>reply_thread</code>: <em>optional</em>, <em>default <code>False</code></em>. If enabled will post reply to original message as a thread.</p>
+</li>
+<li>
+<p><code>path</code>: <em>required</em>. The path of the resource name. This is used to get context from original message.</p>
+</li>
+</ul>
+<h3><a id="user-content-template" class="anchor" aria-hidden="true" href="#template"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Template</h3>
+<p>The template uses python <a href="http://jinja.pocoo.org/docs/2.9/" rel="nofollow">Jinja2</a> engine.</p>
+<ul>
+<li>
+<p><code>variables</code>: You can access variables using curly braces <code>{{ VARIABLE_NAME }}</code>.
+All environmental variables are accessible through <code>{{ ENV['PATH'] }}</code>.
+Concourse exposes some metadata info like job_name, build, for more info <a href="https://concourse.ci/implementing-resources.html#resource-metadata" rel="nofollow">check concourse website</a>.
+The regex groups are accessible to the template engine as <code>{{ regex }}</code> if you used <em>subgroups</em> in your expression you can access each group with index <code>{{ regex[0] }}</code>. If you used <em>named subgroups</em> you can access them as dictionary <code>{{ regex['name'] }}</code>.
+The original user who initiated the trigger is accessible as variable <code>{{ user }}</code>. You can also add <code>@{{ user }}</code> to mention the user.</p>
+</li>
+<li>
+<p><code>white spaces</code>: You can use <code>\n</code> for new lines <code>\t</code> for tabs in your template.</p>
+</li>
+<li>
+<p><code>filters</code>: You can use Jinja2 <a href="http://jinja.pocoo.org/docs/2.9/templates/#builtin-filters" rel="nofollow">builtin filters</a>.</p>
+</li>
+</ul>
+<h2><a id="user-content-tips" class="anchor" aria-hidden="true" href="#tips"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tips</h2>
+<ul>
+<li>
+<p>Test your regex using something like <a href="http://regexr.com/" rel="nofollow">regexr.com</a>, it is better to use <a href="http://www.regular-expressions.info/brackets.html" rel="nofollow">named subgroups</a>.</p>
+</li>
+<li>
+<p>Note that you need to escape the backslash with another backslash in yaml,  eg.: <code>\s+</code> should be <code>\\s+</code></p>
+</li>
+<li>
+<p>Use <code>\s+</code> between commands to give a little bit of room for user send an extra space in the message.</p>
+</li>
+<li>
+<p>You probably want to define <strong>version: every</strong> and <strong>trigger: true</strong> so the resource will go through all the messages and trigger the jobs.</p>
+</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>      - <span class="pl-ent">get</span>: <span class="pl-s">bender</span>
+        <span class="pl-ent">version</span>: <span class="pl-s">every</span>
+        <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span></pre></div>
+<ul>
+<li>By default concourse resource are checked every 1m. If you want to setup multi resources you will exhaust your Slack API limits fast. You can configure slack to do an API call to your concourse using <a href="https://api.slack.com/custom-integrations/outgoing-webhooks" rel="nofollow">slack outgoing webhooks</a>, <a href="https://concourse.ci/single-page.html#webhook_token" rel="nofollow">concourse webhook_token</a> and increase <a href="https://concourse.ci/single-page.html#check_every" rel="nofollow">check_every</a> to higher eg. 1h. You can also use different <a href="https://api.slack.com/slash-commands" rel="nofollow">Slash commands</a> instead of web hooks.</li>
+</ul>
+<h2><a id="user-content-todo" class="anchor" aria-hidden="true" href="#todo"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TODO</h2>
+<ul>
+<li>Increase code coverage</li>
+<li>Restrict per user_group</li>
+<li>lock example</li>
+</ul>
+<h2><a id="user-content-contribution" class="anchor" aria-hidden="true" href="#contribution"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contribution</h2>
+<ul>
+<li><a href="https://github.com/aleerizw">aleerizw</a></li>
+<li><a href="https://github.com/rnurgaliyev">rnurgaliyev</a></li>
+</ul>
+</article></div>
 </div>
 
 </body>

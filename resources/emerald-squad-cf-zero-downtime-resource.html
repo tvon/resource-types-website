@@ -10,7 +10,125 @@
 <p>https://github.com/emerald-squad/cf-zero-downtime-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><p>Deploy application to Cloud Foundry with zero downtime.</p>
+<p>Features:</p>
+<ul>
+<li>CF manifest is the truth</li>
+<li>UP application name stays the same</li>
+<li>Play well with CF services like SSO, Eureka, ...</li>
+<li>Use CF built-in health check (as specified in the manifest)</li>
+<li>Ability to bind services that requires binding configuration (not supported in manifest.yml)</li>
+<li>Can be used as input</li>
+</ul>
+<h2><a id="user-content-health-check" class="anchor" aria-hidden="true" href="#health-check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Health check</h2>
+<p>The health check of the newly deployed application is based on the manifest <code>health-check-type</code>.</p>
+<p>It is strongly recommended to user <code>health-check-type: http</code> and <code>health-check-http-endpoint</code> to specify a health check route if your application uses http.</p>
+<h2><a id="user-content-resource_types" class="anchor" aria-hidden="true" href="#resource_types"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>resource_types</h2>
+<pre><code>- name: cf-zero-downtime-resource
+  type: docker-image
+  source:
+    repository: emeraldsquad/cf-zero-downtime-resource
+    tag: "0.5.6"
+</code></pre>
+<p>For a list of available tags, <a href="https://hub.docker.com/r/emeraldsquad/cf-zero-downtime-resource/tags/" rel="nofollow">consult our Docker Hub repo</a>.</p>
+<h2><a id="user-content-source" class="anchor" aria-hidden="true" href="#source"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>source</h2>
+<ul>
+<li><strong>api</strong> : <em>required</em> the api endpoint of the Cloud Foundry Cloud Controller</li>
+<li>one of:
+<ul>
+<li>user credentials
+<ul>
+<li><strong>username</strong>: <em>required</em> username to authenticate</li>
+<li><strong>password</strong>: <em>required</em> password to authenticate</li>
+</ul>
+</li>
+<li>application credentials
+<ul>
+<li><strong>client_id</strong>: <em>required</em> client id to authenticate</li>
+<li><strong>client_secret</strong>: <em>required</em> client secret to authenticate</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>organization</strong> : <em>required</em> the name of the organization to push to</li>
+<li><strong>space</strong> : <em>required</em> the name of the space to push to</li>
+<li><strong>skip_cert_check</strong> : (not implemented yet) <em>optional</em> (<code>true</code> or <code>false</code>) skip TLS certificate validation (default: <code>false</code>)</li>
+<li><strong>verbose</strong> : (not implemented yet) optional (<code>true</code> or <code>false</code>) make <code>cf</code> CLI more verbose using <code>CF_TRACE=true</code> (default: <code>false</code>)</li>
+</ul>
+<h2><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>check</h2>
+<p>Get the deployed app metadata. Only one version is ever returned.</p>
+<p>ex:</p>
+<pre><code>[
+  {
+    "guid": "5bac9193-ab1a-4f7c-9761-cb082b4068f1",
+    "url": "/v2/apps/5bac9193-ab1a-4f7c-9761-cb082b4068f1",
+    "created_at": "2018-06-15T18:15:30Z",
+    "updated_at": "2018-06-15T18:15:37Z"
+  }
+]
+</code></pre>
+<h2><a id="user-content-in" class="anchor" aria-hidden="true" href="#in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>in</h2>
+<p>Read in app information into app.json (equivalent to <code>cf curl /v2/apps/$(cf app NAME --guid)</code>)</p>
+<p>Only the <code>guid</code> attribute in the passed in version is taken into account.</p>
+<h2><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>out</h2>
+<p>Push app to CloudFoundry with zero-downtime. Current app matching <strong>name</strong> will be renamed with the <strong>-venerable</strong> suffix (if an app with the suffix already exists, it will be deleted).</p>
+<p>If the push failed, the failed app will be stopped and renamed with the <strong>-failed</strong> suffix. Recent logs will be outputted to make diagnosis easier. The current working app will be renamed back to it's original name.</p>
+<h3><a id="user-content-params" class="anchor" aria-hidden="true" href="#params"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>params</h3>
+<ul>
+<li><strong>name</strong> : <em>required</em> name of the app to push</li>
+<li><strong>manifest</strong> : <em>required</em> manifest of the app to push. The <em>path</em> element inside the manifest will be ignored. The manifest must have only <strong>one</strong> application and it must be present under the <code>applications</code> key. The manifest can also be specified <strong>inline</strong>, see <a href="#inline-manifest">bellow for an example</a>.</li>
+<li><strong>path</strong> : <em>required (except for docker images)</em> path for the app bits to deploy. a Glob can be specified, but it must resolve to only one path. If multiple paths match the blob, the deploy will fail (before any interaction with CF)</li>
+<li><strong>environment_variables</strong> : <em>optional</em> a set of environment variable to set in the manifest file before pushing the app. They will take precedence over any environment variables present.</li>
+<li><strong>manifest_vars</strong> : <em>optional</em> a set of variables to do substitutions with in the manifest file before pushing the app. <strong>NOTE:</strong> Cannot do variable substitution in application names!</li>
+<li><strong>manifest_vars_files</strong> : <em>optional</em> a set of variable files to do substitutions with in the manifest file before pushing the app. <strong>NOTE:</strong> Cannot do variable substitution in application names!</li>
+<li><strong>docker_username</strong> : <em>optional</em> used to authenticate to private docker registry when pushing docker image.</li>
+<li><strong>docker_password</strong> : <em>optional</em> used to authenticate to private docker registry when pushing docker image.</li>
+</ul>
+<p>For service binding that requires configuration, you can also specify:</p>
+<ul>
+<li><strong>services</strong>: <em>optional</em> array of additional service bindings that cannot be expressed in the manifest (services that requires a configuration object)
+<ul>
+<li><strong>name</strong>: <em>required</em> name of the service to bind to</li>
+<li><strong>config</strong>: <em>required</em> configuration object to pass to <code>bind-service</code></li>
+</ul>
+</li>
+</ul>
+<p>Example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">my-app-package</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">cf-zero-downtime</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">name</span>: <span class="pl-s">my-app</span>
+      <span class="pl-ent">manifest</span>: <span class="pl-s">my-app-package/manifest.yml</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">my-app-package/my-app.jar</span>
+      <span class="pl-ent">services</span>:
+      - <span class="pl-ent">name</span>: <span class="pl-s">my-service</span>
+        <span class="pl-ent">config</span>:
+          <span class="pl-ent">share</span>: <span class="pl-s">my-share</span>
+          <span class="pl-ent">mount</span>: <span class="pl-s">/home/my-app/data</span>
+          <span class="pl-ent">uid</span>: <span class="pl-s"><span class="pl-pds">"</span>1000<span class="pl-pds">"</span></span>
+          <span class="pl-ent">gid</span>: <span class="pl-s"><span class="pl-pds">"</span>1000<span class="pl-pds">"</span></span></pre></div>
+<h4><a id="user-content-inline-manifest" class="anchor" aria-hidden="true" href="#inline-manifest"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inline Manifest</h4>
+<p>Instead of providing a path to the manifest file, you can inline the manifest directly in the pipeline.</p>
+<p>Example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">my-app-dist</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">cf-zero-downtime</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">name</span>: <span class="pl-s">my-app</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">my-app-dist</span>
+      <span class="pl-ent">manifest</span>:
+        <span class="pl-ent">applications</span>:
+        - <span class="pl-ent">name</span>: <span class="pl-s">my-app</span>
+          <span class="pl-ent">buildpack</span>: <span class="pl-s">nodejs_buildpack</span>
+          <span class="pl-ent">memory</span>: <span class="pl-c1">64M</span>
+          <span class="pl-ent">health-check-type</span>: <span class="pl-s">http</span>
+          <span class="pl-ent">health-check-http-endpoint</span>: <span class="pl-s">/good</span></pre></div>
+</article></div>
 </div>
 
 </body>

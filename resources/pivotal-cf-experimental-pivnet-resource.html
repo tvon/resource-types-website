@@ -10,7 +10,299 @@
 <p>https://github.com/pivotal-cf-experimental/pivnet-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-pivnet-resource" class="anchor" aria-hidden="true" href="#pivnet-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>PivNet Resource</h1>
+<p>Interact with <a href="https://network.pivotal.io" rel="nofollow">Pivotal Network</a> from concourse.</p>
+<h2><a id="user-content-installing" class="anchor" aria-hidden="true" href="#installing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installing</h2>
+<p>The recommended method to use this resource is with
+<a href="http://concourse.ci/configuring-resource-types.html" rel="nofollow">resource_types</a> in the
+pipeline config as follows:</p>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">pivnet</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">pivotalcf/pivnet-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest-final</span></pre></div>
+<p>Using <code>tag: latest-final</code> will automatically pull the latest final release,
+which can be found on the
+<a href="https://github.com/pivotal-cf/pivnet-resource/releases">releases page</a>.</p>
+<p><strong>To avoid automatically upgrading, use a fixed tag instead e.g. <code>tag: v0.6.3</code></strong></p>
+<p>Releases are semantically versioned; these correspond to the git tags in this
+repository.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source configuration</h2>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">p-mysql</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">pivnet</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">api_token</span>: <span class="pl-s">{{api-token}}</span>
+    <span class="pl-ent">product_slug</span>: <span class="pl-s">p-mysql</span></pre></div>
+<ul>
+<li>
+<p><code>api_token</code>: <em>Required string.</em></p>
+<p>Token from your Pivotal Network profile. Accepts either your Legacy API Token or UAA Refresh Token.</p>
+</li>
+<li>
+<p><code>product_slug</code>: <em>Required string.</em></p>
+<p>Name of product on Pivotal Network.</p>
+</li>
+<li>
+<p><code>release_type</code>: <em>Optional boolean.</em></p>
+<p>If <code>true</code>, lock to a specific Pivotal Network <a href="https://network.pivotal.io/docs/api#releases" rel="nofollow">release type</a>.</p>
+</li>
+<li>
+<p><code>copy_metadata</code>: <em>Optional boolean.</em></p>
+<p>If <code>true</code>, copy specified metadata from the latest All Users release within the minor releases. Defaults to <code>false</code>.</p>
+<p>The following metadata is copied:</p>
+<ul>
+<li>Release Notes URL</li>
+<li>End of General Support</li>
+<li>End of Technical Guidance</li>
+<li>End of Availability</li>
+<li>EULA</li>
+<li>License Exception</li>
+<li>ECCN</li>
+<li>Controlled</li>
+<li>Dependency Specifiers</li>
+<li>Upgrade Path Specifiers</li>
+</ul>
+</li>
+<li>
+<p><code>endpoint</code>: <em>Optional string.</em></p>
+<p>Endpoint to use for communicating with Pivotal Network.</p>
+<p>Defaults to <code>https://network.pivotal.io</code>.</p>
+</li>
+<li>
+<p><code>product_version</code>: <em>Optional string.</em></p>
+<p>Regular expression to match against product versions, e.g. <code>1\.2\..*</code>.</p>
+<p>Empty values match all product versions.</p>
+</li>
+<li>
+<p><code>sort_by</code>: <em>Optional string.</em></p>
+<p>Order to use for sorting releases. One of the following:</p>
+<ul>
+<li><code>none</code>: the order they come back from Pivotal Network.</li>
+<li><code>semver</code>: by semantic version, in descending order from the highest-valued version.</li>
+</ul>
+</li>
+</ul>
+<h2><a id="user-content-example-pipeline-configuration" class="anchor" aria-hidden="true" href="#example-pipeline-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example pipeline configuration</h2>
+<p>See <a href="https://github.com/pivotal-cf/pivnet-resource/blob/master/examples">example pipeline configurations</a>.</p>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-new-product-versions-on-pivotal-network" class="anchor" aria-hidden="true" href="#check-check-for-new-product-versions-on-pivotal-network"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: check for new product versions on Pivotal Network</h3>
+<p>Discovers all versions of the provided product.
+Returned versions are optionally filtered and ordered by the <code>source</code> configuration.</p>
+<h3><a id="user-content-in-download-the-product-from-pivotal-network" class="anchor" aria-hidden="true" href="#in-download-the-product-from-pivotal-network"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: download the product from Pivotal Network</h3>
+<p>Downloads the provided product from Pivotal Network. You will be required to accept a
+EULA for any product you're downloading for the first time, as well as if the terms and
+conditions associated with the product change.</p>
+<p>The metadata for the product is written to both <code>metadata.json</code> and
+<code>metadata.yaml</code> in the working directory (typically <code>/tmp/build/get</code>).
+Use this to programmatically determine metadata of the release.</p>
+<p>See <a href="https://github.com/pivotal-cf/pivnet-resource/blob/master/metadata">metadata</a>
+for more details on the structure of the metadata file.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>globs</code>: <em>Optional array.</em></p>
+<p>Array of globs matching files to download.</p>
+<p>If multiple files are matched, they are all downloaded.</p>
+<ul>
+<li>
+<p>The globs match on the actual <em>file names</em>, not the display names in Pivotal
+Network. This is to provide a more consistent experience between uploading and
+downloading files.</p>
+</li>
+<li>
+<p>If the globs fail to match any files the release download fails
+with error.</p>
+</li>
+<li>
+<p>If one or more globs fails to match any files, only the matched files will be downloaded.</p>
+</li>
+<li>
+<p>If <code>globs</code> is not provided (or is nil), <strong>all files will be downloaded</strong>.</p>
+</li>
+<li>
+<p>Setting <code>globs</code> to the empty array (i.e. <code>globs: []</code>) will not attempt to
+download any files.</p>
+</li>
+<li>
+<p>Files are downloaded to the working directory (e.g. <code>/tmp/build/get</code>) and the
+file names will be the same as they are on Pivotal Network - e.g. a file with
+name <code>some-file.txt</code> will be downloaded to <code>/tmp/build/get/some-file.txt</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>unpack</code>: <em>Optional boolean.</em></p>
+<p>If <code>true</code>, unpack the downloaded file.</p>
+<ul>
+<li>This can be used to use a root filesystem that is packaged as an archive file on
+network.pivotal.io as the image to run a given Concourse task.</li>
+</ul>
+</li>
+</ul>
+<p>More generally, the <code>unpack</code> parameter can be used with <code>get</code> to pass an image to a task definition,
+as in the below example.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">image</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">pivnet</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">api_token</span>: <span class="pl-s">{{pivnet_token}}</span>
+    <span class="pl-ent">product_slug</span>: <span class="pl-s">{{image-slug}}</span>
+    <span class="pl-ent">product_version</span>: <span class="pl-s">0\.0\..*</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">sample</span>
+  <span class="pl-ent">serial</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">tasks</span>
+  - <span class="pl-ent">get</span>: <span class="pl-s">image</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">pcf-automation</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">globs</span>: <span class="pl-s">["image-*.tar"]</span>
+      <span class="pl-ent">unpack</span>: <span class="pl-c1">true</span>
+
+  - <span class="pl-ent">task</span>: <span class="pl-s">say hello</span>
+    <span class="pl-ent">image</span>: <span class="pl-s">image</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">tasks/say-hello.yml</span></pre></div>
+<h3><a id="user-content-out-upload-a-product-to-pivotal-network" class="anchor" aria-hidden="true" href="#out-upload-a-product-to-pivotal-network"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: upload a product to Pivotal Network</h3>
+<p>Creates a new release on Pivotal Network with the provided version and metadata.</p>
+<p>It can also upload one or more files to Pivotal Network bucket and calculate the
+MD5 checksum locally for each file in order to add MD5 checksum to the file
+metadata in Pivotal Network. Note that:</p>
+<ul>
+<li>
+<p>Existing product files with the same AWS key are not deleted and recreated.</p>
+</li>
+<li>
+<p>If you want to associate an existing product file with a new release, you can do so by specifying the existing AWS key when creating the release. This will not break past release associations.</p>
+</li>
+<li>
+<p>If the AWS key matches an existing file, but the hash does not match, you will receive an error and need to rename the file.</p>
+</li>
+<li>
+<p>Existing releases with the same version will <em>not</em> be deleted and recreated by default, and will instead result in an error.</p>
+</li>
+</ul>
+<p>See <a href="https://github.com/pivotal-cf/pivnet-resource/blob/master/metadata">metadata</a>
+for more details on the structure of the metadata file.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>file_glob</code>: <em>Optional string representing a glob.</em></p>
+<p>Glob for matching files to upload.</p>
+<p>If multiple files are matched by the glob, they are all uploaded. If no files
+are matched, release creation fails with an error.</p>
+</li>
+<li>
+<p><code>metadata_file</code>: <em>Required string.</em></p>
+<p>Relative path to a file containing metadata for releases and product files.</p>
+<p>See <a href="https://github.com/pivotal-cf/pivnet-resource/blob/master/metadata">metadata</a>
+for more details on the structure of the metadata file.</p>
+</li>
+<li>
+<p><code>skip_product_file_polling</code>: <em>Optional boolean.</em></p>
+<p>If <code>true</code>, skip product file validation checks after upload. Pivotal Network still validates the files asynchronously,
+but <em>waiting</em> for the results will not happen as part of the <code>put:</code> process. <strong>Note:</strong> All associated product files
+in a release must still clear validation before the release can be promoted from <em>Admins Only</em> visibility.</p>
+</li>
+<li>
+<p><code>override</code>: <em>Optional boolean.</em></p>
+<p>If <code>true</code>, forces a re-upload of releases of releases and versions that are already present on Pivotal Network.</p>
+</li>
+</ul>
+<h3><a id="user-content-some-common-gotchas" class="anchor" aria-hidden="true" href="#some-common-gotchas"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Some common gotchas</h3>
+<h4><a id="user-content-using-glob-patterns-instead-of-regex-patterns" class="anchor" aria-hidden="true" href="#using-glob-patterns-instead-of-regex-patterns"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using glob patterns instead of regex patterns</h4>
+<p>We commonly see <code>product_version</code> patterns that look something like these:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">product_version</span>: <span class="pl-s">Go*          </span><span class="pl-c"><span class="pl-c">#</span> Go Buildpack</span>
+<span class="pl-c"><span class="pl-c">#</span>....</span>
+<span class="pl-ent">product_version</span>: <span class="pl-s">1\.12\.*       </span><span class="pl-c"><span class="pl-c">#</span> ERT</span></pre></div>
+<p>These superficially resemble globs, not regexes — but they are regexes. These will generally
+work, but not because they are a glob. They work because the regex will also match.</p>
+<p>For example, the first pattern, <code>Go*</code> will match "Go Buildpack 1.1.1". But it would also match
+"Goooooooo" or "Go Tell It On A Mountain". The second pattern, <code>1\.12\.*</code>, will match "1.12.0".
+But it will also match "1.12........." and "1.12.notanumber"</p>
+<p>Instead, try patterns like:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">product_version</span>: <span class="pl-s">Go.*\d+\.\d+\.\d+  </span><span class="pl-c"><span class="pl-c">#</span> Go Buildpack</span>
+<span class="pl-c"><span class="pl-c">#</span>....</span>
+<span class="pl-ent">product_version</span>: <span class="pl-s">1\.12\.\d+         </span><span class="pl-c"><span class="pl-c">#</span> ERT</span></pre></div>
+<p>Note that <a href="https://github.com/google/re2/wiki/Syntax">the regex syntax is Go's, which is slightly limited</a>
+compared to PCRE and other popular syntaxes.</p>
+<h4><a id="user-content-using-check-resource-for-sorted-but-non-sequential-releases-eg-buildpacks-stemcells" class="anchor" aria-hidden="true" href="#using-check-resource-for-sorted-but-non-sequential-releases-eg-buildpacks-stemcells"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using <code>check-resource</code> for sorted but non-sequential releases (eg. Buildpacks, Stemcells)</h4>
+<p>When doing a <code>check</code>, pivnet-resource defaults to using the server-provided order. This works
+fine for simple cases where the response from the server is already in <code>semver</code> order. For example,
+imagine this order from a product:</p>
+<pre><code>1.12.3
+1.12.2
+1.12.1
+1.12.0
+1.11.4
+1.11.3
+1.11.2
+1.11.1
+1.11.0
+</code></pre>
+<p>This list is in descending semver order. All the 1.12 patch releases are together, followed
+by all the 1.11 patch releases and so on.</p>
+<p>Some products do not group into <code>major</code> or <code>major.minor</code> groups in their responses. This is usually
+because a product has multiple concurrent version releases. For example, stemcells typically
+have multiple major versions available. When a CVE is announced that affects them, multiple
+releases may occur at once, giving an order like:</p>
+<pre><code>9999.21
+7777.19
+9999.20
+7777.18
+</code></pre>
+<p>In this example, the available versions for 9999 and 7777 are <em>sorted</em> within the list, but not <em>sequential</em>.</p>
+<p>To fix, use <code>sort_by: semver</code> in your resource definition.</p>
+<p>Note that buildpack "versions" are actually a name and a version combined. You'll need to escape spaces
+in your <code>check-resource</code> command for it to work properly. Eg:</p>
+<pre><code>fly -t pivnet check-resource \
+  --resource pivnet-resource-bug-152616708/binary-buildpack \
+  --from product_version:Binary\ 1.0.11#2017-03-23T13:57:51.214Z
+</code></pre>
+<p>In this example we escaped the space between "Binary" and "1.0.11".</p>
+<h2><a id="user-content-integration-environment" class="anchor" aria-hidden="true" href="#integration-environment"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration environment</h2>
+<p>The Pivotal Network team maintains an integration environment at
+<code>https://pivnet-integration.cfapps.io/</code>.</p>
+<p>This environment is useful for teams to develop against, as changes to products
+in this account are separated from the live account.</p>
+<p>An example configuration for the integration environment might look like:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">p-mysql</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">pivnet</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">api_token</span>: <span class="pl-s">{{api-token}}</span>
+    <span class="pl-ent">product_slug</span>: <span class="pl-s">p-mysql</span>
+    <span class="pl-ent">endpoint</span>: <span class="pl-s">https://pivnet-integration.cfapps.io</span></pre></div>
+<h2><a id="user-content-developing" class="anchor" aria-hidden="true" href="#developing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Developing</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<p>A valid install of golang is required - version 1.7.x is tested; earlier
+versions may also work.</p>
+<h3><a id="user-content-dependencies" class="anchor" aria-hidden="true" href="#dependencies"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dependencies</h3>
+<p>We use <a href="https://github.com/golang/go/wiki/Modules">go modules</a> for dependencies, so you will have to make sure to turn them on with <code>GO111MODULE=on</code>.</p>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>Install the ginkgo executable with:</p>
+<pre><code>go get -u github.com/onsi/ginkgo/ginkgo
+</code></pre>
+<p>The tests require a valid Pivotal Network API token and valid AWS S3 configuration.</p>
+<p>Refer to the
+<a href="https://network.pivotal.io/docs/api#how-to-authenticate" rel="nofollow">official docs</a>
+for more details on obtaining a Pivotal Network API token.</p>
+<p>It is advised to run the acceptance tests against the Pivotal Network integration
+environment endpoint <code>https://pivnet-integration.cfapps.io</code>.</p>
+<p>Run the tests with the following command (dummy values must be replaced by user):</p>
+<pre><code>PRODUCT_SLUG=my-product-slug-eg-pivotal-diego-pcf \
+API_TOKEN=my-token \
+PIVNET_ENDPOINT=some-pivnet-endpoint \
+PIVNET_RESOURCE_REFRESH_TOKEN=some-pivnet-resource-token \
+./bin/test
+</code></pre>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch, and
+<a href="https://github.com/pivotal-cf/pivnet-resource#running-the-tests">ensure the tests pass locally</a>.</p>
+</article></div>
 </div>
 
 </body>

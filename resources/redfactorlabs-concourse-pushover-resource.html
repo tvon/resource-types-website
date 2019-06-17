@@ -10,7 +10,90 @@
 <p>https://github.com/redfactorlabs/concourse-pushover-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-pushover-resource" class="anchor" aria-hidden="true" href="#concourse-pushover-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse pushover resource</h1>
+<p><a href="https://concourse.ci" rel="nofollow">Concourse CI</a> Resource to send notifications to the <a href="https://pushover.net/" rel="nofollow">pushover app</a></p>
+<p>The resource is based on <a href="https://github.com/redfactorlabs/concourse-smuggler-resource">smuggler concourse resource</a> to quickly implement it with a small script.</p>
+<h2><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h2>
+<pre><code>resource_types:
+- name: pushover-notification
+  type: docker-image
+  source:
+    repository: redfactorlabs/pushover-notification
+    tag: latest
+</code></pre>
+<h2><a id="user-content-source--params-configuration" class="anchor" aria-hidden="true" href="#source--params-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source &amp; params Configuration</h2>
+<p>The following parameters can be passed in the <code>source</code> or in <code>params</code> of <code>put</code></p>
+<ul>
+<li><code>app_token</code>: Required. Token of app configured in <a href="https://pushover.net/apps/build" rel="nofollow">https://pushover.net/apps/build</a></li>
+<li><code>user_key</code>: Required. the user/group key (not e-mail address) of your user (or you), viewable when logged into our <a href="https://pushover.net/dashboard" rel="nofollow">dashboard</a></li>
+<li><code>message</code>: Optional. The message to send to the user. Can use environment variables from BASH. There are some variables about the current build, as used in the example below.</li>
+<li><code>atc_external_url</code>: Optional. Used in the default message.</li>
+</ul>
+<p>You can add any additional parameter and use it in the message with <code>$SMUGGLER_&lt;param_name&gt;</code></p>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example:</h2>
+<pre><code>resource_types:
+- name: pushover-notification
+  type: docker-image
+  source:
+    repository: keymon/concourse-pushover-resource
+    tag: latest
+
+resources:
+- name: pushover-build-fail-notification
+  type: pushover-notification
+  source:
+    atc_external_url: https://concourse.mycompany.com
+    app_token: {{pushover_build_notifications_app_token}}
+    user_key: {{pushover_group_key}}
+
+jobs:
+- name: some_important_job
+  plan:
+  - task: fail
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+      run:
+        path: sh
+        args:
+        - -ec
+        - |
+          echo 'Something bad happened :('
+          false
+    on_failure:
+      put: pushover-build-fail-notification
+      params:
+        message: |
+          OMG!!! the important job failed!!! ARGHHH!
+
+          Check it out ASAP here:
+
+          ${SMUGGLER_atc_external_url}/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/builds/${BUILD_NAME}
+</code></pre>
+<h2><a id="user-content-important-security-limitation" class="anchor" aria-hidden="true" href="#important-security-limitation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Important security limitation!</h2>
+<blockquote>
+<p>IMPORTANT: the current implementation does an shell <code>eval</code> to expand variables.
+That is prone to <a href="https://www.owasp.org/index.php/Command_Injection" rel="nofollow">Command injection</a>.</p>
+<p>This is not too much risk when running concourse, as the concourse users are trust, but
+be aware of this.  It is easy to fork this repo and change the file <code>smuggler.yml</code> to
+remove that eval.</p>
+</blockquote>
+<h2><a id="user-content-pre-requisites" class="anchor" aria-hidden="true" href="#pre-requisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pre-requisites</h2>
+<p>You need a  <a href="https://pushover.net/" rel="nofollow">pushover app</a> account and credentials</p>
+<h2><a id="user-content-configure-pipeline" class="anchor" aria-hidden="true" href="#configure-pipeline"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configure pipeline:</h2>
+<p>Now you can create and run the pipeline:</p>
+<pre><code>fly -t demo set-pipeline \
+  -p pushover -c example-pipeline.yml \
+  -v pushover_build_notifications_app_token=${PUSHOVER_CONCOURSE_DEMO_APP_TOKEN}
+  -v pushover_group_key=${PUSHOVER_USER_KEY}
+</code></pre>
+<h2><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
+<p>It is easy to extend this resource, by editing the file <code>smuggler.yml</code>.</p>
+<p>The API references for the messages is here: <a href="https://pushover.net/api" rel="nofollow">https://pushover.net/api</a></p>
+</article></div>
 </div>
 
 </body>

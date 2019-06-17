@@ -10,7 +10,138 @@
 <p>https://github.com/concourse/registry-image-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-registry-image-resource" class="anchor" aria-hidden="true" href="#registry-image-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Registry Image Resource</h1>
+<p>Supports checking, fetching, and pushing of images to Docker registries.</p>
+<p>This resource is intended as a replacement for the <a href="https://github.com/concourse/docker-image-resource">Docker Image
+resource</a>. Here are the key
+differences:</p>
+<ul>
+<li>
+<p>This resource is implemented in pure Go and does not use the Docker daemon or
+CLI. This makes it safer (no need for <code>privileged: true</code>), more efficient,
+and less error-prone (now that we're using Go APIs and not parsing <code>docker</code>
+CLI output).</p>
+</li>
+<li>
+<p>This resource has stronger test coverage.</p>
+</li>
+<li>
+<p>This resource does not and will never support building - only registry image
+pushing/pulling. Building should instead be done with something like the
+<a href="https://github.com/concourse/builder-task"><code>builder</code> task</a> (or anything
+that can produce OCI image tarballs).</p>
+</li>
+<li>
+<p>A goal of this resource is to stay as focused and simple as possible. The
+Docker Image resource grew way too large and complicated. There are simply
+too many ways to build and publish Docker images. It will be easier to
+support many smaller resources + tasks rather than one huge interface.</p>
+</li>
+</ul>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>repository</code>: <em>Required.</em> The name of the repository, e.g. <code>alpine</code>.</p>
+</li>
+<li>
+<p><code>tag</code>: <em>Optional. Default <code>latest</code>.</em> The name of the tag to monitor and
+publish to.</p>
+</li>
+<li>
+<p><code>username</code> and <code>password</code>: <em>Optional.</em> A username and password to use when
+authenticating to the registry. Must be specified for private repos or when
+using <code>put</code>.</p>
+</li>
+<li>
+<p><code>debug</code>: <em>Optional. Default <code>false</code>.</em> If set, progress bars will be disabled
+and debugging output will be printed instead.</p>
+</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-discover-new-digests" class="anchor" aria-hidden="true" href="#check-discover-new-digests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Discover new digests.</h3>
+<p>Reports the current digest that the registry has for the tag configured in
+<code>source</code>.</p>
+<h3><a id="user-content-in-fetch-the-images-rootfs-and-metadata" class="anchor" aria-hidden="true" href="#in-fetch-the-images-rootfs-and-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch the image's rootfs and metadata.</h3>
+<p>Fetches an image at a digest.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>format</code>: <em>Optional. Default <code>rootfs</code>.</em> The format to fetch as.</li>
+</ul>
+<h4><a id="user-content-files-created-by-the-resource" class="anchor" aria-hidden="true" href="#files-created-by-the-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Files created by the resource</h4>
+<p>The resource will produce the following files:</p>
+<ul>
+<li><code>./digest</code>: A file containing the image's digest, e.g. <code>sha256:...</code>.</li>
+<li><code>./tag</code>: A file containing the tag from <code>source</code>, e.g. <code>latest</code>.</li>
+</ul>
+<p>The remaining files depend on the configuration value for <code>format</code>:</p>
+<h5><a id="user-content-rootfs" class="anchor" aria-hidden="true" href="#rootfs"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>rootfs</code></h5>
+<p>The <code>rootfs</code> format will fetch and unpack the image for use by Concourse task
+and resource type images.</p>
+<p>This the default for the sake of brevity in pipelines and task configs.</p>
+<p>In this format, the resource will produce the following files:</p>
+<ul>
+<li><code>./rootfs/...</code>: the unpacked rootfs produced by the image.</li>
+<li><code>./metadata.json</code>: the runtime information to propagate to Concourse.</li>
+</ul>
+<h5><a id="user-content-oci" class="anchor" aria-hidden="true" href="#oci"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>oci</code></h5>
+<p>The <code>oci</code> format will fetch the image and write it to disk in OCI format. This
+is analogous to running <code>docker save</code>.</p>
+<p>In this format, the resource will produce the following files:</p>
+<ul>
+<li><code>./image.tar</code>: the OCI image tarball, suitable for passing to <code>docker load</code>.</li>
+</ul>
+<h3><a id="user-content-out-push-an-image-up-to-the-registry-under-the-given-tags" class="anchor" aria-hidden="true" href="#out-push-an-image-up-to-the-registry-under-the-given-tags"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Push an image up to the registry under the given tags.</h3>
+<p>Uploads an image to the registry under the tag configured in <code>source</code>.</p>
+<p>If <code>additional_tags</code> param is defined then the uploaded image will also be
+tagged with each one of the values specified in that file.</p>
+<p>The currently encouraged way to build these images is by using the
+<a href="https://github.com/concourse/builder"><code>concourse/builder</code> task</a>.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li><code>image</code>: <em>Required.</em> The path to the OCI image tarball to upload.</li>
+<li><code>additional_tags</code>: <em>Optional.</em> The path to a file with whitespace-separated
+list of tag values to tag the image with (in addition to the tag configured in
+<code>source</code>).</li>
+</ul>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li>golang is <em>required</em> - version 1.11.x or above is required for go mod to work</li>
+<li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+work.</li>
+<li>go mod is used for dependency management of the golang packages.</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following commands for both <code>alpine</code> and <code>ubuntu</code> images:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t registry-image-resource -f dockerfiles/alpine/Dockerfile <span class="pl-c1">.</span>
+docker build -t registry-image-resource -f dockerfiles/ubuntu/Dockerfile <span class="pl-c1">.</span></pre></div>
+<h4><a id="user-content-integration-tests" class="anchor" aria-hidden="true" href="#integration-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration tests</h4>
+<p>The integration requires 2 docker repos, one private and one public. The <code>docker build</code>
+step requires setting <code>--build-args</code> so the integration will run.</p>
+<p>Run the tests with the following command:</p>
+<div class="highlight highlight-source-shell"><pre>docker build <span class="pl-c1">.</span> -t registry-image-resource -f dockerfiles/alpine/Dockerfile \
+  --build-arg DOCKER_PRIVATE_USERNAME=<span class="pl-s"><span class="pl-pds">"</span>some-username<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PRIVATE_PASSWORD=<span class="pl-s"><span class="pl-pds">"</span>some-password<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PRIVATE_REPO=<span class="pl-s"><span class="pl-pds">"</span>some/repo<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PUSH_USERNAME=<span class="pl-s"><span class="pl-pds">"</span>some-username<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PUSH_PASSWORD=<span class="pl-s"><span class="pl-pds">"</span>some-password<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PUSH_REPO=<span class="pl-s"><span class="pl-pds">"</span>some/repo<span class="pl-pds">"</span></span>
+
+docker build <span class="pl-c1">.</span> -t registry-image-resource -f dockerfiles/ubuntu/Dockerfile \
+  --build-arg DOCKER_PRIVATE_USERNAME=<span class="pl-s"><span class="pl-pds">"</span>some-username<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PRIVATE_PASSWORD=<span class="pl-s"><span class="pl-pds">"</span>some-password<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PRIVATE_REPO=<span class="pl-s"><span class="pl-pds">"</span>some/repo<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PUSH_USERNAME=<span class="pl-s"><span class="pl-pds">"</span>some-username<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PUSH_PASSWORD=<span class="pl-s"><span class="pl-pds">"</span>some-password<span class="pl-pds">"</span></span> \
+  --build-arg DOCKER_PUSH_REPO=<span class="pl-s"><span class="pl-pds">"</span>some/repo<span class="pl-pds">"</span></span></pre></div>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+locally.</p>
+</article></div>
 </div>
 
 </body>

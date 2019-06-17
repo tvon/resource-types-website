@@ -10,7 +10,121 @@
 <p>https://github.com/karunamon/concourse-resource-bitbucket</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-resource-bitbucket" class="anchor" aria-hidden="true" href="#concourse-resource-bitbucket"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-resource-bitbucket</h1>
+<h1><a id="user-content-unmaintained" class="anchor" aria-hidden="true" href="#unmaintained"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>UNMAINTAINED</h1>
+<p>This resource is no longer maintained due to a lack of time on the part of the author. As of time of writing, it works on local Bitbucket instances, but has not been updated to support newer features in Concourse. In particular, cloud instances of Bitbucket are not functioning correctly.</p>
+<p><strong>Pull requests are not being accepted on this repo</strong> due to the fact that any faulty commits would cause active Concourse installs using this resource to stop working, and I do not have the ability to vet them at the moment. There are hundreds of thousands of docker pulls of this particular resource, and it would be irresponsible to introduce code I can't vet into those.</p>
+<p>You should use one of the many forks of this repo instead. <a href="https://github.com/SHyx0rmZ/bitbucket-build-status-resource">This one</a> by SHyx0rmZ seems the most fully-featured.</p>
+<p>--</p>
+<p><a href="https://hub.docker.com/r/karunamon/concourse-resource-bitbucket/" rel="nofollow"><img src="https://camo.githubusercontent.com/506de5925610e9761db101c4ea31ac3caa15ef84/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6b6172756e616d6f6e2f636f6e636f757273652d7265736f757263652d6269746275636b65742e7376673f6d61784167653d32353932303030" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/karunamon/concourse-resource-bitbucket.svg?maxAge=2592000" style="max-width:100%;"></a>
+<a href="https://requires.io/github/Karunamon/concourse-resource-bitbucket/requirements/?branch=master" rel="nofollow"><img src="https://camo.githubusercontent.com/2d5b3f9f73d4c46cc098e0442ee7106d50778ff2/68747470733a2f2f72657175697265732e696f2f6769746875622f4b6172756e616d6f6e2f636f6e636f757273652d7265736f757263652d6269746275636b65742f726571756972656d656e74732e7376673f6272616e63683d6d6173746572" alt="Requirements Status" data-canonical-src="https://requires.io/github/Karunamon/concourse-resource-bitbucket/requirements.svg?branch=master" style="max-width:100%;"></a>
+<a href="https://travis-ci.org/Karunamon/concourse-resource-bitbucket" rel="nofollow"><img src="https://camo.githubusercontent.com/73e5c4e38c279e638349d146cfd7a783e0ec817a/68747470733a2f2f7472617669732d63692e6f72672f4b6172756e616d6f6e2f636f6e636f757273652d7265736f757263652d6269746275636b65742e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/Karunamon/concourse-resource-bitbucket.svg?branch=master" style="max-width:100%;"></a></p>
+<p>A <a href="http://concourse.ci/" rel="nofollow">Concourse</a> <a href="http://concourse.ci/resources.html" rel="nofollow">resource</a> to interact with the build status API of <a href="https://www.atlassian.com/software/bitbucket" rel="nofollow">Atlassian BitBucket</a> instances, either the public instance at bitbucket.com, or a hosted instance on your own network.</p>
+<p>This repo is tied to the <a href="https://hub.docker.com/r/karunamon/concourse-resource-bitbucket/" rel="nofollow">associated Docker image</a> on Docker Hub, built from the master branch. The image is only rebuilt once the tests complete successfully, so you can be confident that the image you use on your Concourse has been tested and working successfully.</p>
+<h2><a id="user-content-resource-configuration" class="anchor" aria-hidden="true" href="#resource-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Configuration</h2>
+<p>These items go in the <code>source</code> fields of the resource type. Bold items are required:</p>
+<ul>
+<li><strong><code>bitbucket_url</code></strong> - <em>base</em> URL of the bitbucket instance, including a trailing slash. (example: <code>https://bitbucket.mynetwork.com/</code>)</li>
+<li><strong><code>bitbucket_user</code></strong> - Login username of someone with rights to the repository being updated.</li>
+<li><strong><code>bitbucket_password</code></strong> - Password for the mentioned user</li>
+<li><code>debug</code> - When True, dump the JSON documents sent and received for troubleshooting. (default: false)</li>
+<li><code>repository_type</code> - The type of the repository, which can be either git or mercurial. (default: git)</li>
+<li><code>verify_ssl</code> - When False, ignore any HTTPS connection errors if generated. Useful if on an internal network. (default: True)</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code></h3>
+<p>No-op</p>
+<h3><a id="user-content-in" class="anchor" aria-hidden="true" href="#in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code></h3>
+<p>No-op</p>
+<h3><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code></h3>
+<p>Update the status of a commit.</p>
+<p>Parameters:</p>
+<ul>
+<li><strong><code>repo</code></strong> - Name of the git repo containing the SHA to be updated. This will come from a previous <code>get</code> on a <code>git</code> resource. Make sure to use the git directory name, not the name of the resource.</li>
+<li><strong><code>build_status</code></strong> - the state of the status. Must be one of <code>SUCCESSFUL</code>, <code>FAILED</code>, or <code>INPROGRESS</code> - case sensitive.</li>
+</ul>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<p>A typical use case is to update the status of a commit as it traverses your pipeline. The following example marks the commit as pending before unit tests start. Once unit tests finish, the status is updated to either success or failure depending on how the task completes.</p>
+<hr>
+<pre><code>resource_types:
+  - name: bitbucket-notify
+    type: docker-image
+    source:
+      repository: karunamon/concourse-resource-bitbucket
+
+resources:
+  - name: testing-repo
+    type: git
+    source:
+      uri: https://bitbucket.localnet/scm/~michael.parks/concourse-testing.git
+      branch: master
+
+  - name: bitbucket-notify
+    type: bitbucket-notify
+    source:
+      bitbucket_url: https://bitbucket.localnet/
+      bitbucket_username: bbuser
+      bitbucket_password: bbpass
+      verify_ssl: false
+
+
+jobs:
+  - name: integration-tests
+    plan:
+    - get: testing-repo
+      trigger: true
+
+    - put: bitbucket-notify
+      params:
+        build_status: INPROGRESS
+        repo: testing-repo
+
+    - task: tests
+      file: testing-repo/task.yml
+      on_success:
+        put: bitbucket-notify
+        params:
+          build_status: SUCCESSFUL
+          repo: testing-repo
+      on_failure:
+        put: bitbucket-notify
+        params:
+          build_status: FAILED
+          repo: testing-repo
+</code></pre>
+<p>In this example, notice that the repo: parameter is set to the same name as the testing-repo resource. To reiterate: <strong>In your deployment, set the repo: field to the folder name of the git repo</strong>, or in other words, what you'd end up with if you ran a <code>git clone</code> against the git URI.</p>
+<h2><a id="user-content-installation" class="anchor" aria-hidden="true" href="#installation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p>This resource is not included with the standard Concourse release. Use one of the following methods to make this resource available to your pipelines.</p>
+<h3><a id="user-content-deployment-wide" class="anchor" aria-hidden="true" href="#deployment-wide"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deployment-wide</h3>
+<p>To install on all Concourse workers, update your deployment manifest properties to include a new <code>groundcrew.resource_types</code> entry...</p>
+<pre><code>properties:
+  groundcrew:
+    additional_resource_types:
+      - image: "docker:///karunamon/concourse-resource-bitbucket#master"
+        type: "bitbucket-notify"                   
+</code></pre>
+<h3><a id="user-content-pipeline-specific" class="anchor" aria-hidden="true" href="#pipeline-specific"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pipeline-specific</h3>
+<p>To use on a single pipeline, update your pipeline to include a new <code>resource_types</code> entry...</p>
+<pre><code>resource_types:
+  - name: "bitbucket-notify"
+    type: "docker-image"
+    source:
+      repository: "karunamon/concourse-resource-bitbucket"
+      tag: "master"
+</code></pre>
+<h2><a id="user-content-references" class="anchor" aria-hidden="true" href="#references"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>References</h2>
+<ul>
+<li><a href="https://concourse.ci/resources.html" rel="nofollow">Resources (concourse.ci)</a></li>
+<li><a href="https://developer.atlassian.com/bitbucket/server/docs/latest/how-tos/updating-build-status-for-commits.html" rel="nofollow">Bitbucket build status API</a></li>
+</ul>
+<h2><a id="user-content-thanks" class="anchor" aria-hidden="true" href="#thanks"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Thanks</h2>
+<ul>
+<li><a href="https://github.com/dpb587">Danny Berger (aka dpb587)</a> for his well-written and easy to follow <a href="https://github.com/dpb587/github-status-resource">github-status-resource</a>, which was essential to understanding the ins and outs of Concourse resources, as well as providing the layout for this document.</li>
+<li><a href="https://concourseci.slack.com/messages/general/" rel="nofollow">People of the Concourse Slack Channel</a>, in specific, <code>robdimsdale</code>, <code>jtarchie</code>, <code>greg</code>, and <code>vito</code>, for patiently helping a clueless newbie understand a complex system.</li>
+</ul>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p><a href="'./LICENSE'">Apache License v2.0</a></p>
+</article></div>
 </div>
 
 </body>

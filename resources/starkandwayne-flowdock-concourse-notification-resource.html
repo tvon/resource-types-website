@@ -10,7 +10,56 @@
 <p>https://github.com/starkandwayne/flowdock-concourse-notification-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-flowdock-notification-resource" class="anchor" aria-hidden="true" href="#flowdock-notification-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flowdock-notification-resource</h1>
+<p>Concourse CI resource for sending notifications to Flowdock.</p>
+<h2><a id="user-content-requirements" class="anchor" aria-hidden="true" href="#requirements"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Requirements</h2>
+<ul>
+<li>Flowdock account with <code>admin</code> access or a trial account for testing</li>
+<li>Setup your Flowdock account for integration testing by following the <a href="https://www.flowdock.com/api/integration-getting-started" rel="nofollow">Flowdock documentation</a>. This test does not use OAUTH2.0.</li>
+<li>Vagrant version <code>1.6.5</code> (not <code>1.7.x</code>)</li>
+<li>VirtualBox version <code>4.3.x</code> (not <code>5.x</code>)</li>
+<li><code>fly</code> version <code>0.0.1</code> installed (this is the Concourse CLI client)</li>
+</ul>
+<p>Make sure you save your flow token, which is generated when you set up the source for your developer application, as it <strong>cannot be recovered later</strong>.</p>
+<h2><a id="user-content-testing" class="anchor" aria-hidden="true" href="#testing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
+<h3><a id="user-content-setup" class="anchor" aria-hidden="true" href="#setup"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setup</h3>
+<p>Copy the contents of the <code>test</code> directory to the <code>local</code> directory and remove the <code>example</code> from the file names:</p>
+<pre><code>mkdir local
+cp -r test/* local
+cd local
+mv credentials{-example,}.yml
+mv pipeline{-example,}.yml
+mv test{-example,}.sh
+</code></pre>
+<p>Note that the <code>local</code> directory is in <code>.gitignore</code>.</p>
+<p>Put your flow token in the <code>test.sh</code> and <code>credentials.yml</code> files.</p>
+<p>Put your Concourse URL in your <code>credentials.yml</code> file.</p>
+<p>Setup the test environment by using our <a href="https://github.com/starkandwayne/concourse-tutorial">Concourse Tutorials</a> and following the <strong>Getting Started</strong> and <strong>Target Concourse</strong> sections, which also include instructions for how to install <code>fly</code>.</p>
+<p>Note that you do not need to clone the tutorial - all the files you need for testing are all in the <code>test</code>/<code>local</code> directory.</p>
+<h4><a id="user-content-basic-shell-test" class="anchor" aria-hidden="true" href="#basic-shell-test"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Shell Test</h4>
+<p>Before proceeding please run the <code>local/test.sh</code> script to verify your flow token is working correctly.</p>
+<h4><a id="user-content-concourse-testing" class="anchor" aria-hidden="true" href="#concourse-testing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Testing</h4>
+<p>From the <code>local</code> directory start the Vagrant VM if you have not already done so:</p>
+<pre><code>vagrant up
+</code></pre>
+<p>To verify that your version of <code>fly</code> is synced with the version in use with the Concourse pipeline, run:</p>
+<pre><code>fly -t tutorial sync
+</code></pre>
+<p>Go into the vagrant container modify the <code>workers.json</code> file to use the current resource Docker container.</p>
+<pre><code>vagrant ssh
+sudo su -
+vi /var/vcap/jobs/groundcrew/config/worker.json
+monit restart beacon
+</code></pre>
+<p>The line you need to append to the <code>workers.json</code> file is:</p>
+<pre><code>,{"image":"docker:///starkandwayne/flowdock-notification-resource","type":"flowdock-notification"}]}
+</code></pre>
+<p>Exit out of the Vagrant ssh session and deploy the pipeline with:</p>
+<pre><code>fly -t tutorial c -c pipeline.yml --vf=credentials.yml flowdock
+</code></pre>
+<p>You may need to unpause the pipeline. To do this, go to the pipeline URL at <a href="http://192.168.100.4:8080/" rel="nofollow">http://192.168.100.4:8080/</a>, click the menu in the right hand corner, and click the blue play button next to the pipline name (<code>flowdock</code> if you kep the name above). You will see the blue "pause" bar disappear when the pipeline is no longer paused.</p>
+<p>To run the job, go into <code>job-hello-world</code> and click the (+) icon.</p>
+</article></div>
 </div>
 
 </body>

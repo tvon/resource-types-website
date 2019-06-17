@@ -10,7 +10,184 @@
 <p>https://github.com/concourse/github-release-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-github-releases-resource" class="anchor" aria-hidden="true" href="#github-releases-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GitHub Releases Resource</h1>
+<p>Fetches and creates versioned GitHub resources.</p>
+<blockquote>
+<p>If you're seeing rate limits affecting you then please add a token to the source
+configuration. This will increase your number of allowed requests.</p>
+</blockquote>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li>
+<p><code>owner</code>: <em>Required.</em> The GitHub user or organization name for the repository
+that the releases are in.</p>
+</li>
+<li>
+<p><code>repository</code>: <em>Required.</em> The repository name that contains the releases.</p>
+</li>
+<li>
+<p><code>access_token</code>: <em>Optional.</em> Used for accessing a release in a private-repo
+during an <code>in</code> and pushing a release to a repo during an <code>out</code>. The access
+token you create is only required to have the <code>repo</code> or <code>public_repo</code> scope.</p>
+</li>
+<li>
+<p><code>github_api_url</code>: <em>Optional.</em> If you use a non-public GitHub deployment then
+you can set your API URL here.</p>
+</li>
+<li>
+<p><code>github_uploads_url</code>: <em>Optional.</em> Some GitHub instances have a separate URL
+for uploading. If <code>github_api_url</code> is set, this value defaults to the same
+value, but if you have your own endpoint, this field will override it.</p>
+</li>
+<li>
+<p><code>insecure</code>: <em>Optional. Default <code>false</code>.</em> When set to <code>true</code>, concourse will allow
+insecure connection to your github API.</p>
+</li>
+<li>
+<p><code>release</code>: <em>Optional. Default <code>true</code>.</em> When set to <code>true</code>, <code>put</code> produces
+release and <code>check</code> detects releases.  If <code>false</code>, <code>put</code> and <code>check</code> will ignore releases.
+Note that releases must have semver compliant tags to be detected.</p>
+</li>
+<li>
+<p><code>pre_release</code>: <em>Optional. Default <code>false</code>.</em> When set to <code>true</code>, <code>put</code> produces
+pre-release and <code>check</code> detects prereleases. If <code>false</code>, only non-prerelease releases
+will be detected and published. Note that releases must have semver compliant
+tags to be detected.
+If <code>release</code> and <code>pre_release</code> are set to <code>true</code>, <code>put</code> produces
+release and <code>check</code> detects prereleases and releases.</p>
+</li>
+<li>
+<p><code>drafts</code>: <em>Optional. Default <code>false</code>.</em> When set to <code>true</code>, <code>put</code> produces
+drafts and <code>check</code> only detects drafts. If <code>false</code>, only non-draft releases
+will be detected and published. Note that releases must have semver compliant
+tags to be detected, even if they're drafts.</p>
+</li>
+<li>
+<p><code>tag_filter</code>: <em>Optional.</em> If set, override default tag filter regular
+expression of <code>v?([^v].*)</code>. If the filter includes a capture group, the capture
+group is used as the release version; otherwise, the entire matching substring
+is used as the version.</p>
+</li>
+<li>
+<p><code>order_by</code>: <em>Optional. One of [<code>version</code>, <code>time</code>]. Default <code>version</code>.</em>
+Selects whether to order releases by version (as extracted by <code>tag_filter</code>)
+or by time. See <code>check</code> behavior described below for details.</p>
+</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">gh-release</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">github-release</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">owner</span>: <span class="pl-s">concourse</span>
+    <span class="pl-ent">repository</span>: <span class="pl-s">concourse</span>
+    <span class="pl-ent">access_token</span>: <span class="pl-s">abcdef1234567890</span></pre></div>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">gh-release</span></pre></div>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">gh-release</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">name</span>: <span class="pl-s">path/to/name/file</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">path/to/tag/file</span>
+    <span class="pl-ent">body</span>: <span class="pl-s">path/to/body/file</span>
+    <span class="pl-ent">globs</span>:
+    - <span class="pl-s">paths/to/files/to/upload-*.tgz</span></pre></div>
+<p>To get a specific version of a release:</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">gh-release</span>
+  <span class="pl-ent">version</span>: <span class="pl-s">{ tag: 'v0.0.1' }</span></pre></div>
+<p>To set a custom tag filter:</p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">gh-release</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">github-release</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">owner</span>: <span class="pl-s">concourse</span>
+    <span class="pl-ent">repository</span>: <span class="pl-s">concourse</span>
+    <span class="pl-ent">tag_filter</span>: <span class="pl-s"><span class="pl-pds">"</span>version-(.*)<span class="pl-pds">"</span></span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check-check-for-released-versions" class="anchor" aria-hidden="true" href="#check-check-for-released-versions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for released versions.</h3>
+<p>Lists releases, sorted either by their version or time, depending on the <code>order_by</code> source option.</p>
+<p>When sorting by version, the version is extracted from the git tag using the <code>tag_filter</code> source option.
+Versions are compared using <a href="http://semver.org" rel="nofollow">semver</a> semantics if possible.</p>
+<p>When sorting by time and a release is published, it uses the publication time, otherwise it uses the creation time.</p>
+<p>The returned list contains an object of the following format for each release (with timestamp in the RFC3339 format):</p>
+<pre><code>{
+    "id": "12345",
+    "tag": "v1.2.3",
+    "timestamp": "2006-01-02T15:04:05.999999999Z"
+}
+</code></pre>
+<p>When <code>check</code> is given such an object as the <code>version</code> parameter, it returns releases from the specified version or time on.
+Otherwise it returns the release with the latest version or time.</p>
+<h3><a id="user-content-in-fetch-assets-from-a-release" class="anchor" aria-hidden="true" href="#in-fetch-assets-from-a-release"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Fetch assets from a release.</h3>
+<p>Fetches artifacts from the requested release.</p>
+<p>Also creates the following files:</p>
+<ul>
+<li><code>tag</code> containing the git tag name of the release being fetched.</li>
+<li><code>version</code> containing the version determined by the git tag of the release being fetched.</li>
+<li><code>body</code> containing the body text of the release.</li>
+<li><code>commit_sha</code> containing the commit SHA the tag is pointing to.</li>
+</ul>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>globs</code>: <em>Optional.</em> A list of globs for files that will be downloaded from
+the release. If not specified, all assets will be fetched.</p>
+</li>
+<li>
+<p><code>include_source_tarball</code>: <em>Optional.</em> Enables downloading of the source
+artifact tarball for the release as <code>source.tar.gz</code>. Defaults to <code>false</code>.</p>
+</li>
+<li>
+<p><code>include_source_zip</code>: <em>Optional.</em> Enables downloading of the source
+artifact zip for the release as <code>source.zip</code>. Defaults to <code>false</code>.</p>
+</li>
+</ul>
+<h3><a id="user-content-out-publish-a-release" class="anchor" aria-hidden="true" href="#out-publish-a-release"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Publish a release.</h3>
+<p>Given a name specified in <code>name</code>, a body specified in <code>body</code>, and the tag to use
+specified in <code>tag</code>, this creates a release on GitHub then uploads the files
+matching the patterns in <code>globs</code> to the release.</p>
+<h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>name</code>: <em>Required.</em> A path to a file containing the name of the release.</p>
+</li>
+<li>
+<p><code>tag</code>: <em>Required.</em> A path to a file containing the name of the Git tag to use
+for the release.</p>
+</li>
+<li>
+<p><code>tag_prefix</code>: <em>Optional.</em>  If specified, the tag read from the file will be
+prepended with this string. This is useful for adding v in front of version numbers.</p>
+</li>
+<li>
+<p><code>commitish</code>: <em>Optional.</em> A path to a file containing the commitish (SHA, tag,
+branch name) that the release should be associated with.</p>
+</li>
+<li>
+<p><code>body</code>: <em>Optional.</em> A path to a file containing the body text of the release.</p>
+</li>
+<li>
+<p><code>globs</code>: <em>Optional.</em> A list of globs for files that will be uploaded alongside
+the created release.</p>
+</li>
+</ul>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<ul>
+<li>golang is <em>required</em> - version 1.9.x is tested; earlier versions may also
+work.</li>
+<li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+work.</li>
+<li>godep is used for dependency management of the golang packages.</li>
+</ul>
+<h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+<p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+environment is consistent across any <code>docker</code> enabled platform. When the docker
+image builds, the test are run inside the docker container, on failure they
+will stop the build.</p>
+<p>Run the tests with the following commands for both <code>alpine</code> and <code>ubuntu</code> images:</p>
+<div class="highlight highlight-source-shell"><pre>docker build -t github-release-resource -f dockerfiles/alpine/Dockerfile <span class="pl-c1">.</span>
+docker build -t github-release-resource -f dockerfiles/ubuntu/Dockerfile <span class="pl-c1">.</span></pre></div>
+<h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+<p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+locally.</p>
+</article></div>
 </div>
 
 </body>

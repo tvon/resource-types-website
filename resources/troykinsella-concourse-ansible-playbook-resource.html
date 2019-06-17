@@ -10,7 +10,106 @@
 <p>https://github.com/troykinsella/concourse-ansible-playbook-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-ansible-playbook-resource" class="anchor" aria-hidden="true" href="#concourse-ansible-playbook-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Ansible Playbook Resource</h1>
+<p>A <a href="https://concourse-ci.org" rel="nofollow">Concourse CI</a> resource for running Ansible playbooks.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>Most source attributes map directly to <code>ansible-playbook</code> options. See the
+<code>ansible-playbook --help</code> for further details.</p>
+<p>The <code>git_*</code> attributes are relevant to referencing git repositories in the <code>requirements.yml</code> file
+which are pulled from during <code>ansible-galaxy install</code>.</p>
+<ul>
+<li><code>debug</code>: Optional. Boolean. Default <code>false</code>. Echo commands and other normally-hidden outputs useful for troubleshooting.</li>
+<li><code>env</code>: Optional. A list of environment variables to apply.
+Useful for supplying task configuration dependencies like <code>AWS_ACCESS_KEY_ID</code>, for example, or specifying
+<a href="https://docs.ansible.com/ansible/latest/reference_appendices/config.html" rel="nofollow">ansible configuration</a> options
+that are unsupported by this resource. Note: Unsupported ansible configurations can also be applied in <code>ansible.cfg</code>
+in the playbook source.</li>
+<li><code>git_global_config</code>: Optional. A list of git global configurations to apply (with <code>git config --global</code>).</li>
+<li><code>git_https_username</code>:  Optional. The username for git http/s access.</li>
+<li><code>git_https_password</code>: Optional. The password for git http/s access.</li>
+<li><code>git_private_key</code>: Optional. The git ssh private key.</li>
+<li><code>git_skip_ssl_verification</code>: Optional. Boolean. Default <code>false</code>. Don't verify TLS certificates.</li>
+<li><code>user</code>: Optional. Connect to the remote system with this user.</li>
+<li><code>requirements</code>: Optional. Default <code>requirements.yml</code>. If this file is present in the
+playbook source directory, it is used with <code>ansible-galaxy --install</code> before running the playbook.</li>
+<li><code>ssh_common_args</code>: Optional. Specify options to pass to <code>ssh</code>.</li>
+<li><code>ssh_private_key</code>: Required. The <code>ssh</code> private key with which to connect to the remote system.</li>
+<li><code>vault_password</code>: Optional. The value of the <code>ansible-vault</code> password.</li>
+<li><code>verbose</code>: Optional. Specify, <code>v</code>, <code>vv</code>, etc., to increase the verbosity of the
+<code>ansible-playbook</code> execution.</li>
+</ul>
+<h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">ansible-playbook</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">troykinsella/concourse-ansible-playbook-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">ansible</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">ansible-playbook</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">debug</span>: <span class="pl-c1">false</span>
+    <span class="pl-ent">user</span>: <span class="pl-s">ubuntu</span>
+    <span class="pl-ent">ssh_private_key</span>: <span class="pl-s">((ansible_ssh_private_key))</span>
+    <span class="pl-ent">vault_password</span>: <span class="pl-s">((ansible_vault_password))</span>
+    <span class="pl-ent">verbose</span>: <span class="pl-s">v</span></pre></div>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-check-no-op" class="anchor" aria-hidden="true" href="#check-no-op"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: No Op</h3>
+<h3><a id="user-content-in-no-op" class="anchor" aria-hidden="true" href="#in-no-op"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: No Op</h3>
+<h3><a id="user-content-out-execute-ansible-playbook" class="anchor" aria-hidden="true" href="#out-execute-ansible-playbook"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Execute <code>ansible</code> Playbook</h3>
+<p>Execute <code>ansible-playbook</code> against a given playbook and inventory file,
+firstly installing dependencies with <code>ansible-galaxy install -r requirements.yml</code> if necessary.</p>
+<p>Prior to running <code>ansible-playbook</code>, if an <code>ansible.cfg</code> file is present in the
+<code>path</code> directory, it is sanitized by removing entries for which the equivalent
+command line options are managed by this resource. The result of this sanitization
+can be seen by setting <code>source.debug: true</code>.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<p>Most parameters map directly to <code>ansible-playbook</code> options. See the
+<code>ansible-playbook --help</code> for further details.</p>
+<ul>
+<li><code>become</code>: Optional. Boolean. Default <code>false</code>. Run operations as <code>become</code> (privilege escalation).</li>
+<li><code>become_user</code>: Optional. Run operations with this user.</li>
+<li><code>become_method</code>: Optional. Privilege escalation method to use.</li>
+<li><code>check</code>: Optional. Boolean. Default <code>false</code>. Don't make any changes;
+instead, try to predict some of the changes that may occur.</li>
+<li><code>diff</code>: Optional. Boolean. Default <code>false</code>. When changing (small) files and
+templates, show the differences in those files; works great with <code>check: true</code>.</li>
+<li><code>inventory</code>: Required. The path to the inventory file to use, relative
+to <code>path</code>.</li>
+<li><code>playbook</code>: Optional. Default <code>site.yml</code>. The path to the playbook file to run,
+relative to <code>path</code>.</li>
+<li><code>vars</code>: Optional. An object of extra variables to pass to <code>ansible-playbook</code>.
+Mutually exclusive with <code>vars_file</code>.</li>
+<li><code>vars_file</code>: Optional. A file containing a JSON object of extra variables
+to pass to <code>ansible-playbook</code>. Mutually exclusive with <code>vars</code>.</li>
+<li><code>path</code>: Required. The path to the directory containing playbook sources. This typically
+will point to a resource pulled from source control.</li>
+</ul>
+<h4><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> Extends example in Source Configuration</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">provision-frontend</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">master </span><span class="pl-c"><span class="pl-c">#</span> git resource</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">ansible</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">check</span>: <span class="pl-c1">true</span>
+      <span class="pl-ent">diff</span>: <span class="pl-c1">true</span>
+      <span class="pl-ent">inventory</span>: <span class="pl-s">inventory/some-hosts.yml</span>
+      <span class="pl-ent">playbook</span>: <span class="pl-s">provision-frontend.yml</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">master</span></pre></div>
+<h2><a id="user-content-testing" class="anchor" aria-hidden="true" href="#testing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
+<div class="highlight highlight-source-shell"><pre>docker build <span class="pl-c1">.</span></pre></div>
+<h2><a id="user-content-roadmap" class="anchor" aria-hidden="true" href="#roadmap"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Roadmap</h2>
+<ul>
+<li>Support running <code>ansible-playbook</code> with <code>--tags</code> and <code>--skip-tags</code>.</li>
+</ul>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p>MIT © Troy Kinsella</p>
+</article></div>
 </div>
 
 </body>

@@ -10,7 +10,135 @@
 <p>https://github.com/dpb587/bosh-release-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-bosh-release-resource" class="anchor" aria-hidden="true" href="#bosh-release-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>bosh-release-resource</h1>
+<p><a href="LICENSE"><img src="https://camo.githubusercontent.com/162c04054e443f1f71c120e849dff831bac3a431/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d6d69742d626c75652e7376673f6c6f6e6743616368653d74727565" alt="license" data-canonical-src="https://img.shields.io/badge/license-mit-blue.svg?longCache=true" style="max-width:100%;"></a> <a href="https://travis-ci.org/dpb587/bosh-release-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/b93b585e9d423ac1444449a159d7c9c864a4ba70/68747470733a2f2f7472617669732d63692e6f72672f6470623538372f626f73682d72656c656173652d7265736f757263652e737667" alt="build" data-canonical-src="https://travis-ci.org/dpb587/bosh-release-resource.svg" style="max-width:100%;"></a> <a href="https://hub.docker.com/r/dpb587/bosh-release-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/e02a325410073887d47f81fff55bf65954743ccb/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f646f636b65726875622d6c61746573742d677265656e2e7376673f6c6f6e6743616368653d74727565" alt="dockerhub" data-canonical-src="https://img.shields.io/badge/dockerhub-latest-green.svg?longCache=true" style="max-width:100%;"></a></p>
+<p>A <a href="https://concourse-ci.org/" rel="nofollow">Concourse</a> resource for working with versions of a <a href="https://bosh.io/" rel="nofollow">BOSH</a> release. Specifically focused on support for non-<a href="https://bosh.io/releases" rel="nofollow">bosh.io releases</a>, private release repositories, version constraints, dev releases, and <code>finalize-release</code> tasks.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><strong><code>uri</code></strong> - location of the BOSH release git repository</li>
+<li><code>branch</code> - the branch to use (optional unless using <code>out</code>; uses default remote branch)</li>
+<li><code>dev_releases</code> - set to <code>true</code> to create dev releases from every commit</li>
+<li><code>name</code> - a specific release name to use (default is <code>name</code> from <code>config/final.yml</code>)</li>
+<li><code>private_config</code> - a hash of settings which will be serialized to <code>config/private.yml</code> for <code>in</code>/<code>out</code></li>
+<li><code>private_key</code> - a SSH private key when using private git repositories</li>
+<li><code>version</code> - a <a href="https://github.com/Masterminds/semver#basic-comparisons">supported</a> version constraint (e.g. <code>2.x</code>, <code>&gt;= 2.3.4</code>, <code>&gt;2.3.2, &lt;3</code>)</li>
+</ul>
+<h2><a id="user-content-operations" class="anchor" aria-hidden="true" href="#operations"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Operations</h2>
+<h3><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code></h3>
+<p>Get the latest versions of the release.</p>
+<p>When <code>dev_releases</code> is enabled, the version will be in the format of <code>((version))-dev.((commit-date-utc))+commit.((short-commit-hash))</code>. The version number is an incremented patch from the latest final version (as of the referenced commit), followed by the commit-based, pre-release data. For example, if the last final release was <code>5.0.0</code> and the last commit was made on <code>2018-06-13</code> in <code>dd7c33e1d</code>... the version would be <code>5.0.1-dev.20180613T040837Z.commit.dd7c33e1d</code>).</p>
+<p>Version:</p>
+<ul>
+<li><code>version</code> - release version</li>
+</ul>
+<h3><a id="user-content-in" class="anchor" aria-hidden="true" href="#in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code></h3>
+<p>Get a specific version of the release.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>tarball</code> - create a release tarball (default <code>true</code>)</li>
+<li><code>tarball_name</code> - file name to use for the tarball (default <code>{{.Name}}-{{.Version}}.tgz</code>)</li>
+</ul>
+<p>Resource:</p>
+<ul>
+<li><code>name</code> - release name</li>
+<li><code>release.tgz</code> - source release tarball</li>
+<li><code>version</code> - release version</li>
+</ul>
+<p>Metadata:</p>
+<ul>
+<li><code>bosh</code> - version of <code>bosh</code> CLI used to create the tarball</li>
+<li><code>time</code> - timestamp when the tarball was created</li>
+</ul>
+<h3><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code></h3>
+<p>Create a new version of the release from an existing tarball or repository checkout.</p>
+<p>Parameters:</p>
+<ul>
+<li><strong><code>repository</code></strong> - path to a repository checkout from which to create a release (one of <code>repository</code> or <code>tarball</code> must be configured)</li>
+<li><strong><code>tarball</code></strong> - path to an existing release tarball to finalize (one of <code>repository</code> or <code>tarball</code> must be configured)</li>
+<li><strong><code>version</code></strong> - path to the file with contents of a specific version to use</li>
+<li><code>commit_file</code> - path to the file with contents of a commit message (default message <code>Version {version}</code>)</li>
+<li><code>author_name</code> - full name to use as commit author (default <code>CI Bot</code>)</li>
+<li><code>author_email</code> - email address to use as commit author (default <code>ci@localhost</code>)</li>
+<li><code>rebase</code> - enable automatic rebasing if there are conflicts on push (default <code>false</code>)</li>
+<li><code>skip_tag</code> - disable creating an annotated tag pointing to the commit the release tarball was created with (default <code>false</code>)</li>
+</ul>
+<p>Metadata:</p>
+<ul>
+<li><code>bosh</code> - version of <code>bosh</code> CLI used to finalize the release</li>
+<li><code>commit</code> - commit reference where the new version was finalized</li>
+</ul>
+<h3><a id="user-content-create-dev-release" class="anchor" aria-hidden="true" href="#create-dev-release"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>create-dev-release</code></h3>
+<p>The <code>create-dev-release</code> script may be used to create a release tarball from a clone in the current working directory. See <a href="tasks/create-dev-release.yml"><code>create-dev-release.yml</code></a> for an example <a href="https://concourse-ci.org/tasks.html" rel="nofollow">task config</a>.</p>
+<p>Arguments:</p>
+<ul>
+<li><strong>Output directory</strong> - for creating the release tarball</li>
+</ul>
+<h3><a id="user-content-load-release-notes" class="anchor" aria-hidden="true" href="#load-release-notes"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>load-release-notes</code></h3>
+<p>The <code>load-release-notes</code> script may be used to output release notes for a given release version from a clone in the current working directory. See <a href="tasks/load-release-notes.yml"><code>load-release-notes.yml</code></a> for an example <a href="https://concourse-ci.org/tasks.html" rel="nofollow">task config</a>. Release notes are checked in the following order...</p>
+<ul>
+<li>locally-committed release notes in <code>releases/{name}/{name}-{version}.md</code></li>
+<li>GitHub release notes for tags <code>v{version}</code> or <code>{version}</code> (based on the clone's remote origin)</li>
+</ul>
+<p>Arguments:</p>
+<ul>
+<li><strong>Output path</strong> - for writing the release notes contents</li>
+<li><strong>Release version</strong> - to lookup release notes (either literal version, or path to a file whose contents is the version)</li>
+</ul>
+<p>Environment Variables:</p>
+<ul>
+<li><strong><code>GITHUB_TOKEN</code></strong> - a GitHub API <a href="https://developer.github.com/v3/#authentication">OAuth authentication token</a></li>
+<li><code>missing_ok</code> - set to <code>true</code> to exit with success even if no release notes are found</li>
+<li><code>skip_github</code> - set to <code>true</code> to skip checking GitHub release notes</li>
+<li><code>skip_local</code> - set to <code>true</code> to skip checking local release notes</li>
+</ul>
+<h2><a id="user-content-usage" class="anchor" aria-hidden="true" href="#usage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
+<p>To use this resource type, you should configure it in the <a href="https://concourse-ci.org/resource-types.html" rel="nofollow"><code>resource_types</code></a> section of your pipeline.</p>
+<pre><code>- name: bosh-release
+  type: docker-image
+  source:
+    repository: dpb587/bosh-release-resource
+</code></pre>
+<p>The default <code>latest</code> tag will refer to the current, stable version of this Docker image. For using the latest development version, you can refer to the <code>master</code> tag. If you need to refer to an older version of this image, you can refer to the appropriate <code>v{version}</code> tag.</p>
+<h3><a id="user-content-alternative-to-bosh-io-release" class="anchor" aria-hidden="true" href="#alternative-to-bosh-io-release"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Alternative to <code>bosh-io-release</code></h3>
+<p>This resource is generally equivalent to the <code>check</code>/<code>get</code> behaviors of <a href="https://github.com/concourse/bosh-io-release-resource"><code>bosh-io-release</code></a>.</p>
+<p>If you originally used the <code>bosh-io-release</code>...</p>
+<pre><code>- name: concourse
+  type: bosh-io-release
+  source:
+    repository: concourse/concourse
+</code></pre>
+<p>The equivalent <code>bosh-release</code> resource would be...</p>
+<pre><code>- name: concourse
+  type: bosh-release
+  source:
+    uri: https://github.com/concourse/concourse.git
+</code></pre>
+<p>The release tarball is named <code>{{.Name}}-{{.Version}}.tgz</code>. If you were not using globs (e.g. <code>release/*.tgz</code>) you can retain the <code>bosh-io-release</code> behavior by configuring <code>tarball_name</code>. For example...</p>
+<pre><code>- get: stable-release
+  params:
+    tarball_name: release.tgz
+</code></pre>
+<p>Note that <code>url</code> and <code>sha1</code> are not provided since tarballs are built locally.</p>
+<h2><a id="user-content-examples" class="anchor" aria-hidden="true" href="#examples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<p>A few examples which may be helpful...</p>
+<ul>
+<li><a href="examples/bosh-release-notifications.yml">BOSH Release Notifications</a> - a simple pipeline to send a <a href="https://slack.com/" rel="nofollow">Slack</a> notification when there is a new release of <a href="https://github.com/cloudfoundry/bosh">cloudfoundry/bosh</a></li>
+<li><a href="https://github.com/dpb587/openvpn-bosh-release/blob/master/ci/pipelines/main.yml">dpb587/openvpn-bosh-release</a> - used in the pipeline for building and finalizing releases</li>
+<li><a href="https://github.com/dpb587/caddy-bosh-release/blob/master/ci/pipelines/main.yml">dpb587/caddy-bosh-release</a> - used in the pipeline for building and finalizing releases</li>
+</ul>
+<h2><a id="user-content-caveats" class="anchor" aria-hidden="true" href="#caveats"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Caveats</h2>
+<p>Subtle details you might care about...</p>
+<ul>
+<li>This tags the commit from which the release tarball was created (<code>commit_hash</code>), not the commit which finalizes the release in the <code>releases</code> directory. This is primarily to ensure git tags match <code>commit_hash</code> and refer to the underlying source where changes between versions occur (as opposed to when it was finalized which may have a different set of files).</li>
+<li>This uses annotated tags as opposed to lightweight tags. This enables additional metadata to be associated with when the release is published, as opposed to being restricted to when <code>commit_hash</code> occurred.</li>
+<li>This requires that versions match semver conventions. If your release does not use a semver-compatible version, this may not work. This is primarily to encourage semver-like conventions. For releases where typical 3-tuple version numbers are not meaningful, date-based semver numbers may be a useful alternative.</li>
+<li>This currently requires an externally-provided version file rather than supporting <code>bosh</code>'s automatic major version-bumping strategy. This is primarily to encourage more explicit version management. If this becomes too burdensome, it may be worth supporting.</li>
+</ul>
+<h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+<p>Before committing, tests can be run locally with <a href="bin/test"><code>bin/test</code></a>. After pushing, <a href="https://travis-ci.org/" rel="nofollow">Travis CI</a> should automatically run tests for commits and pull requests.</p>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p><a href="LICENSE">MIT License</a></p>
+</article></div>
 </div>
 
 </body>

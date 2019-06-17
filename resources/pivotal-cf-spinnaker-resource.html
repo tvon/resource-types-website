@@ -10,7 +10,115 @@
 <p>https://github.com/pivotal-cf/spinnaker-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-spinnaker-resource" class="anchor" aria-hidden="true" href="#concourse-spinnaker-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Spinnaker Resource</h1>
+<p><em>This resource is under active development and is an alpha release</em></p>
+<h2><a id="user-content-features-" class="anchor" aria-hidden="true" href="#features-"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features :</h2>
+<ul>
+<li>Trigger a Spinnaker pipeline with optional artifacts from Concourse.</li>
+<li>Trigger a Concourse job based on the status of a Spinnaker pipeline.</li>
+</ul>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<ul>
+<li><code>spinnaker_api</code>: <em>Required</em> the url of the Spinnaker api microservice.</li>
+<li><code>spinnaker_application</code>: <em>Required</em> The Spinnaker application you would like to trigger.</li>
+<li><code>spinnaker_pipeline</code>: <em>Required</em> The Spinnaker pipeline you would like to trigger.</li>
+<li><code>client_x509_cert</code>: <em>Required</em> Client <a href="https://www.spinnaker.io/setup/security/authentication/x509/" rel="nofollow">certificate</a> to authenticate with Spinnaker.</li>
+<li><code>client_x509_key</code>: <em>Required</em> Client <a href="https://www.spinnaker.io/setup/security/authentication/x509/" rel="nofollow">key</a> to authenticate with Spinnaker.</li>
+<li><code>statuses</code>: <em>Optional</em> Array of Spinnaker pipeline execution statuses. Currently supported statuses by Spinnaker: [NOT_STARTED, RUNNING, PAUSED, SUSPENDED, SUCCEEDED, FAILED_CONTINUE, TERMINAL, CANCELED, REDIRECT, STOPPED, SKIPPED, BUFFERED] - <a href="https://github.com/spinnaker/gate/blob/1cb00104f925e484d7a7a333bf07bd149adb0464/gate-web/src/main/groovy/com/netflix/spinnaker/gate/controllers/ExecutionsController.java#L82">Reference</a>.
+<ul>
+<li>if specified, the status will be used to filter the pipeline execution statuses when detecting new versions during the <code>check</code> step.</li>
+<li>if specified ,the <code>put</code> step will block until the specified status(es) is reached.</li>
+</ul>
+</li>
+<li><code>statuses_check_timeout</code>: <em>Optional</em> The amount of time after which the <code>put</code> step will timeout waiting for the <code>statuses</code>. Default value will be <code>30m</code>.</li>
+</ul>
+<h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
+<h3><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code></h3>
+<p>Pipeline executions will be found by fetching pipeline executions for the configured application, filtered by the pipeline name. If <code>statuses</code> is configured, the list will be filtered by statuses.</p>
+<p>The pipeline execution <code>id</code> will be used as the version of the resource.</p>
+<p>API : <code>GET /applications/{application}/pipelines</code></p>
+<h3><a id="user-content-in" class="anchor" aria-hidden="true" href="#in"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code></h3>
+<p>Places the following files in the destination:</p>
+<ul>
+<li>
+<p><code>metadata.json</code>: Contains the pipeline execution metadata returned from the Spinnaker <a href="https://www.spinnaker.io/reference/api/docs.html#api-Pipelinecontroller-getPipelineUsingGET" rel="nofollow">API</a>.</p>
+</li>
+<li>
+<p><code>version</code>: A file containing the pipeline execution id.</p>
+</li>
+</ul>
+<p>API : <code>GET /pipelines/{id}</code></p>
+<h3><a id="user-content-out-triggers-a-pipeline" class="anchor" aria-hidden="true" href="#out-triggers-a-pipeline"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Triggers a pipeline</h3>
+<p>Triggers a Spinnaker pipeline.</p>
+<h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+<ul>
+<li>
+<p><code>artifacts_json_file</code>: <em>Optional</em> path to a file containing the artifacts to trigger the spinnaker pipeline with. File should contain an array of artifacts in JSON format to trigger along with the pipeline in the <a href="https://www.spinnaker.io/reference/artifacts/#format" rel="nofollow">spinnaker artifact format</a>.</p>
+</li>
+<li>
+<p><code>trigger_params</code>: <em>Optional</em> build information to send to Spinnaker pipeline execution which can be consumed by the <a href="https://www.spinnaker.io/guides/user/pipeline-expressions/" rel="nofollow">pipeline expressions</a>. Can be any key/value pair. Any <a href="http://concourse.ci/implementing-resources.html#resource-metadata" rel="nofollow">metadata</a> will be evaluated prior to triggering the pipeline.</p>
+</li>
+<li>
+<p><code>trigger_params_json_file</code>: <em>Optional</em> Path to a file that contains parameters to push to the Spinnaker pipeline. This allows the file to be generated by a previous task step. Contents of this file will be merged with <code>trigger_params</code> with the file getting precedence.</p>
+</li>
+</ul>
+<h2><a id="user-content-example-pipelines" class="anchor" aria-hidden="true" href="#example-pipelines"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Pipelines</h2>
+<h3><a id="user-content-put" class="anchor" aria-hidden="true" href="#put"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Put</h3>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">spinnaker</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">concourse/spinnaker-resource</span>
+
+- <span class="pl-ent">name</span>: <span class="pl-s">trigger-spinnaker-pipeline</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">spinnaker</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">spinnaker_api</span>: <span class="pl-s">https://api.spincon.ci.cf-app.com:8085</span>
+    <span class="pl-ent">spinnaker_application</span>: <span class="pl-s">nvidia</span>
+    <span class="pl-ent">spinnaker_pipeline</span>: <span class="pl-s">deploy</span>
+    <span class="pl-ent">spinnaker_x509_cert</span>: <span class="pl-s">((spinnaker_x509_cert))</span>
+    <span class="pl-ent">spinnaker_x509_key</span>: <span class="pl-s">((spinnaker_x509_key))</span>
+    <span class="pl-ent">status_check_timeout</span>: <span class="pl-c1">2m</span>
+    <span class="pl-ent">statuses</span>:
+    - <span class="pl-s">succeeded</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">trigger-pipeline</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">trigger-spinnaker-pipeline</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">trigger_params</span>:
+        <span class="pl-ent">build_id</span>: <span class="pl-s">(build ${BUILD_ID})</span>
+      <span class="pl-ent">artifacts_json_file</span>: <span class="pl-s">some-other-resource/artifact.json</span>
+      <span class="pl-ent">trigger_params_json_file</span>: <span class="pl-s">some-task-output/params.json</span></pre></div>
+<h3><a id="user-content-get" class="anchor" aria-hidden="true" href="#get"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Get</h3>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">spinnaker</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">concourse/spinnaker-resource</span>
+
+<span class="pl-ent">resources</span>:
+  - <span class="pl-ent">name</span>: <span class="pl-s">listen-on-spinnaker-executions</span>
+    <span class="pl-ent">type</span>: <span class="pl-s">spinnaker</span>
+    <span class="pl-ent">source</span>:
+      <span class="pl-ent">spinnaker_api</span>: <span class="pl-s">((spinnaker-api))</span>
+      <span class="pl-ent">client_x509_cert</span>: <span class="pl-s">((client-x509-cert))</span>
+      <span class="pl-ent">client_x509_key</span>: <span class="pl-s">((client-x509-key))</span>
+      <span class="pl-ent">spinnaker_application</span>: <span class="pl-s">samplespinnakerapp</span>
+      <span class="pl-ent">spinnaker_pipeline</span>: <span class="pl-s">samplespinnakerpipeline</span>
+      <span class="pl-ent">statuses</span>:
+        - <span class="pl-s">SUCCEEDED</span>
+        - <span class="pl-s">TERMINAL</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">trigger-pipeline</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">listen-on-spinnaker-executions</span>
+    <span class="pl-ent">trigger</span>: <span class="pl-c1">true</span></pre></div>
+</article></div>
 </div>
 
 </body>

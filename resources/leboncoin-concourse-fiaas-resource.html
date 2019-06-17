@@ -10,7 +10,74 @@
 <p>https://github.com/leboncoin/concourse-fiaas-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-fiaas-resource" class="anchor" aria-hidden="true" href="#concourse-fiaas-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>concourse-fiaas-resource</h1>
+<p><a href="https://github.com/leboncoin/concourse-fiaas-resource/blob/master/LICENSE"><img src="https://camo.githubusercontent.com/3ccf4c50a1576b0dd30b286717451fa56b783512/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d4d49542d79656c6c6f772e737667" alt="License:MIT" data-canonical-src="https://img.shields.io/badge/License-MIT-yellow.svg" style="max-width:100%;"></a>
+<a href="https://travis-ci.org/leboncoin/concourse-fiaas-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/32a183db95ca35aeff9c74160a412dc41aa2698a/68747470733a2f2f7472617669732d63692e6f72672f6c65626f6e636f696e2f636f6e636f757273652d66696161732d7265736f757263652e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/leboncoin/concourse-fiaas-resource.svg?branch=master" style="max-width:100%;"></a>
+<a href="https://codeclimate.com/github/leboncoin/concourse-fiaas-resource/maintainability" rel="nofollow"><img src="https://camo.githubusercontent.com/28502dc1ad48cbe985c3f0cf92ab74b3fc0d1e22/68747470733a2f2f6170692e636f6465636c696d6174652e636f6d2f76312f6261646765732f35346463393339303636373066653735393166302f6d61696e7461696e6162696c697479" alt="Maintainability" data-canonical-src="https://api.codeclimate.com/v1/badges/54dc93906670fe7591f0/maintainability" style="max-width:100%;"></a>
+<a href="https://codeclimate.com/github/leboncoin/concourse-fiaas-resource/test_coverage" rel="nofollow"><img src="https://camo.githubusercontent.com/4c7cc436f173d136b0e3d2d2977d4868adb7ae57/68747470733a2f2f6170692e636f6465636c696d6174652e636f6d2f76312f6261646765732f35346463393339303636373066653735393166302f746573745f636f766572616765" alt="Test Coverage" data-canonical-src="https://api.codeclimate.com/v1/badges/54dc93906670fe7591f0/test_coverage" style="max-width:100%;"></a></p>
+<p>A Concourse CI resource for FIAAS deployment.</p>
+<p><a href="https://github.com/fiaas">FIAAS</a> <em>(Finn Infrastructure As A Service)</em> is a contract driven continuous delivery to Kubernetes. Supports CRE and on premise.</p>
+<p>More information about FIAAS <a href="http://schd.ws/hosted_files/cloudnativeeu2017/ff/finn-no-kubecon.pdf" rel="nofollow">here</a>.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>All these parameters are <strong>required</strong> but can be set in the <code>resource</code> <em>(source)</em> or <code>put</code> <em>(out)</em> definition.</p>
+<ul>
+<li><code>uri</code>: The base URI of the FIAAS server (with prefix: <code>http</code>/<code>https</code>).</li>
+<li><code>application_name</code>: Name of the application to deploy.</li>
+<li><code>namespace</code>: Namespace where deploy the application.</li>
+</ul>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-check" class="anchor" aria-hidden="true" href="#check"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code></h3>
+<p>Currently, the <code>check</code> script returns the latest version or an empty version (<code>{ }</code>).</p>
+<h3><a id="user-content-get" class="anchor" aria-hidden="true" href="#get"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>get</code></h3>
+<p>Currently, the <code>get</code> script only return version number and metadata parameters following the <code>put</code> script execution.</p>
+<h3><a id="user-content-put---deploy-an-application-with-fiaas" class="anchor" aria-hidden="true" href="#put---deploy-an-application-with-fiaas"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>put</code> - Deploy an application with FIAAS</h3>
+<p>The <code>put</code> script will try to deploy a new version of the application based on given parameters with FIAAS service.</p>
+<p>The <strong>required</strong> parameters are the same as the ones in <code>source</code> section with two more (<code>config_url</code> &amp; <code>image</code>).</p>
+<ul>
+<li><code>uri</code>: The base URI of the FIAAS server (with prefix: <code>http</code>/<code>https</code>).</li>
+<li><code>application_name</code>: Name of the application to deploy.</li>
+<li><code>config_url</code>: Path of file which contains the URL of the FIAAS configuration file (should be a valid yaml file).</li>
+<li><code>image</code>: Path of file which contains the URL of the Docker Image on a Docker Registry.</li>
+<li><code>namespace</code>: Namespace where deploy the application.</li>
+</ul>
+<p><strong>CAUTION</strong>: <code>config_url</code> &amp; <code>image</code> require a path file, not a string.</p>
+<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example:</h2>
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">fiaas</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">leboncoin/concourse-fiaas-resource</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">fiaas-staging</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">fiaas</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">http://foo-prod.bar</span>
+    <span class="pl-ent">namespace</span>: <span class="pl-s">production</span>
+- <span class="pl-ent">name</span>: <span class="pl-s">fiaas-prod</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">fiaas</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">http://foo-staging.bar</span>
+    <span class="pl-ent">namespace</span>: <span class="pl-s">staging</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">my-fiaas-deployment</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">my_resource</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">fiaas-staging</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">application_name</span>: <span class="pl-s">my_app</span>
+      <span class="pl-ent">config_url</span>: <span class="pl-s">my_resource/config</span>
+      <span class="pl-ent">image</span>: <span class="pl-s">my_resource/docker_image</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">fiaas-prod</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">application_name</span>: <span class="pl-s">my_app</span>
+      <span class="pl-ent">config_url</span>: <span class="pl-s">my_resource/config</span>
+      <span class="pl-ent">image</span>: <span class="pl-s">my_resource/docker_image</span></pre></div>
+<h3><a id="user-content-acknowledgement" class="anchor" aria-hidden="true" href="#acknowledgement"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Acknowledgement:</h3>
+<p>Thanks to Jose Riguera (<a href="mailto:jose.riguera@springernature.com">jose.riguera@springernature.com</a>) from the Python resource class.</p>
+</article></div>
 </div>
 
 </body>

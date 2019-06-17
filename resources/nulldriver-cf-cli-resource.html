@@ -10,7 +10,900 @@
 <p>https://github.com/nulldriver/cf-cli-resource</p>
 
 <div id="github-readme">
-    
+    <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-cf-cli-concourse-resource" class="anchor" aria-hidden="true" href="#cf-cli-concourse-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>cf cli Concourse Resource</h1>
+<p><a href="https://ci.nulldriver.com/teams/resources/pipelines/cf-cli-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/83251c4694d1bfbc0a9d72ba7d772349dcb0929b/68747470733a2f2f63692e6e756c6c6472697665722e636f6d2f6170692f76312f7465616d732f7265736f75726365732f706970656c696e65732f63662d636c692d7265736f757263652f6a6f62732f6275696c642f6261646765" alt="CI Builds" data-canonical-src="https://ci.nulldriver.com/api/v1/teams/resources/pipelines/cf-cli-resource/jobs/build/badge" style="max-width:100%;"></a>
+<a href="https://hub.docker.com/r/nulldriver/cf-cli-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/d1ee292e3568eaeff4a3f987fb9f74271cf332d1/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f70756c6c732f6e756c6c6472697665722f63662d636c692d7265736f757263652e737667" alt="Docker Pulls" data-canonical-src="https://img.shields.io/docker/pulls/nulldriver/cf-cli-resource.svg" style="max-width:100%;"></a></p>
+<p>An output only resource capable of running lots of Cloud Foundry cli commands.</p>
+<h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+<p>Note: you must provide either <code>username</code> and <code>password</code> or <code>client_id</code> and <code>client_secret</code>.</p>
+<ul>
+<li><code>api</code>: <em>Required.</em> The address of the Cloud Controller in the Cloud Foundry deployment.</li>
+<li><code>username</code>: <em>Optional.</em> The username used to authenticate.</li>
+<li><code>password</code>: <em>Optional.</em> The password used to authenticate.</li>
+<li><code>origin</code>: <em>Optional.</em> The identity provider to be used for authentication (only valid for <code>username</code> &amp; <code>password</code> authentication)</li>
+<li><code>client_id</code>: <em>Optional.</em> The client id used to authenticate.</li>
+<li><code>client_secret</code>: <em>Optional.</em> The client secret used to authenticate.</li>
+<li><code>skip_cert_check</code>: <em>Optional.</em> Check the validity of the CF SSL cert. Defaults to <code>false</code>.</li>
+<li><code>org</code>: <em>Optional.</em> Sets the default organization to target (can be overridden in the params config).</li>
+<li><code>space</code>: <em>Optional.</em> Sets the default space to target (can be overridden in the params config).</li>
+<li><code>cf_color</code>: <em>Optional.</em> Set to <code>false</code> to not colorize cf output (can be overridden in the params config).</li>
+<li><code>cf_dial_timeout</code>: <em>Optional.</em> Max wait time to establish a connection, including name resolution, in seconds (can be overridden in the params config).</li>
+<li><code>cf_trace</code>: <em>Optional.</em> Set to <code>true</code> to print cf API request diagnostics to stdout (can be overridden in the params config).</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">cf-cli-resource</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">repository</span>: <span class="pl-s">nulldriver/cf-cli-resource</span>
+    <span class="pl-ent">tag</span>: <span class="pl-s">latest</span>
+
+<span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">cf-env</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">cf-cli-resource</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">api</span>: <span class="pl-s">https://api.local.pcfdev.io</span>
+    <span class="pl-ent">username</span>: <span class="pl-s">admin</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">admin</span>
+    <span class="pl-ent">skip_cert_check</span>: <span class="pl-c1">true</span></pre></div>
+<h2><a id="user-content-multiple-command-syntax" class="anchor" aria-hidden="true" href="#multiple-command-syntax"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple Command Syntax</h2>
+<p>This resource is capable of running single commands in separate <code>put</code> steps.</p>
+<p><em>NOTE</em>: A common practice is to use different logical names for each <code>put</code> step and reuse the same <code>resource</code>.
+In this example were we use <code>cf-create-org</code> and <code>cf-create-space</code> to describe the <code>put</code> steps and use the same <code>cf-env</code> resource for both steps.</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-org</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-org</span>
+      <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-space</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-space</span>
+      <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+      <span class="pl-ent">space</span>: <span class="pl-s">myspace</span></pre></div>
+<p><em>or</em> they can be combined in a single <code>put</code> step:</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-org-and-space</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">commands</span>:
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-org</span>
+        <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-space</span>
+        <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+        <span class="pl-ent">space</span>: <span class="pl-s">myspace</span></pre></div>
+<p>And, of course, if you have your <code>org</code> and <code>space</code> defined in the <code>source</code> config,
+it gets even simpler:</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-org-and-space</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">commands</span>:
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-org</span>
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-space</span></pre></div>
+<h2><a id="user-content-command-via-file-input" class="anchor" aria-hidden="true" href="#command-via-file-input"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Command via file input</h2>
+<p>This resource supports file inputs.  This allows the pipeline to parameterize and generate commands during pipeline execution.</p>
+<ul>
+<li><code>command_file</code>: <em>Optional.</em> Contains path to a YAML file that contains the same fields as <code>params</code>; including <code>command</code> or <code>commands</code>.  If used, this resource uses only the configuration listed in this file.  All other configurations specified in the <code>params</code> section will be ignored. The <code>command_file</code> field (if exists) is ignored within the content of the file itself.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">task</span>: <span class="pl-s">configure</span>
+    <span class="pl-ent">config</span>:
+      <span class="pl-ent">platform</span>: <span class="pl-s">linux</span>
+      <span class="pl-ent">image_resource</span>:
+        <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
+        <span class="pl-ent">source</span>:
+          <span class="pl-ent">repository</span>: <span class="pl-s">ubuntu</span>
+      <span class="pl-ent">run</span>:
+        <span class="pl-ent">path</span>: <span class="pl-s">bash</span>
+        <span class="pl-ent">args</span>:
+        - <span class="pl-s">-excl</span>
+        - <span class="pl-s">|-</span>
+<span class="pl-s">          cat &gt; cf_command/params.yml &lt;&lt;EOF</span>
+<span class="pl-s">          command: delete</span>
+<span class="pl-s">          app_name: app</span>
+<span class="pl-s">          delete_mapped_routes: <span class="pl-c1">true</span></span>
+<span class="pl-s">          EOF</span>
+<span class="pl-s"></span>      <span class="pl-ent">outputs</span>:
+        - <span class="pl-ent">name</span>: <span class="pl-s">cf_command</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete</span>
+      <span class="pl-ent">command_file</span>: <span class="pl-s">cf_command/params.yml</span></pre></div>
+<h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<h3><a id="user-content-out-run-a-cf-cli-command" class="anchor" aria-hidden="true" href="#out-run-a-cf-cli-command"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Run a cf cli command.</h3>
+<p>Run cf command(s) on a Cloud Foundry installation.</p>
+<h4><a id="user-content-create-org" class="anchor" aria-hidden="true" href="#create-org"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-org</h4>
+<p>Create an org</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to create (required if not set in the source config)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-org</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-org</span>
+      <span class="pl-ent">org</span>: <span class="pl-s">myorg</span></pre></div>
+<h4><a id="user-content-delete-org" class="anchor" aria-hidden="true" href="#delete-org"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-org</h4>
+<p>Delete an org</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to delete (required if not set in the source config)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-org</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-org</span>
+      <span class="pl-ent">org</span>: <span class="pl-s">myorg</span></pre></div>
+<h4><a id="user-content-create-space" class="anchor" aria-hidden="true" href="#create-space"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-space</h4>
+<p>Create a space</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to create (required if not set in the source config)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-space</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-space</span>
+      <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+      <span class="pl-ent">space</span>: <span class="pl-s">myspace</span></pre></div>
+<h4><a id="user-content-delete-space" class="anchor" aria-hidden="true" href="#delete-space"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-space</h4>
+<p>Delete a space</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to delete (required if not set in the source config)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-space</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-space</span>
+      <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+      <span class="pl-ent">space</span>: <span class="pl-s">myspace</span></pre></div>
+<h4><a id="user-content-create-domain" class="anchor" aria-hidden="true" href="#create-domain"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-domain</h4>
+<p>Create a domain in an org for later use</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to create the domain in (required if not set in the source config)</li>
+<li><code>domain</code>: <em>Optional.</em> The domain to add to the organization</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-domain</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-domain</span>
+      <span class="pl-ent">org</span>: <span class="pl-s">myorg</span>
+      <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span></pre></div>
+<h4><a id="user-content-delete-domain" class="anchor" aria-hidden="true" href="#delete-domain"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-domain</h4>
+<p>Delete a domain</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>domain</code>: <em>Optional.</em> The domain to delete</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-domain</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-domain</span>
+      <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span></pre></div>
+<h4><a id="user-content-create-route" class="anchor" aria-hidden="true" href="#create-route"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-route</h4>
+<p>Create a url route in a space for later use</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>other_space</code>: <em>Optional.</em> The space for the route (if not set the source or params specified <code>space</code> will be used)</li>
+<li><code>domain</code>: <em>Required.</em> Domain for the HTTP route</li>
+<li><code>hostname</code>: <em>Optional.</em> Hostname for the HTTP route (required for shared domains)</li>
+<li><code>path</code>: <em>Optional.</em> Path for the HTTP route</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-route</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-route</span>
+      <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span>
+      <span class="pl-ent">hostname</span>: <span class="pl-s">myhost</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">foo</span></pre></div>
+<h4><a id="user-content-map-route" class="anchor" aria-hidden="true" href="#map-route"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>map-route</h4>
+<p>Add a url route to an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The application to map the route to</li>
+<li><code>domain</code>: <em>Required.</em> The domain to map to the application</li>
+<li><code>hostname</code>: <em>Optional.</em> Hostname for the HTTP route (required for shared domains)</li>
+<li><code>path</code>: <em>Optional.</em> Path for the HTTP route</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-map-route</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">map-route</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span>
+      <span class="pl-ent">hostname</span>: <span class="pl-s">myhost</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">foo</span></pre></div>
+<h4><a id="user-content-unmap-route" class="anchor" aria-hidden="true" href="#unmap-route"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>unmap-route</h4>
+<p>Remove a url route from an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The application to map the route to</li>
+<li><code>domain</code>: <em>Required.</em> The domain to unmap from the application</li>
+<li><code>hostname</code>: <em>Optional.</em> Hostname used to identify the HTTP route</li>
+<li><code>path</code>: <em>Optional.</em> Path used to identify the HTTP route</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-unmap-route</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">unmap-route</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span>
+      <span class="pl-ent">hostname</span>: <span class="pl-s">myhost</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">foo</span></pre></div>
+<h4><a id="user-content-delete-route" class="anchor" aria-hidden="true" href="#delete-route"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-route</h4>
+<p>Delete a route</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>domain</code>: <em>Required.</em> Domain used to identify the HTTP route</li>
+<li><code>hostname</code>: <em>Optional.</em> Hostname used to identify the HTTP route</li>
+<li><code>path</code>: <em>Optional.</em> Path used to identify the HTTP route</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-route</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-route</span>
+      <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span>
+      <span class="pl-ent">hostname</span>: <span class="pl-s">myhost</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">foo</span></pre></div>
+<h4><a id="user-content-create-user" class="anchor" aria-hidden="true" href="#create-user"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-user</h4>
+<p>Create a new user</p>
+<ul>
+<li><code>username</code>: <em>Required.</em> The user to create</li>
+<li><code>password</code>: <em>Optional.</em> The password (must specify either <code>password</code> or <code>origin</code>)</li>
+<li><code>origin</code>: <em>Optional.</em> The authentication origin (e.g. ldap, provider-alias) (must specify either <code>password</code> or <code>origin</code>)</li>
+</ul>
+<p>Create a user with credentials:</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">prepare-env</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-user</span>
+      <span class="pl-ent">username</span>: <span class="pl-s">j.smith@example.com</span>
+      <span class="pl-ent">password</span>: <span class="pl-s">S3cr3t</span></pre></div>
+<p>Create an LDAP user:</p>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">prepare-env</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-user</span>
+      <span class="pl-ent">username</span>: <span class="pl-s">j.smith@example.com</span>
+      <span class="pl-ent">origin</span>: <span class="pl-s">ldap</span></pre></div>
+<h4><a id="user-content-create-users-from-file" class="anchor" aria-hidden="true" href="#create-users-from-file"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-users-from-file</h4>
+<p>Bulk create users from a csv file</p>
+<ul>
+<li><code>file</code>: <em>Required.</em> The csv file containing the users</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">prepare-env</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-users-from-file</span>
+      <span class="pl-ent">file</span>: <span class="pl-s">somepath/users.csv</span></pre></div>
+<p>The format of the bulk load file:</p>
+<table>
+<thead>
+<tr>
+<th>Username</th>
+<th>Password</th>
+<th>Org</th>
+<th>Space</th>
+<th>OrgManager</th>
+<th>BillingManager</th>
+<th>OrgAuditor</th>
+<th>SpaceManager</th>
+<th>SpaceDeveloper</th>
+<th>SpaceAuditor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user1</td>
+<td>S3cr3t</td>
+<td>org1</td>
+<td>dev</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>user2</td>
+<td></td>
+<td>org2</td>
+<td>dev</td>
+<td></td>
+<td>x</td>
+<td>x</td>
+<td></td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>user3</td>
+<td>S3cr3t</td>
+<td>org3</td>
+<td>dev</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr>
+<td>user3</td>
+<td>S3cr3t</td>
+<td>org3</td>
+<td>test</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ul>
+<li>The file must include the header row</li>
+<li>The file must be in comma separated value format</li>
+<li>You can specify the user more than once to assign multiple orgs/spaces</li>
+<li>If you omit the Org, no org or space roles will be assigned</li>
+<li>If you omit the Space, no space roles will be assigned</li>
+</ul>
+<h4><a id="user-content-delete-user" class="anchor" aria-hidden="true" href="#delete-user"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-user</h4>
+<p>Delete a user</p>
+<ul>
+<li><code>username</code>: <em>Required.</em> The user to delete</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">prepare-env</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-user</span>
+      <span class="pl-ent">username</span>: <span class="pl-s">j.smith@example.com</span></pre></div>
+<h4><a id="user-content-create-user-provided-service" class="anchor" aria-hidden="true" href="#create-user-provided-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-user-provided-service</h4>
+<p>Make a user-provided service instance available to CF apps</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The name to give the service instance</li>
+<li>Options: <em>Only specify one.</em>
+<ul>
+<li><code>credentials</code>: Credentials, provided as YAML, inline json or in a file, to be exposed in the VCAP_SERVICES environment variable for bound applications</li>
+<li><code>syslog_drain_url</code>: URL to which logs for bound applications will be streamed</li>
+<li><code>route_service_url</code>: URL to which requests for bound routes will be forwarded. Scheme for this URL must be https</li>
+</ul>
+</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-user-provided-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">commands</span>:
+      <span class="pl-c"><span class="pl-c">#</span> credentials as YAML</span>
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-user-provided-service</span>
+        <span class="pl-ent">service_instance</span>: <span class="pl-s">my-db-mine</span>
+        <span class="pl-ent">credentials</span>:
+          <span class="pl-ent">username</span>: <span class="pl-s">admin</span>
+          <span class="pl-ent">password</span>: <span class="pl-s">pa55woRD</span>
+      <span class="pl-c"><span class="pl-c">#</span> credentials as inline json</span>
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-user-provided-service</span>
+        <span class="pl-ent">service_instance</span>: <span class="pl-s">my-db-mine</span>
+        <span class="pl-ent">credentials</span>: <span class="pl-s"><span class="pl-pds">'</span>{"username":"admin","password":"pa55woRD"}<span class="pl-pds">'</span></span>
+      <span class="pl-c"><span class="pl-c">#</span> credentials as json file</span>
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-user-provided-service</span>
+        <span class="pl-ent">service_instance</span>: <span class="pl-s">another-db-mine</span>
+        <span class="pl-ent">credentials</span>: <span class="pl-s">path/to/credentials.json</span>
+      <span class="pl-c"><span class="pl-c">#</span> syslog drain url</span>
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-user-provided-service</span>
+        <span class="pl-ent">service_instance</span>: <span class="pl-s">my-drain-service</span>
+        <span class="pl-ent">syslog_drain_url</span>: <span class="pl-s">syslog://example.com</span>
+      <span class="pl-c"><span class="pl-c">#</span> route service url</span>
+      - <span class="pl-ent">command</span>: <span class="pl-s">create-user-provided-service</span>
+        <span class="pl-ent">service_instance</span>: <span class="pl-s">my-route-service</span>
+        <span class="pl-ent">route_service_url</span>: <span class="pl-s">https://example.com</span></pre></div>
+<h4><a id="user-content-create-service" class="anchor" aria-hidden="true" href="#create-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-service</h4>
+<p>Create a service instance</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service</code>: <em>Required.</em> The marketplace service name to create</li>
+<li><code>plan</code>: <em>Required.</em> The service plan name to create</li>
+<li><code>service_instance</code>: <em>Required.</em> The name to give the service instance</li>
+<li><code>configuration</code>: <em>Optional.</em> Valid JSON object containing service-specific configuration parameters, provided either in-line or in a file. For a list of supported configuration parameters, see documentation for the particular service offering.</li>
+<li><code>tags</code>: <em>Optional.</em> User provided tags</li>
+<li><code>timeout</code>: <em>Optional.</em> Max wait time for service creation, in seconds. Defaults to <code>600</code> (10 minutes)</li>
+<li><code>wait_for_service</code>: <em>Optional.</em> Wait for the asynchronous service to start. Defaults to <code>false</code>.</li>
+<li><code>update_service</code>: <em>Optional.</em> Update service instance if it already exists. Defaults to <code>false</code>.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-service</span>
+      <span class="pl-ent">service</span>: <span class="pl-s">p-config-server</span>
+      <span class="pl-ent">plan</span>: <span class="pl-s">standard</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-config-server</span>
+      <span class="pl-ent">configuration</span>: <span class="pl-s"><span class="pl-pds">'</span>{"count":1}<span class="pl-pds">'</span></span>
+      <span class="pl-ent">tags</span>: <span class="pl-s"><span class="pl-pds">'</span>list, of, tags<span class="pl-pds">'</span></span>
+      <span class="pl-ent">timeout</span>: <span class="pl-c1">300</span>
+      <span class="pl-ent">wait_for_service</span>: <span class="pl-c1">true</span></pre></div>
+<h4><a id="user-content-update-service" class="anchor" aria-hidden="true" href="#update-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>update-service</h4>
+<p>Update a service instance</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The name of the service instance</li>
+<li><code>plan</code>: <em>Required.</em> Change service plan for a service instance</li>
+<li><code>configuration</code>: <em>Optional.</em> Valid JSON object containing service-specific configuration parameters, provided either in-line or in a file. For a list of supported configuration parameters, see documentation for the particular service offering.</li>
+<li><code>tags</code>: <em>Optional.</em> User provided tags</li>
+<li><code>timeout</code>: <em>Optional.</em> Max wait time for service update, in seconds. Defaults to <code>600</code> (10 minutes)</li>
+<li><code>wait_for_service</code>: <em>Optional.</em> Wait for the asynchronous service to update. Defaults to <code>false</code>.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-update-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">update-service</span>
+      <span class="pl-ent">service</span>: <span class="pl-s">p-config-server</span>
+      <span class="pl-ent">plan</span>: <span class="pl-s">pro</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-config-server</span>
+      <span class="pl-ent">configuration</span>: <span class="pl-s"><span class="pl-pds">'</span>{"count":2}<span class="pl-pds">'</span></span>
+      <span class="pl-ent">tags</span>: <span class="pl-s"><span class="pl-pds">'</span>list, of, tags<span class="pl-pds">'</span></span>
+      <span class="pl-ent">timeout</span>: <span class="pl-c1">300</span>
+      <span class="pl-ent">wait_for_service</span>: <span class="pl-c1">true</span></pre></div>
+<h4><a id="user-content-delete-service" class="anchor" aria-hidden="true" href="#delete-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-service</h4>
+<p>Delete a service instance</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The service instance to delete</li>
+<li><code>wait_for_service</code>: <em>Optional.</em> Wait for the service to delete. Defaults to <code>false</code>.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-service</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-config-server</span>
+      <span class="pl-ent">wait_for_service</span>: <span class="pl-c1">true</span></pre></div>
+<h4><a id="user-content-share-service" class="anchor" aria-hidden="true" href="#share-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>share-service</h4>
+<p>Share a service instance with another space</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The name of the service instance to share</li>
+<li><code>other_org</code>: <em>Optional.</em> Org of the other space (Default: targeted org)</li>
+<li><code>other_space</code>: <em>Required.</em> Space to share the service instance into</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-share-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">share-service</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-shared-service</span>
+      <span class="pl-ent">other_org</span>: <span class="pl-s">other-org</span>
+      <span class="pl-ent">other_space</span>: <span class="pl-s">other-space</span></pre></div>
+<h4><a id="user-content-unshare-service" class="anchor" aria-hidden="true" href="#unshare-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>unshare-service</h4>
+<p>Unshare a shared service instance from a space</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The name of the service instance to unshare</li>
+<li><code>other_org</code>: <em>Optional.</em> Org of the other space (Default: targeted org)</li>
+<li><code>other_space</code>: <em>Required.</em> Space to unshare the service instance from</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-unshare-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">unshare-service</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-shared-service</span>
+      <span class="pl-ent">other_org</span>: <span class="pl-s">other-org</span>
+      <span class="pl-ent">other_space</span>: <span class="pl-s">other-space</span></pre></div>
+<h4><a id="user-content-create-service-key" class="anchor" aria-hidden="true" href="#create-service-key"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-service-key</h4>
+<p>Create a service key</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The name of the service instance for which the key is to be created</li>
+<li><code>service_key</code>: <em>Required.</em> The name to give the service key</li>
+<li><code>configuration</code>: <em>Optional.</em> Valid JSON object containing service-specific configuration parameters, provided either in-line or in a file. For a list of supported configuration parameters, see documentation for the particular service offering.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-service-key</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-service-key</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-db</span>
+      <span class="pl-ent">service_key</span>: <span class="pl-s">my-db-service-key</span></pre></div>
+<h4><a id="user-content-delete-service-key" class="anchor" aria-hidden="true" href="#delete-service-key"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-service-key</h4>
+<p>Delete a service key</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The service instance that has the service key</li>
+<li><code>service_key</code>: <em>Required.</em> The service key to delete</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-service-key</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-service-key</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-db</span>
+      <span class="pl-ent">service_key</span>: <span class="pl-s">my-db-service-key</span></pre></div>
+<h4><a id="user-content-create-service-broker" class="anchor" aria-hidden="true" href="#create-service-broker"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-service-broker</h4>
+<p>Create/Update a service broker. If a service broker already exists, updates the existing service broker.</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if <code>space_scoped: true</code>)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if <code>space_scoped: true</code>)</li>
+<li><code>service_broker</code>: <em>Required.</em> The service broker name to create</li>
+<li><code>username</code>: <em>Required.</em> The service broker username</li>
+<li><code>password</code>: <em>Required.</em> The service broker password</li>
+<li><code>url</code>: <em>Required.</em> The service broker url</li>
+<li><code>space_scoped</code>: <em>Optional.</em> Make the broker's service plans only visible within the targeted space. Defaults to <code>false</code>.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-service-broker</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-service-broker</span>
+      <span class="pl-ent">service_broker</span>: <span class="pl-s">some-service</span>
+      <span class="pl-ent">username</span>: <span class="pl-s">admin</span>
+      <span class="pl-ent">password</span>: <span class="pl-s">password</span>
+      <span class="pl-ent">url</span>: <span class="pl-s">http://broker.name.com</span>
+      <span class="pl-ent">space_scoped</span>: <span class="pl-c1">true</span></pre></div>
+<h4><a id="user-content-delete-service-broker" class="anchor" aria-hidden="true" href="#delete-service-broker"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-service-broker</h4>
+<p>Deletes a service broker</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_broker</code>: <em>Required.</em> The service broker name to delete</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-service-broker</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-service-broker</span>
+      <span class="pl-ent">service_broker</span>: <span class="pl-s">some-service</span></pre></div>
+<h4><a id="user-content-wait-for-service" class="anchor" aria-hidden="true" href="#wait-for-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>wait-for-service</h4>
+<p>Wait for a service instance to start</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>service_instance</code>: <em>Required.</em> The service instance to wait for</li>
+<li><code>timeout</code>: <em>Optional.</em> Max wait time for service creation, in seconds. Defaults to <code>600</code> (10 minutes)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-wait-for-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">wait-for-service</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">my-config-server</span>
+      <span class="pl-ent">timeout</span>: <span class="pl-c1">300</span></pre></div>
+<h4><a id="user-content-enable-service-access" class="anchor" aria-hidden="true" href="#enable-service-access"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>enable-service-access</h4>
+<p>Enable access to a service or service plan for one or all orgs</p>
+<ul>
+<li><code>service_broker</code>: <em>Required.</em> The marketplace service name to enable</li>
+<li><code>access_org</code>: <em>Optional.</em> Enable access for a specified organization</li>
+<li><code>plan</code>: <em>Optional.</em> Enable access to a specified service plan</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-enable-service-access</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">enable-service-access</span>
+      <span class="pl-ent">service_broker</span>: <span class="pl-s">some-service</span>
+      <span class="pl-ent">access_org</span>: <span class="pl-s">myorg</span>
+      <span class="pl-ent">plan</span>: <span class="pl-s">simple</span></pre></div>
+<h4><a id="user-content-disable-service-access" class="anchor" aria-hidden="true" href="#disable-service-access"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>disable-service-access</h4>
+<p>Disable access to a service or service plan for one or all orgs</p>
+<ul>
+<li><code>service_broker</code>: <em>Required.</em> The marketplace service name to disable</li>
+<li><code>access_org</code>: <em>Optional.</em> Disable access for a specified organization</li>
+<li><code>plan</code>: <em>Optional.</em> Disable access to a specified service plan</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-disable-service-access</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">disable-service-access</span>
+      <span class="pl-ent">service_broker</span>: <span class="pl-s">some-service</span>
+      <span class="pl-ent">access_org</span>: <span class="pl-s">myorg</span>
+      <span class="pl-ent">plan</span>: <span class="pl-s">simple</span></pre></div>
+<h4><a id="user-content-bind-service" class="anchor" aria-hidden="true" href="#bind-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>bind-service</h4>
+<p>Bind a service instance to an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The application to bind to the service</li>
+<li><code>service_instance</code>: <em>Required.</em> The service instance to bind to the application</li>
+<li><code>configuration</code>: <em>Optional.</em> Valid JSON object containing service-specific configuration parameters, provided either in-line or in a file. For a list of supported configuration parameters, see documentation for the particular service offering.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-bind-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">bind-service</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">mydb</span>
+      <span class="pl-ent">configuration</span>: <span class="pl-s"><span class="pl-pds">'</span>{"permissions":"read-only"}<span class="pl-pds">'</span></span></pre></div>
+<h4><a id="user-content-unbind-service" class="anchor" aria-hidden="true" href="#unbind-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>unbind-service</h4>
+<p>Unbind a service instance from an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The application to unbind from the service instance</li>
+<li><code>service_instance</code>: <em>Required.</em> The service instance to unbind from the application</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-unbind-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">unbind-service</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">mydb</span></pre></div>
+<h4><a id="user-content-bind-route-service" class="anchor" aria-hidden="true" href="#bind-route-service"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>bind-route-service</h4>
+<p>Bind a service instance to an HTTP route</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>domain</code>: <em>Required.</em> The domain to bind the route to</li>
+<li><code>service_instance</code>: <em>Required.</em> The service instance to bind the route to</li>
+<li><code>hostname</code>: <em>Optional.</em> Hostname used in combination with <code>domain</code> to specify the route to bind</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-bind-route-service</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">bind-route-service</span>
+      <span class="pl-ent">domain</span>: <span class="pl-s">example.com</span>
+      <span class="pl-ent">service_instance</span>: <span class="pl-s">mylogger</span>
+      <span class="pl-ent">hostname</span>: <span class="pl-s">myhost</span></pre></div>
+<h4><a id="user-content-enable-feature-flag" class="anchor" aria-hidden="true" href="#enable-feature-flag"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>enable-feature-flag</h4>
+<p>Allow use of a feature</p>
+<ul>
+<li><code>feature_name</code>: <em>Required.</em> Feature to enable</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-enable-feature-flag</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">enable-feature-flag</span>
+      <span class="pl-ent">feature_name</span>: <span class="pl-s">service_instance_sharing</span></pre></div>
+<h4><a id="user-content-disable-feature-flag" class="anchor" aria-hidden="true" href="#disable-feature-flag"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>disable-feature-flag</h4>
+<p>Prevent use of a feature</p>
+<ul>
+<li><code>feature_name</code>: <em>Required.</em> Feature to disable</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-disable-feature-flag</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">disable-feature-flag</span>
+      <span class="pl-ent">feature_name</span>: <span class="pl-s">service_instance_sharing</span></pre></div>
+<h4><a id="user-content-push" class="anchor" aria-hidden="true" href="#push"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>push</h4>
+<p>Push a new app or sync changes to an existing app</p>
+<p><em>NOTE</em>: A manifest can be used to specify values for required parameters. Any parameters specified will override manifest values.</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>buildpack</code>: <em>Optional.</em> Custom buildpack by name (e.g. my-buildpack) or Git URL (e.g. '<a href="https://github.com/cloudfoundry/java-buildpack.git">https://github.com/cloudfoundry/java-buildpack.git</a>') or Git URL with a branch or tag (e.g. '<a href="https://github.com/cloudfoundry/java-buildpack.git#v3.3.0">https://github.com/cloudfoundry/java-buildpack.git#v3.3.0</a>' for 'v3.3.0' tag). To use built-in buildpacks only, specify 'default' or 'null'</li>
+<li><code>startup_command</code>: <em>Optional.</em> Startup command, set to null to reset to default start command</li>
+<li><code>docker_image</code>: <em>Optional.</em> Docker-image to be used (e.g. user/docker-image-name)</li>
+<li><code>docker_username</code>: <em>Optional.</em> This is used as the username to authenticate against a protected docker registry</li>
+<li><code>docker_password</code>: <em>Optional.</em> This should be the users password when authenticating against a protected docker registry</li>
+<li><code>manifest</code>: <em>Optional.</em> Path to manifest</li>
+<li><code>hostname</code>: <em>Optional.</em> Hostname (e.g. my-subdomain)</li>
+<li><code>instances</code>: <em>Optional.</em> Number of instances</li>
+<li><code>disk_quota</code>: <em>Optional.</em> Disk limit (e.g. 256M, 1024M, 1G)</li>
+<li><code>memory</code>: <em>Optional.</em> Memory limit (e.g. 256M, 1024M, 1G)</li>
+<li><code>no_start</code>: <em>Optional.</em> Do not start an app after pushing. Defaults to <code>false</code>.</li>
+<li><code>path</code>: <em>Optional.</em> Path to app directory or to a zip file of the contents of the app directory</li>
+<li><code>stack</code>: <em>Optional.</em> Stack to use (a stack is a pre-built file system, including an operating system, that can run apps)</li>
+<li><code>vars</code>: <em>Optional.</em> Map of variables to pass to manifest</li>
+<li><code>vars_files</code>: <em>Optional.</em> List of variables files to pass to manifest</li>
+<li><code>staging_timeout</code>: <em>Optional.</em> Max wait time for buildpack staging, in minutes</li>
+<li><code>startup_timeout</code>: <em>Optional.</em> Max wait time for app instance startup, in minutes</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-push</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">push</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">memory</span>: <span class="pl-c1">1G</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">path/to/myapp-*.jar</span>
+      <span class="pl-ent">buildpack</span>: <span class="pl-s">java_buildpack</span>
+      <span class="pl-ent">manifest</span>: <span class="pl-s">path/to/manifest.yml</span>
+      <span class="pl-ent">vars</span>:
+        <span class="pl-ent">instances</span>: <span class="pl-c1">3</span>
+      <span class="pl-ent">vars_files</span>:
+      - <span class="pl-s">path/to/vars.yml</span></pre></div>
+<h4><a id="user-content-zero-downtime-push" class="anchor" aria-hidden="true" href="#zero-downtime-push"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>zero-downtime-push</h4>
+<p>Push a single app using the <a href="https://github.com/contraband/autopilot">autopilot plugin</a>.</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>manifest</code>: <em>Required.</em> Path to a application manifest file.</li>
+<li><code>path</code>: <em>Optional.</em> Path to the application to push. If this isn't set then it will be read from the manifest instead.</li>
+<li><code>stack</code>: <em>Optional.</em> Stack to use (a stack is a pre-built file system, including an operating system, that can run apps)</li>
+<li><code>current_app_name</code>: <em>Optional.</em> This should be the name of the application that this will re-deploy over. If this is set the resource will perform a zero-downtime deploy.</li>
+<li><code>environment_variables</code>: <em>Optional.</em>  Environment variable key/value pairs to add to the manifest.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-zero-downtime-push</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">zero-downtime-push</span>
+      <span class="pl-ent">manifest</span>: <span class="pl-s">path/to/manifest.yml</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">path/to/myapp-*.jar</span>
+      <span class="pl-ent">current_app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">environment_variables</span>:
+        <span class="pl-ent">key</span>: <span class="pl-s">value</span>
+        <span class="pl-ent">key2</span>: <span class="pl-s">value2</span></pre></div>
+<h4><a id="user-content-set-env" class="anchor" aria-hidden="true" href="#set-env"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>set-env</h4>
+<p>Set an env variable for an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>env_var_name</code>: <em>Optional.</em> Environment variable name</li>
+<li><code>env_var_value</code>: <em>Optional.</em> Environment variable value</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-set-env</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">set-env</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">env_var_name</span>: <span class="pl-s">JBP_CONFIG_OPEN_JDK_JRE</span>
+      <span class="pl-ent">env_var_value</span>: <span class="pl-s"><span class="pl-pds">'</span>{ jre: { version: 1.8.0_+ }, memory_calculator: { stack_threads: 200 } }<span class="pl-pds">'</span></span></pre></div>
+<h4><a id="user-content-start" class="anchor" aria-hidden="true" href="#start"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>start</h4>
+<p>Start an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>staging_timeout</code>: <em>Optional.</em> Max wait time for buildpack staging, in minutes</li>
+<li><code>startup_timeout</code>: <em>Optional.</em> Max wait time for app instance startup, in minutes</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-start</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">start</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">staging_timeout</span>: <span class="pl-c1">15</span>
+      <span class="pl-ent">startup_timeout</span>: <span class="pl-c1">5</span></pre></div>
+<h4><a id="user-content-stop" class="anchor" aria-hidden="true" href="#stop"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stop</h4>
+<p>Stop an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-stop</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">stop</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span></pre></div>
+<h4><a id="user-content-restart" class="anchor" aria-hidden="true" href="#restart"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>restart</h4>
+<p>Stop all instances of the app, then start them again. This causes downtime.</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>staging_timeout</code>: <em>Optional.</em> Max wait time for buildpack staging, in minutes</li>
+<li><code>startup_timeout</code>: <em>Optional.</em> Max wait time for app instance startup, in minutes</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-restart</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">restart</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">staging_timeout</span>: <span class="pl-c1">15</span>
+      <span class="pl-ent">startup_timeout</span>: <span class="pl-c1">5</span></pre></div>
+<h4><a id="user-content-restage" class="anchor" aria-hidden="true" href="#restage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>restage</h4>
+<p>Recreate the app's executable artifact using the latest pushed app files and the latest environment (variables, service bindings, buildpack, stack, etc.)</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>staging_timeout</code>: <em>Optional.</em> Max wait time for buildpack staging, in minutes</li>
+<li><code>startup_timeout</code>: <em>Optional.</em> Max wait time for app instance startup, in minutes</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-restage</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">restage</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">staging_timeout</span>: <span class="pl-c1">15</span>
+      <span class="pl-ent">startup_timeout</span>: <span class="pl-c1">5</span></pre></div>
+<h4><a id="user-content-delete" class="anchor" aria-hidden="true" href="#delete"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete</h4>
+<p>Delete an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>delete_mapped_routes</code>: <em>Optional.</em> Delete any mapped routes. Defaults to <code>false</code>.</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">delete_mapped_routes</span>: <span class="pl-c1">true</span></pre></div>
+<h4><a id="user-content-rename" class="anchor" aria-hidden="true" href="#rename"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rename</h4>
+<p>Rename an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>new_app_name</code>: <em>Required.</em> The new name of the application</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-rename</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">rename</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">new_app_name</span>: <span class="pl-s">my-new-app-ui</span></pre></div>
+<h4><a id="user-content-add-network-policy" class="anchor" aria-hidden="true" href="#add-network-policy"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>add-network-policy</h4>
+<p>Create policy to allow direct network traffic from one app to another</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>source_app</code>: <em>Required.</em> The name of the source application</li>
+<li><code>destination_app</code>: <em>Required.</em> Name of app to connect to</li>
+<li><code>port</code>: <em>Optional.</em> Port or range of ports for connection to destination app (Default: 8080)</li>
+<li><code>protocol</code>: <em>Optional.</em> Protocol to connect apps with (Default: tcp)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-add-network-policy</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">add-network-policy</span>
+      <span class="pl-ent">source_app</span>: <span class="pl-s">frontend</span>
+      <span class="pl-ent">destination_app</span>: <span class="pl-s">backend</span>
+      <span class="pl-ent">protocol</span>: <span class="pl-s">tcp</span>
+      <span class="pl-ent">port</span>: <span class="pl-c1">8080</span></pre></div>
+<h4><a id="user-content-remove-network-policy" class="anchor" aria-hidden="true" href="#remove-network-policy"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>remove-network-policy</h4>
+<p>Remove network traffic policy of an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>source_app</code>: <em>Required.</em> The name of the source application</li>
+<li><code>destination_app</code>: <em>Required.</em> Name of app to connect to</li>
+<li><code>port</code>: <em>Required.</em> Port or range of ports that destination app is connected with</li>
+<li><code>protocol</code>: <em>Required.</em> Protocol that apps are connected with</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-remove-network-policy</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">remove-network-policy</span>
+      <span class="pl-ent">source_app</span>: <span class="pl-s">frontend</span>
+      <span class="pl-ent">destination_app</span>: <span class="pl-s">backend</span>
+      <span class="pl-ent">protocol</span>: <span class="pl-s">tcp</span>
+      <span class="pl-ent">port</span>: <span class="pl-c1">8080</span></pre></div>
+<h4><a id="user-content-run-task" class="anchor" aria-hidden="true" href="#run-task"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>run-task</h4>
+<p>Run a one-off task on an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>task_command</code>: <em>Required.</em> The command to run for the task</li>
+<li><code>task_name</code>: <em>Optional.</em> Name to give the task (generated if omitted)</li>
+<li><code>memory</code>: <em>Optional.</em> Memory limit (e.g. 256M, 1024M, 1G)</li>
+<li><code>disk_quota</code>: <em>Optional.</em> Disk limit (e.g. 256M, 1024M, 1G)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-run-task</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">run-task</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">task_command</span>: <span class="pl-s"><span class="pl-pds">"</span>bundle exec rake db:migrate<span class="pl-pds">"</span></span>
+      <span class="pl-ent">task_name</span>: <span class="pl-s">migrate</span>
+      <span class="pl-ent">memory</span>: <span class="pl-c1">256M</span>
+      <span class="pl-ent">disk_quota</span>: <span class="pl-c1">1G</span></pre></div>
+<h4><a id="user-content-scale" class="anchor" aria-hidden="true" href="#scale"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scale</h4>
+<p>Change or view the instance count, disk space limit, and memory limit for an app</p>
+<ul>
+<li><code>org</code>: <em>Optional.</em> The organization to target (required if not set in the source config)</li>
+<li><code>space</code>: <em>Optional.</em> The space to target (required if not set in the source config)</li>
+<li><code>app_name</code>: <em>Required.</em> The name of the application</li>
+<li><code>instances</code>: <em>Optional.</em> Number of instances</li>
+<li><code>disk_quota</code>: <em>Optional.</em> Disk limit (e.g. 256M, 1024M, 1G)</li>
+<li><code>memory</code>: <em>Optional.</em> Memory limit (e.g. 256M, 1024M, 1G)</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-scale</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">scale</span>
+      <span class="pl-ent">app_name</span>: <span class="pl-s">myapp-ui</span>
+      <span class="pl-ent">instances</span>: <span class="pl-c1">3</span>
+      <span class="pl-ent">disk_quota</span>: <span class="pl-c1">1G</span>
+      <span class="pl-ent">memory</span>: <span class="pl-c1">2G</span></pre></div>
+</article></div>
 </div>
 
 </body>
