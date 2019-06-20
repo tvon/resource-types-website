@@ -23,19 +23,25 @@
 
     <main class="content">
         
-
-    <h2>Ofcourse Resource Generator</h2>
-
-    <a href="https://github.com/cloudboss" target="_blank">cloudboss</a>
-
-    <a target="_blank" href="https://github.com/cloudboss/ofcourse">
-        <img src="/dutyfree/static/GitHub-Mark-120px-plus.png" alt="Resource Source on Github" class="github-icon-detail"
-             title="Resource Source on Github">
-    </a>
-
-    <p class="desc"></p>
-
-    <div id="github-readme">
+    <section class="top-area">
+        <h2>Ofcourse Resource Generator</h2>
+        <div>
+            <a target="_blank" href="https://github.com/cloudboss/ofcourse">
+                <img src="/dutyfree/static/GitHub-Mark-120px-plus.png" alt="Resource Source on Github"
+                     class="github-icon-detail"
+                     title="Resource Source on Github">
+            </a>
+            <a href="https://github.com/cloudboss" target="_blank" class="author">cloudboss</a>
+        </div>
+    </section>
+    <section class="middle-area">
+        <div class="description">
+            <h3>Description</h3>
+            <p class="desc"></p>
+        </div>
+    </section>
+    <section id="github-readme">
+        <h3>Read Me</h3>
         <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-ofcourse" class="anchor" aria-hidden="true" href="#ofcourse"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ofcourse</h1>
 <p>This is a library and a project skeleton generator for making your own <a href="https://concourse-ci.org/" rel="nofollow">Concourse</a> resources in <a href="https://golang.org/" rel="nofollow">Go</a>, with an emphasis on testability.</p>
 <p>A Concourse resource consists of a Docker image containing three executables: <code>/opt/resource/check</code>, <code>/opt/resource/in</code>, and <code>/opt/resource/out</code>. When these are called by Concourse, they receive a JSON payload through standard input. They communicate back to Concourse by printing JSON back to standard output.</p>
@@ -202,8 +208,7 @@ ok  	github.com/cloudboss/concourse-noop-resource/resource	0.003s
 	logger *Logger) (Version, <span class="pl-v">Metadata</span>, <span class="pl-k">error</span>)</pre></div>
 <p>The <code>inputDirectory</code> argument is a directory containing subdirectories for all resources retrieved with <code>get</code> in a job, as well as all of the job's task outputs. The path to any specific files needed by <code>Out</code> should be defined in the <code>put</code> <code>params</code> in the pipeline, which will be available in the <code>Params</code> argument. <code>Out</code> must return <code>Version</code> and <code>Metadata</code>, though both may be empty.</p>
 </article></div>
-    </div>
-
+    </section>
 
     </main>
 </div>
