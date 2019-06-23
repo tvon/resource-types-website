@@ -897,6 +897,49 @@ it gets even simpler:</p>
       <span class="pl-ent">destination_app</span>: <span class="pl-s">backend</span>
       <span class="pl-ent">protocol</span>: <span class="pl-s">tcp</span>
       <span class="pl-ent">port</span>: <span class="pl-c1">8080</span></pre></div>
+<h4><a id="user-content-create-buildpack" class="anchor" aria-hidden="true" href="#create-buildpack"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>create-buildpack</h4>
+<p>Create a buildpack</p>
+<ul>
+<li><code>buildpack</code>: <em>Required.</em> The name of the buildpack</li>
+<li><code>path</code>: <em>Required.</em> Path to buildpack zip file, url to a zip file, or a local directory</li>
+<li><code>position</code>: <em>Required.</em> The order in which the buildpacks are checked during buildpack auto-detection</li>
+<li><code>enabled</code>: <em>Optional.</em> Set to <code>false</code> to disable the buildpack from being used for staging</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-create-buildpack</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">create-buildpack</span>
+      <span class="pl-ent">buildpack</span>: <span class="pl-s">java_buildpack_offline</span>
+      <span class="pl-ent">path</span>: <span class="pl-s">https://github.com/cloudfoundry/java-buildpack/releases/download/v4.19.1/java-buildpack-v4.19.1.zip</span>
+      <span class="pl-ent">position</span>: <span class="pl-c1">99</span></pre></div>
+<h4><a id="user-content-update-buildpack" class="anchor" aria-hidden="true" href="#update-buildpack"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>update-buildpack</h4>
+<p>Update a buildpack</p>
+<ul>
+<li><code>buildpack</code>: <em>Required.</em> The name of the buildpack</li>
+<li><code>path</code>: <em>Optional.</em> Path to buildpack zip file, url to a zip file, or a local directory</li>
+<li><code>assign_stack</code>: <em>Optional.</em> Assign a stack to a buildpack that does not have a stack association</li>
+<li><code>position</code>: <em>Optional.</em> The order in which the buildpacks are checked during buildpack auto-detection</li>
+<li><code>enabled</code>: <em>Optional.</em> Set to <code>false</code> to disable the buildpack from being used for staging</li>
+<li><code>locked</code>: <em>Optional.</em> Set to <code>true</code> to lock the buildpack to prevent updates</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-update-buildpack</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">update-buildpack</span>
+      <span class="pl-ent">buildpack</span>: <span class="pl-s">java_buildpack_offline</span>
+      <span class="pl-ent">assign_stack</span>: <span class="pl-s">cflinuxfs3</span></pre></div>
+<h4><a id="user-content-delete-buildpack" class="anchor" aria-hidden="true" href="#delete-buildpack"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>delete-buildpack</h4>
+<p>Delete a buildpack</p>
+<ul>
+<li><code>buildpack</code>: <em>Required.</em> The name of the buildpack</li>
+<li><code>stack</code>: <em>Optional.</em> Specify stack to disambiguate buildpacks with the same name. Required when buildpack name is ambiguous</li>
+</ul>
+<div class="highlight highlight-source-yaml"><pre>  - <span class="pl-ent">put</span>: <span class="pl-s">cf-delete-buildpack</span>
+    <span class="pl-ent">resource</span>: <span class="pl-s">cf-env</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">command</span>: <span class="pl-s">delete-buildpack</span>
+      <span class="pl-ent">buildpack</span>: <span class="pl-s">java_buildpack_offline</span>
+      <span class="pl-ent">stack</span>: <span class="pl-s">cflinuxfs3</span></pre></div>
 <h4><a id="user-content-run-task" class="anchor" aria-hidden="true" href="#run-task"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>run-task</h4>
 <p>Run a one-off task on an app</p>
 <ul>
