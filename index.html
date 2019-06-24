@@ -16,6 +16,21 @@
 
 
     <div class="search">
+        
+    <input type="text" placeholder="Search.." id="search-field">
+    <script>
+        document
+            .getElementById("search-field")
+            .addEventListener("keyup", ({target:{value}})=>{
+                const re = new RegExp(value,"i")
+                document
+                    .querySelectorAll(".tile")
+                    .forEach( elem => {
+                        elem.style.display = re.test(elem.textContent) ? "" : "none"
+                    })
+            })
+    </script>
+
     </div>
 
     <nav class="sidebar">
@@ -2400,6 +2415,8 @@
 </div>
 </body>
 </html>
+
+
 
 
 
