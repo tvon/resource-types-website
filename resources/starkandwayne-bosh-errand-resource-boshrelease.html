@@ -55,6 +55,31 @@
             <h3>Description</h3>
             <p class="desc">Run BOSH errands on Concourse!</p>
         </div>
+        
+            <div class="example">
+                <div class="example-content">
+                    <h3>Example</h3>
+                    <pre><code>---
+jobs:
+- name: alert
+  public: true
+  plan:
+  - put: errand-prod
+    params:
+      manifest: prod.yml
+      errand: smoke_tests
+
+resources:
+- name: errand-prod
+  type: bosh-errand
+  source:
+    target: {{bosh-target}}
+    username: admin
+    password: admin
+    deployment: cf-prod</code></pre>
+                </div>
+            </div>
+        
     </section>
     <section id="github-readme">
         <h3>Read Me</h3>

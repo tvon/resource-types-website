@@ -55,6 +55,35 @@
             <h3>Description</h3>
             <p class="desc"></p>
         </div>
+        
+            <div class="example">
+                <div class="example-content">
+                    <h3>Example</h3>
+                    <pre><code>resource_types:
+- name: cloudformation
+  type: docker-image
+    source:
+      repository: pcfseceng/cloudformation-resource
+
+resources:
+- name: aws-setup
+  type: cloudformation
+  source:
+    aws_access_key: some_access_key
+    aws_secret_key: some_secret_key
+    aws_region: us-east-1
+
+jobs:
+- name: update-cloudformation
+  plan:
+  - put: aws-setup
+    params:
+      cloudformation_file: path/to/cloudformation/configuration/file
+      stack_name: name_of_aws_stack_to_configure
+      policy_file: path/to/cloudformation/policy/file</code></pre>
+                </div>
+            </div>
+        
     </section>
     <section id="github-readme">
         <h3>Read Me</h3>

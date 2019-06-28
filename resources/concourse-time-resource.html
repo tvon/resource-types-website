@@ -55,6 +55,25 @@
             <h3>Description</h3>
             <p class="desc">Implements a resource that reports new versions on a configured interval. The interval can be arbitrarily long.</p>
         </div>
+        
+            <div class="example">
+                <div class="example-content">
+                    <h3>Example</h3>
+                    <pre><code>resources:
+- name: 5m
+  type: time
+  source: {interval: 5m}
+
+jobs:
+- name: something-every-5m
+  plan:
+  - get: 5m
+    trigger: true
+  - task: something
+    config: # ...</code></pre>
+                </div>
+            </div>
+        
     </section>
     <section id="github-readme">
         <h3>Read Me</h3>

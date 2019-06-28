@@ -55,6 +55,43 @@
             <h3>Description</h3>
             <p class="desc">A pool of locks (modeling semaphores). Allows you to lock environments, pipeline flow, or other entities which have to be interacted with in a serial manner.</p>
         </div>
+        
+            <div class="example">
+                <div class="example-content">
+                    <h3>Example</h3>
+                    <pre><code>resources:
+  - name: aws-environments
+    type: pool
+    source:
+      uri: git@github.com:concourse/locks.git
+      branch: master
+      pool: aws
+      private_key: |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEowIBAAKCAQEAtCS10/f7W7lkQaSgD/mVeaSOvSF9ql4hf/zfMwfVGgHWjj&#43;W
+        &lt;Lots more text&gt;
+        DWiJL&#43;OFeg9kawcUL6hQ8JeXPhlImG6RTUffma9&#43;iGQyyBMCGd1l
+        -----END RSA PRIVATE KEY-----
+
+jobs:
+  - name: deploy-aws
+    plan:
+      - put: aws-environments
+        params: {acquire: true}
+      - task: deploy-aws
+        file: my-scripts/deploy-aws.yml
+
+  - name: test-aws
+    plan:
+      - get: aws-environments
+        passed: [deploy-aws]
+      - task: test-aws
+        file: my-scripts/test-aws.yml
+      - put: aws-environments
+        params: {release: aws-environments}</code></pre>
+                </div>
+            </div>
+        
     </section>
     <section id="github-readme">
         <h3>Read Me</h3>
