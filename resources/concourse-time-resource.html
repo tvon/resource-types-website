@@ -52,14 +52,17 @@
         </div>
     </section>
     <section class="middle-area">
+        <img class="github-last-commit"
+             alt="GitHub last commit"
+             src="https://img.shields.io/github/last-commit/concourse/time-resource.svg?labelColor=757474&color=C4C4C4&style=flat-square">
         <div class="description">
             <h3>Description</h3>
             <p class="desc">Implements a resource that reports new versions on a configured interval. The interval can be arbitrarily long.</p>
         </div>
         
             <div class="example">
+                <h3>Example</h3>
                 <div class="example-content">
-                    <h3>Example</h3>
                     <pre><code>resources:
 - name: 5m
   type: time
