@@ -69,6 +69,19 @@
                 <p class="desc">Sends Telegram message with build info for ConcourseCI.</p>
             </div>
             
+                <div class="example">
+                    <h3>Example</h3>
+                    <div class="example-content">
+                        <pre><code>resources:
+- name: start
+type: telegram 
+source:
+filter: &#39;/start&#39;
+flags: i
+telegram_key: {{telegram_bot_token}}</code></pre>
+                    </div>
+                </div>
+            
         </div>
     </section>
     <section id="github-readme">
