@@ -45,6 +45,14 @@
         </li>
         
             <li>
+                <a class="category-filter" href="#" data-category="Version Control">Version Control (3)</a>
+            </li>
+        
+            <li>
+                <a class="category-filter" href="#" data-category="Trigger">Trigger (6)</a>
+            </li>
+        
+            <li>
                 <a class="category-filter" href="#" data-category="Storage">Storage (5)</a>
             </li>
         
@@ -57,15 +65,11 @@
             </li>
         
             <li>
+                <a class="category-filter" href="#" data-category="Integration">Integration (1)</a>
+            </li>
+        
+            <li>
                 <a class="category-filter" href="#" data-category="Notification">Notification (1)</a>
-            </li>
-        
-            <li>
-                <a class="category-filter" href="#" data-category="Trigger">Trigger (1)</a>
-            </li>
-        
-            <li>
-                <a class="category-filter" href="#" data-category="Version Control">Version Control (3)</a>
             </li>
         
     </ul>
@@ -90,6 +94,8 @@
         <div class="tile" id="concourse-git-resource" >
             
                 <span class="category" style="display:none" data-category="Version Control"></span>
+            
+                <span class="category" style="display:none" data-category="Trigger"></span>
             
             
                 <div class="verified">
@@ -133,6 +139,8 @@
             
                 <span class="category" style="display:none" data-category="Version Control"></span>
             
+                <span class="category" style="display:none" data-category="Trigger"></span>
+            
             
                 <div class="verified">
                     <div class="verified-text">Verified</div>
@@ -172,6 +180,8 @@
         </div>
     
         <div class="tile" id="concourse-time-resource" >
+            
+                <span class="category" style="display:none" data-category="Trigger"></span>
             
             
                 <div class="verified">
@@ -257,6 +267,8 @@
             
                 <span class="category" style="display:none" data-category="Version Control"></span>
             
+                <span class="category" style="display:none" data-category="Trigger"></span>
+            
                 <span class="category" style="display:none" data-category="Release Engineering"></span>
             
             
@@ -269,7 +281,7 @@
                     semver resource
                 </a>
             </h2>
-            <div class="last-version">v1.0.2</div>
+            <div class="last-version"></div>
             <div class="desc">
                 A resource for managing a version number. Persists the version number in one of several backing stores.
             </div>
@@ -387,6 +399,8 @@
             
                 <span class="category" style="display:none" data-category="Deployment"></span>
             
+                <span class="category" style="display:none" data-category="Trigger"></span>
+            
                 <span class="category" style="display:none" data-category="Release Engineering"></span>
             
             
@@ -428,6 +442,8 @@
         </div>
     
         <div class="tile" id="concourse-pool-resource" >
+            
+                <span class="category" style="display:none" data-category="Integration"></span>
             
             
                 <div class="verified">
@@ -1071,7 +1087,7 @@
             </h2>
             <div class="last-version"></div>
             <div class="desc">
-                
+                An output only resource (at the moment) that will set runtime-config and cloud-config on a bosh director.
             </div>
             <div class="tile-bottom">
                 <a target="_blank" href="https://github.com/EMC-Dojo/bosh-config-resource">
@@ -1105,7 +1121,7 @@
             </h2>
             <div class="last-version"></div>
             <div class="desc">
-                A Concourse resource for working with versions of a BOSH release.
+                A Concourse resource for working with versions of a BOSH release. Specifically focused on support for non-bosh.io releases, private release repositories, version constraints, dev releases, and finalize-release tasks.
             </div>
             <div class="tile-bottom">
                 <a target="_blank" href="https://github.com/dpb587/bosh-release-resource">
@@ -1121,6 +1137,8 @@
     </div>
 
                 <div class="tags">
+                    
+                        <span class="get">GET</span>
                     
                     
                         <span class="put">PUT</span>
@@ -2235,7 +2253,7 @@
                     Telegram
                 </a>
             </h2>
-            <div class="last-version">v2.5.0</div>
+            <div class="last-version"></div>
             <div class="desc">
                 Sends Telegram message with build info for ConcourseCI.
             </div>
@@ -2271,7 +2289,7 @@
                     Telegram
                 </a>
             </h2>
-            <div class="last-version">v1.5.0</div>
+            <div class="last-version">1.5.0</div>
             <div class="desc">
                 Sends Telegram message with build info for ConcourseCI.
             </div>
@@ -2290,10 +2308,6 @@
 
                 <div class="tags">
                     
-                        <span class="get">GET</span>
-                    
-                    
-                        <span class="put">PUT</span>
                     
                 </div>
             </div>
@@ -4611,6 +4625,38 @@
                 
     <div class="github-stars">
         <img src="https://img.shields.io/github/stars/YuukiARIA/concourse-deploygate-resource.svg?logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAADQAAAAxCAYAAACVtYpYAAAETElEQVRoQ%2B2aWUxTQRSGTymJJvCkLxRp1cSlIIooMS7ghkajGBeEUjEuKGqMJsYFRZaC4IJbjMYoirgrhYoEt6BBg4pRY2JYVEAfBKrwyAMkmgDH3Jqrt5fe3pnbO9QQ7wspnPnP%2F82ZHmam1cAAezQDjAf6Dej8hQLkJm%2FLpo1MczIVF1Z%2FyoyZDqC31c%2BZ5mQqzgPduFWEWTkHHS%2BzM9Mh0WxilpeZsLA6s6IX4Lfv3x2%2FGhYYCFWVFczyMhMWAo0KHu9Ybvzz5VMds7zMhHnz8xbG4NfmZqdmOmb0KHhYfpdJbiai7qrDukpMgZatNGH9h48u%2F9WFjguBMptV9fyqC5JUh2WVmAGt27gZX1a%2FcrsRmRUVCZcunFPVg6piNNVhVSUmQNt37MJHFY%2BJtokxixbCqRPHVPOhmpDQ%2FZhxYdjb20sE5OPjA00falTzoZoQ7z413YIld0qJYPggsykOcrIyVfGiioiS946YWK3dgyKgW0VWbG21Q4vdDo6frXbo7OykqopUsL%2B%2FPxj0QaDXB4EhKAgMBj2YTfHEPiUDufNLK2%2FYboe2tnbo6elRxbRSEa1WCzpdgAPUAazXw%2BbkDU4MTi8uFl7GvGMnlebz6ri9e3ZCctJ6jcsKjQ6ZgIhOG2SvmnWXXKPRwOePtX84JJecMXQidnt5icnNoq%2BvLzTUvZdecmKB0PAI%2FPHjp5yuV%2F4%2BePAgqH%2F%2Frk9BZLtHWMRU7Orq8oppqaR%2Bfn5Q8%2B61S%2B%2ByQJxoxLQo7Ojo%2BCeghg4ZAm%2BqqyR9EwFxJFFz5mNbe7tXoXQBAfDi2RO3nomBOJLoBYuxuaXFK1DDDQaorHgg61c2QOx%2B8dIV2Nj0uV%2BhQoKNUF5aQuSVKEjsfkW8GWvr6vsFavKkcLDevEbskzhQ7J7kROopceSM6XClIJ%2FKI1Ww2OCS5XH4qaHBU98uxwcbjXDvLtkyEwp4BOTqzk0tupEjhsOTR%2Fep%2FVEPEBoW34iqBcPrKDkj%2FQfiZ%2B%2Fq9RuYcyhP7aI46WWk7YO1qxOpJp0qWJgtJTUNS8vKmQLFLl8KeYdyqTxSBQvdxyyLxYbGJqZAxrFj4X6ZjcojVbDQPc1VlVJqJVdcioFoOxx3%2BcE9tJcptJ1OEVBRsQ3TLdnEE59oNnEfRTpyWQ7korXYBqSn4dxsCyTEryT2SRwodJ%2BRlYO3rcWyQNFzZ0P%2B2TMuc2zaug2fPquS1ViVYIIDlt%2BTQfIQBwrFYk2rsKa2TlKfZtsit32aGDYBbEU3iX0SBwrdG8eHY3d3dx%2BgQJ0Onj99rEhT6gDp6iLEXaUUJRc3BO4NvyV5g8dfqjiXfxHzCwr7NA6axuARkK9WCwmmOMjKSFOkIzXTmdm5WFzyt3EwBTp45Chevnod5s2dA%2BfPnlYVRAzIN46kdWtg%2F949RLmIgoSJDh89jqkpu6nHkXQoqRhuEtP2pRDlJAryxEx%2Fjx1wQL8AYxVtQRu%2FaUcAAAAASUVORK5CYII%3D&style=social"
+             alt="github_stars">
+    </div>
+
+                <div class="tags">
+                    
+                    
+                </div>
+            </div>
+        </div>
+    
+        <div class="tile" id="cappyzawa-romver-resource" >
+            
+            
+            <h2 class="name">
+                <a href="resources/cappyzawa-romver-resource.html">
+                    Romver Resource
+                </a>
+            </h2>
+            <div class="last-version"></div>
+            <div class="desc">
+                
+            </div>
+            <div class="tile-bottom">
+                <a target="_blank" href="https://github.com/cappyzawa/romver-resource">
+                    <img src="static/GitHub-Mark-120px-plus.png"
+                         alt="Resource Source on Github"
+                         class="github-icon"
+                         title="Resource Source on Github">
+                </a>
+                
+    <div class="github-stars">
+        <img src="https://img.shields.io/github/stars/cappyzawa/romver-resource.svg?logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAADQAAAAxCAYAAACVtYpYAAAETElEQVRoQ%2B2aWUxTQRSGTymJJvCkLxRp1cSlIIooMS7ghkajGBeEUjEuKGqMJsYFRZaC4IJbjMYoirgrhYoEt6BBg4pRY2JYVEAfBKrwyAMkmgDH3Jqrt5fe3pnbO9QQ7wspnPnP%2F82ZHmam1cAAezQDjAf6Dej8hQLkJm%2FLpo1MczIVF1Z%2FyoyZDqC31c%2BZ5mQqzgPduFWEWTkHHS%2BzM9Mh0WxilpeZsLA6s6IX4Lfv3x2%2FGhYYCFWVFczyMhMWAo0KHu9Ybvzz5VMds7zMhHnz8xbG4NfmZqdmOmb0KHhYfpdJbiai7qrDukpMgZatNGH9h48u%2F9WFjguBMptV9fyqC5JUh2WVmAGt27gZX1a%2FcrsRmRUVCZcunFPVg6piNNVhVSUmQNt37MJHFY%2BJtokxixbCqRPHVPOhmpDQ%2FZhxYdjb20sE5OPjA00falTzoZoQ7z413YIld0qJYPggsykOcrIyVfGiioiS946YWK3dgyKgW0VWbG21Q4vdDo6frXbo7OykqopUsL%2B%2FPxj0QaDXB4EhKAgMBj2YTfHEPiUDufNLK2%2FYboe2tnbo6elRxbRSEa1WCzpdgAPUAazXw%2BbkDU4MTi8uFl7GvGMnlebz6ri9e3ZCctJ6jcsKjQ6ZgIhOG2SvmnWXXKPRwOePtX84JJecMXQidnt5icnNoq%2BvLzTUvZdecmKB0PAI%2FPHjp5yuV%2F4%2BePAgqH%2F%2Frk9BZLtHWMRU7Orq8oppqaR%2Bfn5Q8%2B61S%2B%2ByQJxoxLQo7Ojo%2BCeghg4ZAm%2BqqyR9EwFxJFFz5mNbe7tXoXQBAfDi2RO3nomBOJLoBYuxuaXFK1DDDQaorHgg61c2QOx%2B8dIV2Nj0uV%2BhQoKNUF5aQuSVKEjsfkW8GWvr6vsFavKkcLDevEbskzhQ7J7kROopceSM6XClIJ%2FKI1Ww2OCS5XH4qaHBU98uxwcbjXDvLtkyEwp4BOTqzk0tupEjhsOTR%2Fep%2FVEPEBoW34iqBcPrKDkj%2FQfiZ%2B%2Fq9RuYcyhP7aI46WWk7YO1qxOpJp0qWJgtJTUNS8vKmQLFLl8KeYdyqTxSBQvdxyyLxYbGJqZAxrFj4X6ZjcojVbDQPc1VlVJqJVdcioFoOxx3%2BcE9tJcptJ1OEVBRsQ3TLdnEE59oNnEfRTpyWQ7korXYBqSn4dxsCyTEryT2SRwodJ%2BRlYO3rcWyQNFzZ0P%2B2TMuc2zaug2fPquS1ViVYIIDlt%2BTQfIQBwrFYk2rsKa2TlKfZtsit32aGDYBbEU3iX0SBwrdG8eHY3d3dx%2BgQJ0Onj99rEhT6gDp6iLEXaUUJRc3BO4NvyV5g8dfqjiXfxHzCwr7NA6axuARkK9WCwmmOMjKSFOkIzXTmdm5WFzyt3EwBTp45Chevnod5s2dA%2BfPnlYVRAzIN46kdWtg%2F949RLmIgoSJDh89jqkpu6nHkXQoqRhuEtP2pRDlJAryxEx%2Fjx1wQL8AYxVtQRu%2FaUcAAAAASUVORK5CYII%3D&style=social"
              alt="github_stars">
     </div>
 
