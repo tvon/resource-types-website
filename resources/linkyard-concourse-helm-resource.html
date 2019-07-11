@@ -131,7 +131,7 @@ source for <code>check</code> to work.</p>
 on the cluster.</p>
 <h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
 <ul>
-<li><code>chart</code>: <em>Required.</em> Either the file containing the helm chart to deploy (ends with .tgz) or the name of the chart (e.g. <code>stable/mysql</code>).</li>
+<li><code>chart</code>: <em>Required.</em> Either the file containing the helm chart to deploy (ends with .tgz), the path to a local directory containing the chart or the name of the chart from a repo (e.g. <code>stable/mysql</code>).</li>
 <li><code>namespace</code>: <em>Optional.</em> Either a file containing the name of the namespace or the name of the namespace. (Default: taken from source configuration).</li>
 <li><code>release</code>: <em>Optional.</em> Either a file containing the name of the release or the name of the release. (Default: taken from source configuration).</li>
 <li><code>values</code>: <em>Optional.</em> File containing the values.yaml for the deployment. Supports setting multiple value files using an array.</li>
