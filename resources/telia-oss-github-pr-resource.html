@@ -226,6 +226,12 @@ so normally you should not have to worry about the rate limit.</p>
 <td><code>1</code></td>
 <td>Shallow clone the repository using the <code>--depth</code> Git option</td>
 </tr>
+<tr>
+<td><code>list_changed_files</code></td>
+<td>No</td>
+<td><code>true</code></td>
+<td>Generate a list of changed files and save alongside metadata</td>
+</tr>
 </tbody>
 </table>
 <p>Clones the base (e.g. <code>master</code> branch) at the latest commit, and merges the pull request at the specified commit
@@ -236,6 +242,7 @@ requested version and the metadata emitted by <code>get</code> are available to 
 <ul>
 <li><code>.git/resource/version.json</code></li>
 <li><code>.git/resource/metadata.json</code></li>
+<li><code>.git/resource/changed_files</code> (if enabled by <code>list_changed_files</code>)</li>
 </ul>
 <p>The information in <code>metadata.json</code> is also available as individual files in the <code>.git/resource</code> directory, e.g. the <code>base_sha</code>
 is available as <code>.git/resource/base_sha</code>. For a complete list of available (individual) metadata files, please check the code
