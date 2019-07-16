@@ -157,6 +157,7 @@ the chart are ready. (Default: <code>0</code> which means don't wait).</li>
 <li><code>show_diff</code>: <em>Optional.</em> Show the diff that is applied if upgrading an existing successful release. Will not be used when <code>devel</code> is set. (Default: false)</li>
 <li><code>exit_after_diff</code>: <em>Optional.</em> Show the diff but don't actually install/upgrade. (Default: false)</li>
 <li><code>reuse_values</code>: <em>Optional.</em> When upgrading, reuse the last release's values. (Default: false)</li>
+<li><code>reset_values</code>: <em>Optional.</em> When upgrading, reset the values to the ones built into the chart. (Default: false)</li>
 <li><code>wait</code>: <em>Optional.</em> Allows deploy task to sleep for X seconds before continuing to next task. Allows pods to restart and become stable, useful where dependency between pods exists. (Default: 0)</li>
 <li><code>kubeconfig_path</code>: <em>Optional.</em> File containing a kubeconfig. Overrides source configuration for cluster, token, and admin config.</li>
 </ul>
