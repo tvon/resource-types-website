@@ -179,7 +179,18 @@ Has the following sub-properties:</p>
 <li><code>proxy_host</code>: <em>Required.</em> The host name or IP of the proxy server</li>
 <li><code>proxy_port</code>: <em>Required.</em> The proxy server's listening port</li>
 <li><code>proxy_user</code>: <em>Optional.</em> If the proxy requires authentication, use this username</li>
-<li><code>proxy_password</code>: <em>Optional.</em> If the proxy requires authenticat, use this password</li>
+<li><code>proxy_password</code>: <em>Optional.</em> If the proxy requires authenticate,
+use this password</li>
+</ul>
+</li>
+<li>
+<p><code>commit_filter</code>: <em>Optional.</em> Object containing commit message filters</p>
+<ul>
+<li><code>commit_filter.exclude</code>: <em>Optional.</em> Array containing strings that should
+cause a commit to be skipped</li>
+<li><code>commit_filter.include</code>: <em>Optional.</em> Array continuing strings that
+<em>MUST</em> be included in commit messages for the commit to not be
+skipped</li>
 </ul>
 </li>
 </ul>
