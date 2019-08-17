@@ -115,6 +115,26 @@
 <p><code>versioned_file</code>: if you <a href="https://cloud.google.com/storage/docs/object-versioning#_Enabling" rel="nofollow">enable versioning</a> for your GCS bucket then you can keep the file name the same and upload new versions of your file without resorting to version numbers. This property is the path to the file in your GCS bucket.</p>
 </li>
 </ul>
+<h3><a id="user-content-initial-state" class="anchor" aria-hidden="true" href="#initial-state"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Initial state</h3>
+<p>If no resource versions exist you can set up this resource to emit an initial version with a specified content. This won't create a real resource in GCS but only create an initial version for Concourse. The resource file will be created as usual when you <code>get</code> a resource with an initial version.</p>
+<p>You can define one of the following two options:</p>
+<ul>
+<li>
+<p><code>initial_path</code>: <em>Optional.</em> Must be used with the <code>regexp</code> option. You should set this to the file path containing the initial version which would match the given regexp. E.g. if <code>regexp</code> is <code>file/build-(.*).zip</code>, then <code>initial_path</code> might be <code>file/build-0.0.0.zip</code>. The resource version will be <code>0.0.0</code> in this case.</p>
+</li>
+<li>
+<p><code>initial_version</code>: <em>Optional.</em> Must be used with the <code>versioned_file</code> option. This will be the resource version.</p>
+</li>
+</ul>
+<p>By default the resource file will be created with no content when <code>get</code> runs. You can set the content by using one of the following options:</p>
+<ul>
+<li>
+<p><code>initial_content_text</code>: <em>Optional.</em> Initial content as a string.</p>
+</li>
+<li>
+<p><code>initial_content_binary</code>: <em>Optional.</em> You can pass binary content as a base64-encoded string.</p>
+</li>
+</ul>
 <h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
 <h3><a id="user-content-check-extract-versions-from-the-bucket" class="anchor" aria-hidden="true" href="#check-extract-versions-from-the-bucket"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Extract versions from the bucket.</h3>
 <p>Objects will be found via the pattern configured by <code>regexp</code> or <code>versioned_file</code>. The versions will be used to order them (using <a href="http://semver.org/" rel="nofollow">semver</a>). Each object's filename is the resulting version.</p>

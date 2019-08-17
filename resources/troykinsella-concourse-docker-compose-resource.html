@@ -159,6 +159,10 @@ Supported commands are:
 </li>
 <li><code>compose_file</code>: Optional. Default: <code>docker-compose.yml</code>. Specify the name of the Compose file,
 relative to <code>path</code>.</li>
+<li><code>env</code>: Optional. Mutually exclusive with <code>env_file</code>. A map of key-value pairs which will be made available to the
+<code>docker-compose</code> execution as environment variables.</li>
+<li><code>env_file</code>: Optional. Mutually exclusive with <code>env</code>. A path to a file containing environment variables
+which will be made available to the <code>docker-compose</code> execution.</li>
 <li><code>options</code>: Optional. Supply command-specific options. Options names correlate to
 <code>docker-compose</code> command options.
 <ul>
