@@ -179,6 +179,12 @@ Inspired by <a href="https://github.com/jtarchie/github-pullrequest-resource">th
 <td><code>master</code></td>
 <td>Name of a branch. The pipeline will only trigger on pull requests against the specified branch.</td>
 </tr>
+<tr>
+<td><code>labels</code></td>
+<td>No</td>
+<td><code>["bug", "enhancement"]</code></td>
+<td>The labels on the PR. The pipeline will only trigger on pull requests having at least one of the specified labels.</td>
+</tr>
 </tbody>
 </table>
 <p>Notes:</p>
