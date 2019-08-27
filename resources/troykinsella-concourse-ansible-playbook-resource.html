@@ -149,6 +149,8 @@ templates, show the differences in those files; works great with <code>check: tr
 to <code>path</code>.</li>
 <li><code>playbook</code>: Optional. Default <code>site.yml</code>. The path to the playbook file to run,
 relative to <code>path</code>.</li>
+<li><code>skip_tags</code>: Optional. Only run plays and tasks not tagged with this list of values.</li>
+<li><code>tags</code>: Optional. Only run plays and tasks tagged with this list of values.</li>
 <li><code>vars</code>: Optional. An object of extra variables to pass to <code>ansible-playbook</code>.
 Mutually exclusive with <code>vars_file</code>.</li>
 <li><code>vars_file</code>: Optional. A file containing a JSON object of extra variables
@@ -168,14 +170,10 @@ will point to a resource pulled from source control.</li>
       <span class="pl-ent">check</span>: <span class="pl-c1">true</span>
       <span class="pl-ent">diff</span>: <span class="pl-c1">true</span>
       <span class="pl-ent">inventory</span>: <span class="pl-s">inventory/some-hosts.yml</span>
-      <span class="pl-ent">playbook</span>: <span class="pl-s">provision-frontend.yml</span>
+      <span class="pl-ent">playbook</span>: <span class="pl-s">site.yml</span>
       <span class="pl-ent">path</span>: <span class="pl-s">master</span></pre></div>
 <h2><a id="user-content-testing" class="anchor" aria-hidden="true" href="#testing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
 <div class="highlight highlight-source-shell"><pre>docker build <span class="pl-c1">.</span></pre></div>
-<h2><a id="user-content-roadmap" class="anchor" aria-hidden="true" href="#roadmap"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Roadmap</h2>
-<ul>
-<li>Support running <code>ansible-playbook</code> with <code>--tags</code> and <code>--skip-tags</code>.</li>
-</ul>
 <h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p>MIT © Troy Kinsella</p>
 </article></div>
