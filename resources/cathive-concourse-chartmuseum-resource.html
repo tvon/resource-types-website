@@ -90,12 +90,12 @@
 which can be used to perform Helm deployments into Kubernetes clusters.</p>
 <h2><a id="user-content-requirements" class="anchor" aria-hidden="true" href="#requirements"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Requirements</h2>
 <ul>
-<li>A running ChartMuseum instance (this resource has been tested with v0.7.1)</li>
+<li>A running ChartMuseum instance (this resource has been tested with v0.9.0)</li>
 </ul>
 <h2><a id="user-content-installation" class="anchor" aria-hidden="true" href="#installation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p>Add a new resource type to your Concourse CI pipeline:</p>
-<div class="highlight highlight-source-yaml"><pre> <span class="pl-ent">resource_types</span>:
- - <span class="pl-ent">name</span>: <span class="pl-s">chartmuseum</span>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">chartmuseum</span>
   <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
   <span class="pl-ent">source</span>:
     <span class="pl-ent">repository</span>: <span class="pl-s">cathive/concourse-chartmuseum-resource</span>
@@ -110,7 +110,7 @@ which can be used to perform Helm deployments into Kubernetes clusters.</p>
 </li>
 <li>
 <p><code>version_range</code>: Optional parameter that can be used to specify a (SemVer) version range
-that must match when checking for new charts, e.g. <code>=1.2.0</code>, <code>^2.0.0</code>, <code>~0.2.3</code> of <code>*</code>.</p>
+that must match when checking for new charts, e.g. <code>=1.2.0</code>, <code>^2.0.0</code>, <code>~0.2.3</code> or <code>*</code>.</p>
 </li>
 <li>
 <p><code>basic_auth_username</code>: Optional username to be used if your ChartMuseum is username/password protected.
@@ -142,8 +142,8 @@ input files that will be written.</li>
 <ul>
 <li>
 <p><code>chart</code>: <em>Required</em> Path to the tgz-archive or a folder that contains the chart to be
-uploaded. If a folder has been specified instead of a tgz file, this folder will be
-packaged prior to uploading it's contents to the ChartMuseum instance.</p>
+uploaded. If a folder has been specified instead of a ".tgz" file, this folder will be
+packaged up prior to uploading it's contents to the ChartMuseum instance.</p>
 </li>
 <li>
 <p><code>force</code>: Optional parameter that can be used to force the upload of the chart,
@@ -166,7 +166,7 @@ GPG key. If set to <code>true</code> either <code>key_data</code> or <code>key_f
 </li>
 <li>
 <p><code>key_data</code>: If <code>sign</code> has been set to <code>true</code>, this parameter can be used to pass the
-key that shall be used to sign the chart package.</p>
+key to be used to sign the chart package.</p>
 </li>
 <li>
 <p><code>key_file</code>: If <code>sign</code> has been set to <code>true</code>, this parameter can be used to pass the
@@ -175,7 +175,7 @@ package.</p>
 </li>
 <li>
 <p><code>key_passphrase</code>: If <code>sign</code> has been set to <code>true</code> this parameter can be used to
-specifcy the passphrase that protects the GPG signing key that shall be used to sign
+specifcy the passphrase that protects the GPG signing key to be used to sign
 the chart package.</p>
 </li>
 </ul>
