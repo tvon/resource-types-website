@@ -81,6 +81,11 @@
         <h3>Read Me</h3>
         <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-ansible-playbook-resource" class="anchor" aria-hidden="true" href="#concourse-ansible-playbook-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Ansible Playbook Resource</h1>
 <p>A <a href="https://concourse-ci.org" rel="nofollow">Concourse CI</a> resource for running Ansible playbooks.</p>
+<p>The resource image contains the latest version of ansible, installed by pip,
+as of when the image was created. It runs ansible with python 3.
+See the <code>Dockerfile</code> for other supplied system and pip packages.</p>
+<p>See <a href="https://cloud.docker.com/repository/docker/troykinsella/concourse-ansible-playbook-resource" rel="nofollow">Docker Hub</a>
+for tagged image versions available.</p>
 <h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
 <p>Most source attributes map directly to <code>ansible-playbook</code> options. See the
 <code>ansible-playbook --help</code> for further details.</p>
@@ -150,6 +155,8 @@ to <code>path</code>.</li>
 <li><code>playbook</code>: Optional. Default <code>site.yml</code>. The path to the playbook file to run,
 relative to <code>path</code>.</li>
 <li><code>skip_tags</code>: Optional. Only run plays and tasks not tagged with this list of values.</li>
+<li><code>setup_commands</code>: Optional. A list of shell commands to run before executing the playbook.
+See the <code>Custom Setup Commands</code> section for explanation.</li>
 <li><code>tags</code>: Optional. Only run plays and tasks tagged with this list of values.</li>
 <li><code>vars</code>: Optional. An object of extra variables to pass to <code>ansible-playbook</code>.
 Mutually exclusive with <code>vars_file</code>.</li>
@@ -158,6 +165,16 @@ to pass to <code>ansible-playbook</code>. Mutually exclusive with <code>vars</co
 <li><code>path</code>: Required. The path to the directory containing playbook sources. This typically
 will point to a resource pulled from source control.</li>
 </ul>
+<h4><a id="user-content-custom-setup-commands" class="anchor" aria-hidden="true" href="#custom-setup-commands"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Setup Commands</h4>
+<p>As there are a myriad of Ansible modules, each of which having specific system dependencies,
+it becomes untenable for all of them to be supported by this resource Docker image.
+The <code>setup_commands</code> parameter of the <code>put</code> operation allows the pipeline manager to
+install system packages known to be depended upon by the particular playbooks being executed.
+Of course, this flexibility comes at the cost of having to execute the commands upon
+every <code>put</code>. That said, this Concourse resource does intend to supply a set of dependencies out
+of the box to support the most common or basic Ansible modules. Please open a ticket
+requesting the addition of a system package if it can be rationalized that it will benefit
+a wide variety of use cases.</p>
 <h4><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> Extends example in Source Configuration</span>
 
