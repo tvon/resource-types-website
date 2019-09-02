@@ -83,7 +83,35 @@
         <h3>Read Me</h3>
         <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-concourse-fly-resource" class="anchor" aria-hidden="true" href="#concourse-fly-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Concourse Fly Resource</h1>
 <p>A <a href="http://concourse.ci/" rel="nofollow">Concourse</a> resource for manipulating <code>fly</code>.</p>
-<p>Note: This resource does not yet support Concourse 4+</p>
+<p>See <a href="https://cloud.docker.com/repository/docker/troykinsella/concourse-fly-resource" rel="nofollow">Docker Hub</a>
+for tagged image versions available.</p>
+<p>Compatibility matrix:</p>
+<table>
+<thead>
+<tr>
+<th>Concourse Version</th>
+<th>Resource Image Tag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>5.x</code></td>
+<td><code>2.x</code>, <code>latest</code></td>
+</tr>
+<tr>
+<td><code>4.x</code></td>
+<td><code>2.x</code>, <code>latest</code></td>
+</tr>
+<tr>
+<td><code>3.x</code></td>
+<td><code>1.x</code></td>
+</tr>
+<tr>
+<td><code>2.x</code> and below</td>
+<td>NOPE</td>
+</tr>
+</tbody>
+</table>
 <h2><a id="user-content-resource-type-configuration" class="anchor" aria-hidden="true" href="#resource-type-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resource Type Configuration</h2>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
 - <span class="pl-ent">name</span>: <span class="pl-s">fly</span>
@@ -94,14 +122,16 @@
 <h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
 <p>Currently only HTTP basic authentication is supported.</p>
 <ul>
-<li><code>url</code>: <em>Required</em>. The base URL of the concourse instance to contact. (i.e. <a href="https://example.com/concourse" rel="nofollow">https://example.com/concourse</a>)</li>
+<li><code>url</code>: <em>Optional</em>. The base URL of the concourse instance to contact. (i.e. <a href="https://ci.concourse-ci.org" rel="nofollow">https://ci.concourse-ci.org</a>).
+Default: The value of the <code>$ATC_EXTERNAL_URL</code> <a href="https://concourse-ci.org/implementing-resource-types.html#resource-metadata" rel="nofollow">metadata</a> variable.</li>
 <li><code>username</code>: <em>Required</em>. The concourse basic auth username.</li>
 <li><code>password</code>: <em>Required</em>. The concourse basic auth password.</li>
 <li><code>target</code>: <em>Optional</em>. The name of the target concourse instance. Default: "main".</li>
-<li><code>team</code>: <em>Optional</em>. The concourse team to login to. Default: "main".</li>
+<li><code>team</code>: <em>Optional</em>. The concourse team to login to. Default: The value of the
+<code>$BUILD_TEAM_NAME</code> <a href="https://concourse-ci.org/implementing-resource-types.html#resource-metadata" rel="nofollow">metadata</a> variable.</li>
 <li><code>insecure</code>: <em>Optional</em>. Set to <code>true</code> to skip TLS verification.</li>
-<li><code>debug</code>: <em>Optional</em>. Set to <code>true</code> to print commands for troubleshooting, including credentials.</li>
-<li><code>secure_output</code>: <em>Optional</em>. Set to <code>true</code> to suppress output from <code>fly</code>.</li>
+<li><code>debug</code>: <em>Optional</em>. Set to <code>true</code> to print commands (such as <code>fly login</code> and <code>fly sync</code>) for troubleshooting, including credentials. Default: <code>false</code>.</li>
+<li><code>secure_output</code>: <em>Optional</em>. Set to <code>false</code> to show potentially insecure options and echoed fly commands. Default: <code>true</code>.</li>
 <li><code>multiline_lines</code>: <em>Optional</em>. Set to <code>true</code> to interpret <code>\</code> as one line (mostly for big options line).</li>
 </ul>
 <h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
@@ -110,16 +140,16 @@
   <span class="pl-ent">type</span>: <span class="pl-s">fly</span>
   <span class="pl-ent">source</span>:
     <span class="pl-ent">url</span>: <span class="pl-s">{{concourse_url}}</span>
-    <span class="pl-ent">username</span>: <span class="pl-s">{{concourse_username}}</span>
-    <span class="pl-ent">password</span>: <span class="pl-s">{{concourse_password}}</span>
-    <span class="pl-ent">team</span>: <span class="pl-s">main</span></pre></div>
+    <span class="pl-ent">username</span>: <span class="pl-s">((concourse_username))</span>
+    <span class="pl-ent">password</span>: <span class="pl-s">((concourse_password))</span>
+    <span class="pl-ent">team</span>: <span class="pl-s">eh-team</span></pre></div>
 <h2><a id="user-content-behaviour" class="anchor" aria-hidden="true" href="#behaviour"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behaviour</h2>
 <h3><a id="user-content-check-no-op" class="anchor" aria-hidden="true" href="#check-no-op"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: No-Op</h3>
 <h3><a id="user-content-in-no-op" class="anchor" aria-hidden="true" href="#in-no-op"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: No-Op</h3>
-<p>Future: Import fly command output</p>
 <h3><a id="user-content-out-execute-fly-command" class="anchor" aria-hidden="true" href="#out-execute-fly-command"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Execute <code>fly</code> Command</h3>
 <p>Execute the given <code>fly</code> command along with given options. The <code>fly</code> client is downloaded from the target
-Concourse instance if not already present or if there is a version mismatch between <code>fly</code> and Concourse.
+Concourse instance if not already present. If there is a version mismatch between <code>fly</code> and Concourse,
+a <code>fly sync</code> is performed.
 When multiple lines are present in the provided options, <code>fly</code> is executed separately for each line.</p>
 <h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
 <ul>
@@ -127,8 +157,15 @@ When multiple lines are present in the provided options, <code>fly</code> is exe
 <li><code>options_file</code>: <em>Optional</em>. A file containing options to pass to <code>fly</code>.</li>
 </ul>
 <p>Parameters are passed through to the <code>fly</code> command as follows:</p>
-<div class="highlight highlight-source-shell"><pre>fly -t main <span class="pl-smi">$options</span></pre></div>
-<p><code>main</code> is the name of the target Concourse instance.</p>
+<div class="highlight highlight-source-shell"><pre>fly -t <span class="pl-k">&lt;</span>target<span class="pl-k">&gt;</span> <span class="pl-k">&lt;</span>options<span class="pl-k">&gt;</span></pre></div>
+<p>Concourse <a href="https://concourse-ci.org/implementing-resource-types.html#resource-metadata" rel="nofollow">metadata</a>
+variables are supported in options.</p>
+<h4><a id="user-content-example-1" class="anchor" aria-hidden="true" href="#example-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h4>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">trigger-something</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">put</span>: <span class="pl-s">fly</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">options</span>: <span class="pl-s">trigger-job -j some-pipeline/some-job</span></pre></div>
 <h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p>MIT © Troy Kinsella</p>
 </article></div>
