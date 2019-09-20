@@ -129,6 +129,17 @@ using <code>put</code>.</p>
 <p><code>debug</code>: <em>Optional. Default <code>false</code>.</em> If set, progress bars will be disabled
 and debugging output will be printed instead.</p>
 </li>
+<li>
+<p><code>content_trust</code>: <em>Optional.</em> Configuration about content trust.</p>
+<ul>
+<li><code>server</code>: <em>Optional.</em> URL for the notary server. (equal to <code>DOCKER_CONTENT_TRUST_SERVER</code>)</li>
+<li><code>repository_key_id</code>: <em>Required.</em> Target key's ID used to sign the trusted collection, could be retrieved by <code>notary key list</code></li>
+<li><code>repository_key</code>: <em>Required.</em> Target key used to sign the trusted collection.</li>
+<li><code>repository_passphrase</code>: <em>Required.</em> The passphrase of the signing/target key. (equal to <code>DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE</code>)</li>
+<li><code>tls_key</code>: <em>Optional. Default <code>""</code></em> TLS key for the notary server.</li>
+<li><code>tls_cert</code>: <em>Optional. Default <code>""</code></em> TLS certificate for the notary server.</li>
+</ul>
+</li>
 </ul>
 <h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
 <h3><a id="user-content-check-discover-new-digests" class="anchor" aria-hidden="true" href="#check-discover-new-digests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Discover new digests.</h3>
