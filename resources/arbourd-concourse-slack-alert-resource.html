@@ -112,6 +112,7 @@
 <li><code>alert_type</code>: <em>Optional.</em> The type of alert to send to Slack. See <a href="#alert-types">Alert Types</a>. Defaults to <code>default</code>.</li>
 <li><code>channel</code>: <em>Optional.</em> Channel where this message is posted. Defaults to the <code>channel</code> setting in Source.</li>
 <li><code>message</code>: <em>Optional.</em> The status message at the top of the alert. Defaults to name of alert type.</li>
+<li><code>message_file</code>: <em>Optional.</em> File containing text which overrides <code>message</code>. If the file cannot be read, <code>message</code> will be used instead.</li>
 <li><code>color</code>: <em>Optional.</em> The color of the notification bar as a hexadecimal. Defaults to the icon color of the alert type.</li>
 <li><code>disable</code>: <em>Optional.</em> Disables the alert. Defaults to <code>false</code>.</li>
 </ul>
