@@ -83,8 +83,8 @@
 <p>A <a href="https://concourse-ci.org" rel="nofollow">Concourse</a> resource for detecting desired semantic version changes and retrieving a set of semantic version-based configs, by one single YAML file.</p>
 <p>Major features:</p>
 <ul>
-<li>One <code>yaml</code> file to maintain a set of sementic version-based config items</li>
-<li>Each config can have arbitrory structure where simply setting <code>version_path</code> to detect new versions and <code>config_path</code> to locate desired config elements</li>
+<li>One <code>yaml</code> file to maintain a set of semantic version-based config items</li>
+<li>Each config can have arbitrary structure where simply setting <code>version_path</code> to detect new versions and <code>config_path</code> to locate desired config elements</li>
 <li>Support some useful semantic <a href="#version-patterns">version detection patterns</a>. For example, <code>m.n.*</code> means <code>I care only Major and Minor version changes</code>; while <code>*.*.p</code> means <code>I care only Patch version changes</code></li>
 </ul>
 <h2><a id="user-content-maintainer" class="anchor" aria-hidden="true" href="#maintainer"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Maintainer</h2>
@@ -98,13 +98,19 @@
 <li>[2019-09-10] Released v1.0.0:
 <ul>
 <li>Fixed the content hash detection issue by adding hash as part of the version identifiers</li>
-<li>bumped yq to latest v2.4.0</li>
+<li>Bumped yq to latest v2.4.0</li>
+</ul>
+</li>
+<li>[2019-09-24] Released v2.0.0:
+<ul>
+<li>Added new version pattern "<code>-</code>" to cover more version-based scenarios, where the version might not be strictly semantic compatible</li>
+<li>Refactored the code with more test cases</li>
 </ul>
 </li>
 </ul>
 <h2><a id="user-content-the-config-file-example" class="anchor" aria-hidden="true" href="#the-config-file-example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Config File Example</h2>
 <p>The config file can be any sensible yaml format.</p>
-<p>The simlest one might be:</p>
+<p>The simplest one might be:</p>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-c"><span class="pl-c">#</span> examples/version-only.yaml</span>
 <span class="pl-ent">product-1</span>:
   <span class="pl-ent">version</span>: <span class="pl-s"><span class="pl-pds">"</span>1.2.3<span class="pl-pds">"</span></span>
@@ -193,12 +199,13 @@
 <li><code>m.n.p</code>: Any Major (m), miNor (n), and Patch (p) version change should be detected as a change, e.g. <code>2.*.*</code> -&gt; <code>3.*.*</code>, <code>2.1.*</code> -&gt; <code>2.2.*</code>, <code>2.1.5</code> -&gt; <code>2.1.9</code></li>
 <li><code>*.n.*</code>: ONLY miNor (m) version change should be detected as a change, e.g. <code>2.2.*</code> -&gt; <code>2.3.*</code></li>
 <li><code>*.*.p</code>: ONLY Patch (p) version change should be detected as a change, e.g. <code>2.2.4</code> -&gt; <code>2.2.9</code></li>
+<li><code>-</code>: This is a special version pattern, which means <code>I'm just a version string which may not compatible with semantic versioning, but please detect my changes as well, based on the version string or content hash</code></li>
 </ul>
 <h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
 <h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
 <ul>
-<li><a href="https://github.com/mikefarah/yq">yq</a>: v2.3.0 is tested; other versions may also work</li>
-<li><a href="https://stedolan.github.io/jq/" rel="nofollow">jq</a>: v1.5 is tested; other versions may also work</li>
+<li><a href="https://github.com/mikefarah/yq">yq</a>: v2.3.0+ is tested; other versions may also work</li>
+<li><a href="https://stedolan.github.io/jq/" rel="nofollow">jq</a>: v1.5+ is tested; other versions may also work</li>
 <li><a href="https://github.com/bats-core/bats-core">Bats</a></li>
 <li>Git client</li>
 <li>Bash</li>
@@ -215,10 +222,12 @@ $ git submodule add https://github.com/ztombol/bats-assert tests/libs/bats-asser
 <pre><code>$ git submodule update --init
 
 $ bats tests/check.bats
+$ bats tests/check-stemcell.bats
 $ bats tests/in.bats
+$ bats tests/in-stemcell.bats
 </code></pre>
 <h2><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p>Please make all pull requests to the master branch and ensure tests are added to <code>/tests/check.bats</code> and/or <code>/tests/in.bats</code>.</p>
+<p>Please make all pull requests to the master branch and ensure tests are added to suitable <code>/tests/*.bats</code> file(s).</p>
 </article></div>
     </section>
 
