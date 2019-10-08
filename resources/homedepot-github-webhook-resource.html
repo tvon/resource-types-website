@@ -120,7 +120,7 @@
 <li><code>webhook_token</code>: <em>Required.</em> Arbitrary string to identify your webhook. Must match the <code>webhook_token</code> property of the resource your webhook points to.</li>
 <li><code>operation</code>: <em>Required.</em>
 <ul>
-<li><code>create</code> to create a new webhook. Ignores pre-existing webhooks.</li>
+<li><code>create</code> to create a new webhook. Updates existing webhook if your configuration differs from remote.</li>
 <li><code>delete</code> to delete an existing webhook. Outputs current timestamp on non-existing webhooks.</li>
 </ul>
 </li>
