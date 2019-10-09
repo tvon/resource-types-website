@@ -149,6 +149,13 @@ a blob exists without a snapshot the resource will create a <code>0001-01-01T00:
 <p><code>unpack</code>: <em>Optional.</em> If true, the blob will be unpacked before running the task. Supports
 tar, zip, gzip files.</p>
 </li>
+<li>
+<p><code>block_size</code>: <em>Optional.</em> Changes the block size used when downloading from
+Azure.  Defaults to 4 MB. Maximum block size is 100 MB. A blob can include up
+to 50,000 blocks. This means with the default of 4 MB, blobs are limited to a
+size of a little more than 195 GB (4 MB x 50000 blocks). The max size of a
+blob with a block size of 100 MB will be 4.75 TB (100 MB x 50000 blocks).</p>
+</li>
 </ul>
 <h3><a id="user-content-out-upload-a-blob-to-the-container" class="anchor" aria-hidden="true" href="#out-upload-a-blob-to-the-container"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Upload a blob to the container.</h3>
 <p>Uploads a file to the container. If <code>regexp</code> is specified, the new file will be uploaded
@@ -156,10 +163,19 @@ to the directory that the regex searches in. If <code>versioned_file</code> is s
 new file will be uploaded as a new snapshot of that file.</p>
 <h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
 <ul>
-<li><code>file</code>: <em>Required.</em> Path to the file to upload, provided by an output of a task. If multiple
+<li>
+<p><code>file</code>: <em>Required.</em> Path to the file to upload, provided by an output of a task. If multiple
 files are matched by the glob, an error is raised. The file that matches the glob will be
 uploaded into the directory specified by the regexp. Only supports bash glob expansion, not
-regex.</li>
+regex.</p>
+</li>
+<li>
+<p><code>block_size</code>: <em>Optional.</em> Changes the block size used when uploading to Azure.
+Defaults to 4 MB. Maximum block size is 100 MB. A blob can include up to
+50,000 blocks. This means with the default of 4 MB, blobs are limited to a
+size of a little more than 195 GB (4 MB x 50000 blocks). The max size of a
+blob with a block size of 100 MB will be 4.75 TB (100 MB x 50000 blocks).</p>
+</li>
 </ul>
 <h2><a id="user-content-example-configuration" class="anchor" aria-hidden="true" href="#example-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Configuration</h2>
 <p>An example pipeline exists in the <code>example</code> directory.</p>
