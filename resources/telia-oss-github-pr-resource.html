@@ -339,6 +339,12 @@ empty commit to the PR</em>.</p>
 <td><code>my-output/description.txt</code></td>
 <td>Path to file containing the description status to add to the pull request</td>
 </tr>
+<tr>
+<td><code>delete_previous_comments</code></td>
+<td>No</td>
+<td><code>true</code></td>
+<td>Boolean. Previous comments made on the pull request by this resource will be deleted before making the new comment. Useful for removing outdated information.</td>
+</tr>
 </tbody>
 </table>
 <p>Note that <code>comment</code>, <code>comment_file</code> and <code>target_url</code> will all expand environment variables, so in the examples above <code>$ATC_DEFAULT_URL</code> will be replaced by the public URL of the Concourse ATCs.
