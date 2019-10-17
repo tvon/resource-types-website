@@ -136,12 +136,14 @@ from the original resource is ignored.</li>
         <span class="pl-ent">on_failure</span>:
           <span class="pl-ent">put</span>: <span class="pl-s">my-repo-with-pull-requests</span>
           <span class="pl-ent">params</span>:
+            <span class="pl-ent">action</span>: <span class="pl-s">change-build-status</span>
             <span class="pl-ent">state</span>: <span class="pl-s">FAILED</span>
             <span class="pl-ent">name</span>: <span class="pl-s"><span class="pl-pds">"</span>unit test<span class="pl-pds">"</span></span>
             <span class="pl-ent">url</span>: <span class="pl-s"><span class="pl-pds">"</span>http://acme.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME<span class="pl-pds">"</span></span>
         <span class="pl-ent">on_success</span>:
           <span class="pl-ent">put</span>: <span class="pl-s">my-repo-with-pull-requests</span>
           <span class="pl-ent">params</span>:
+            <span class="pl-ent">action</span>: <span class="pl-s">change-build-status</span>
             <span class="pl-ent">state</span>: <span class="pl-s">SUCCESSFUL</span>
             <span class="pl-ent">name</span>: <span class="pl-s"><span class="pl-pds">"</span>unit test<span class="pl-pds">"</span></span>
             <span class="pl-ent">url</span>: <span class="pl-s"><span class="pl-pds">"</span>http://acme.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME<span class="pl-pds">"</span></span></pre></div>
@@ -194,6 +196,7 @@ You should add the <em>resource with the same settings</em> as <code>pull-reques
   - get: node
   - put: pull-request-status
     params:
+      action: change-build-status
       state: INPROGRESS
       key: concourse-build
       description: Building on Concourse
