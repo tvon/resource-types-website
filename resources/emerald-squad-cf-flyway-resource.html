@@ -93,21 +93,20 @@
 <p>The following tags are officially supported:</p>
 <p><a href="https://hub.docker.com/r/emeraldsquad/cf-flyway-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/eae89230ad75f7a579ffeb252225aa1aec864360/687474703a2f2f646f636b6572692e636f2f696d6167652f656d6572616c6473717561642f63662d666c797761792d7265736f75726365" alt="emeraldsquad/cf-flyway-resource" data-canonical-src="http://dockeri.co/image/emeraldsquad/cf-flyway-resource" style="max-width:100%;"></a></p>
 <ul>
-<li><a href="https://github.com/emerald-squad/cf-flyway-resource/blob/v1.0.1/Dockerfile"><code>1.0.1</code>, (<em>Dockerfile</em>)</a></li>
-<li><a href="https://github.com/emerald-squad/cf-flyway-resource/blob/v1.0.0/Dockerfile"><code>1.0.0</code>, (<em>Dockerfile</em>)</a></li>
-</ul>
-<p><a href="https://hub.docker.com/r/jpmorin/cf-flyway-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/17023375effb302a351cd115cf1d85a0f20f1027/687474703a2f2f646f636b6572692e636f2f696d6167652f6a706d6f72696e2f63662d666c797761792d7265736f75726365" alt="jpmorin/cf-flyway-resource" data-canonical-src="http://dockeri.co/image/jpmorin/cf-flyway-resource" style="max-width:100%;"></a></p>
-<ul>
-<li><a href="https://github.com/emerald-squad/cf-flyway-resource/blob/v0.1.2/Dockerfile"><code>0.1.2</code>, (<em>Dockerfile</em>)</a></li>
-<li><a href="https://github.com/emerald-squad/cf-flyway-resource/blob/v0.1.1/Dockerfile"><code>0.1.1</code>, (<em>Dockerfile</em>)</a></li>
+<li>
+<p><a href="https://github.com/emerald-squad/cf-flyway-resource/blob/v1.0.1/Dockerfile"><code>2.0.0</code>, <code>latest</code>, (<em>Dockerfile</em>)</a></p>
+</li>
+<li>
+<p><a href="https://github.com/emerald-squad/cf-flyway-resource/blob/v1.0.1/Dockerfile"><code>1.0.1</code>, (<em>Dockerfile</em>)</a></p>
+</li>
 </ul>
 <h2><a id="user-content-resource_types" class="anchor" aria-hidden="true" href="#resource_types"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>resource_types</h2>
-<p>The image <em>cf-flyway-resource</em> is built from <a href="https://hub.docker.com/r/boxfuse/flyway" rel="nofollow">boxfuse/flyway</a>. It also comes with the <code>cf_cli</code> and <code>jq</code> installed.</p>
+<p>The image <em>cf-flyway-resource</em> is built from <a href="https://hub.docker.com/_/ubuntu" rel="nofollow">ubuntu:18.04</a>.</p>
 <div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name</span>: <span class="pl-s">cf-flyway-resource</span>
   <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
   <span class="pl-ent">source</span>:
     <span class="pl-ent">repository</span>: <span class="pl-s">emeraldsquad/cf-flyway-resource</span>
-    <span class="pl-ent">tag</span>: <span class="pl-s">1.0.0</span></pre></div>
+    <span class="pl-ent">tag</span>: <span class="pl-s">2.0.0</span></pre></div>
 <h2><a id="user-content-resource" class="anchor" aria-hidden="true" href="#resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>resource</h2>
 <h3><a id="user-content-source" class="anchor" aria-hidden="true" href="#source"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>source</h3>
 <ul>
@@ -136,16 +135,18 @@
 <p>The <strong>in</strong> script always returns the current version number. Therefore, the resources cannot be used as an input trigger.</p>
 <h3><a id="user-content-metadata" class="anchor" aria-hidden="true" href="#metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>metadata</h3>
 <p>Read service information from the cf api to produce metadata.</p>
-<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">metadata_url </span>: <span class="pl-s">/v2/service_instances/fe7f0258-5b6f-7b26-2cb2-79ad6f2a7454</span>
-<span class="pl-ent">pcf_api </span>: <span class="pl-s">https://my.api.endpoint.com</span>
-<span class="pl-ent">pcf_org </span>: <span class="pl-s">organization-name</span>
-<span class="pl-ent">pcf_space </span>: <span class="pl-s">space-name</span>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">cf_api </span>: <span class="pl-s">https://my.api.endpoint.com</span>
+<span class="pl-ent">cf_org </span>: <span class="pl-s">organization-name</span>
+<span class="pl-ent">cf_space </span>: <span class="pl-s">space-name</span>
+<span class="pl-ent">dashboard_url </span>: <span class="pl-s">https://{hostname}/service-instances/53rv1c30-1n5t-aNc3-Gu1d-000000000000/</span>
+<span class="pl-ent">metadata_url </span>: <span class="pl-s">/v2/service_instances/53rv1c30-1n5t-aNc3-Gu1d-000000000000</span>
 <span class="pl-ent">service_instance </span>: <span class="pl-s">cf-db-service-instance-name</span>
 <span class="pl-ent">service_label </span>: <span class="pl-s">cf-db-service-name</span>
 <span class="pl-ent">service_plan </span>: <span class="pl-s">cf-db-service-plan</span></pre></div>
 <h2><a id="user-content-out" class="anchor" aria-hidden="true" href="#out"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>out</h2>
+<h3><a id="user-content-migration" class="anchor" aria-hidden="true" href="#migration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>migration</h3>
 <p>Migrate database schemas to CloudFoundry database service.</p>
-<p>The <strong>out</strong> script creates a service-key on the Cloud Foundry database service. It then reads the credentials of the service-key and generate a <code>flyway.conf</code> file containing the CloudFoundry database service-key url, username and password.</p>
+<p>The <strong>out</strong> script creates a service-key on the Cloud Foundry database service. It then reads the credentials of the service-key and generate a <code>flyway.conf</code> file containing the Cloud Foundry database service-key url, username and password.</p>
 <p>The generated <code>flyway.conf</code> file will also have <code>flyway.cleanDisabled=true</code> set by default.</p>
 <p>Any other flyway configuration provided by the user is also appended to the generated <code>flyway.conf</code> file. Note that the <strong>out</strong> script will always override the following config:</p>
 <pre lang="conf"><code>flyway.url={service-key jdbc:driver//url/database}  # Overwritten by Cloud Foundry service-key credentials
@@ -160,11 +161,53 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
 <li><code>flyway migrate</code></li>
 <li><code>flyway info</code></li>
 </ul>
+<p>The service-key can be automatically deleted by setting the <code>delete_service_key</code> flag to true.</p>
+<h3><a id="user-content-run_task-optionnal" class="anchor" aria-hidden="true" href="#run_task-optionnal"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>run_task (optionnal)</h3>
+<p>Alternatively, the <strong>out</strong> script can push an lightweight flyway application and bind it to the Cloud Foundry database service. It then reads the credentials of the service-binding and generate a <code>flyway.conf</code> file containing the Cloud Foundry database service-key url, username and password.</p>
+<p>The <strong>out</strong> script then execute flyway commands trough Cloud Foundry <code>run-task</code> command.</p>
+<p>The application can be automatically unbinded and deleted by setting the <code>delete_application</code> flag to <code>true</code>.</p>
+<p>This option is especially usefull when you Cloud Foundry platform has access to a database service while your Concourse instance does not.</p>
+<h4><a id="user-content-manifest" class="anchor" aria-hidden="true" href="#manifest"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>manifest</h4>
+<p>The pushed flyway application uses the following manifest.</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">applications</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">{service-instance-name}-flyway</span>
+  <span class="pl-ent">buildpacks</span>: <span class="pl-s">[binary_buildpack]</span>
+  <span class="pl-ent">health-check-type</span>: <span class="pl-s">process</span>
+  <span class="pl-ent">no-route</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">instances</span>: <span class="pl-c1">0</span>                            <span class="pl-c"><span class="pl-c">#</span> faster staging time</span>
+  <span class="pl-ent">disk_quota</span>: <span class="pl-c1">256M</span>
+  <span class="pl-ent">memory</span>: <span class="pl-c1">256M</span>
+  <span class="pl-ent">command</span>: <span class="pl-s">sleep 3600                     </span><span class="pl-c"><span class="pl-c">#</span> ensure the app will stop after 1h.</span></pre></div>
+<h4><a id="user-content-ssh" class="anchor" aria-hidden="true" href="#ssh"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ssh</h4>
+<p>To open an ssh connection to the flyway application, first scale the application to one instance before starting it. Once the application is started you will be able to open an ssh connection.</p>
+<div class="highlight highlight-source-shell"><pre>cf scale {service-instance-name}-flyway -i 1</pre></div>
+<div class="highlight highlight-source-shell"><pre>cf start {service-instance-name}-flyway</pre></div>
+<div class="highlight highlight-source-shell"><pre>cf ssh {service-instance-name}-flyway</pre></div>
+<p>The flyway_cli inside the application container is already configured to connect to the Cloud Foundry database service.</p>
+<div class="highlight highlight-source-shell"><pre>vcap@xxxxxxxx-xxxx-xxxx-xxxx-xxxx:<span class="pl-k">~</span>$ <span class="pl-c1">cd</span> app
+
+vcap@xxxxxxxx-xxxx-xxxx-xxxx-xxxx:<span class="pl-k">~</span>/app$ ./flyway info
+Flyway Community Edition 6.0.4 by Redgate
+Database: {database connection information}
+Schema version: <span class="pl-s"><span class="pl-k">&lt;&lt;</span> <span class="pl-k">Empty</span> Schema &gt;&gt;</span>
+<span class="pl-s"></span>
+<span class="pl-s">+-----------+---------+---------------------+------+--------------+---------+</span>
+<span class="pl-s">| Category  | Version | Description         | Type | Installed On | State   |</span>
+<span class="pl-s">+-----------+---------+---------------------+------+--------------+---------+</span>
+<span class="pl-s">| Versioned | 1.0     | migration initial   | SQL  |              | Success |</span>
+<span class="pl-s">+-----------+---------+---------------------+------+--------------+---------+</span></pre></div>
+<p>Remember to stop the application when finished</p>
+<div class="highlight highlight-source-shell"><pre>cf stop {service-instance-name}-flyway</pre></div>
 <h3><a id="user-content-params" class="anchor" aria-hidden="true" href="#params"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>params</h3>
 <ul>
 <li><strong>locations</strong> <em>required</em>
 <ul>
+<li>One of:
+<ul>
 <li>Comma-separated list of locations to scan recursively for migrations.</li>
+<li>YAML list of locations to scan recursively for migrations.</li>
+</ul>
+</li>
 <li>The location type is determined by its prefix.</li>
 <li>Unprefixed locations or locations starting with <code>classpath:</code> point to a package on the classpath and may contain both SQL and Java-based migrations.</li>
 <li>Locations starting with <code>filesystem:</code> point to a directory on the filesystem, may only contain SQL migrations and are only scanned recursively down non-hidden directories.</li>
@@ -186,6 +229,26 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
 </li>
 </ul>
 </li>
+<li><strong>run_task</strong> <em>optional</em>
+<ul>
+<li><code>false</code> (default) : The resource will :
+<ul>
+<li>Create a <code>service-key</code> on your database service.</li>
+<li>Generate a <code>flyway.conf</code> file.</li>
+<li>Execute flyway commands inside the container runned by a concourse worker.</li>
+</ul>
+</li>
+<li><code>true</code> : The resource will :
+<ul>
+<li>Create an application in Cloud Foundry and bind it to your database service.</li>
+<li>Generate a <code>flyway.conf</code> file.</li>
+<li>Package the <code>flyway_cli</code> along with the generated <code>flyway.conf</code> and your migration files.</li>
+<li>Push the application to Cloud Foundry.</li>
+<li>Execute flyway commands trough Cloud Foundry <code>run-task</code> command.</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><strong>clean_disabled</strong> <em>optional</em>
 <ul>
 <li>Whether to disabled clean. (default: <code>true</code>)</li>
@@ -198,9 +261,15 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
 <li>This is especially useful for on-demand qa environment.</li>
 </ul>
 </li>
+<li><strong>delete_application</strong> <em>optional</em>
+<ul>
+<li>Whether to unbind and delete the application pushed to Cloud Foundry when done. (default: <code>false</code>)</li>
+<li>This is especially useful for on-demand qa environment.</li>
+</ul>
+</li>
 <li><strong>flyway_conf</strong> <em>optional</em>
 <ul>
-<li>one of:
+<li>One of:
 <ul>
 <li>path to an existing flyway.conf file.</li>
 <li>inline flyway configuration.</li>
@@ -217,10 +286,10 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
 </li>
 </ul>
 </li>
-<li><strong>jdbc_builder</strong> <em>optional</em> (beta)
+<li><strong>jdbc_builder</strong> <em>optional</em>
 <ul>
 <li>Use this feature to connect to unrecognized database services.</li>
-<li>one of:
+<li>One of:
 <ul>
 <li>path to an executable shell script.</li>
 <li>inline shell script.</li>
@@ -232,9 +301,7 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
 </li>
 </ul>
 <h4><a id="user-content-exemples" class="anchor" aria-hidden="true" href="#exemples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exemples</h4>
-<ol>
-<li>Only use the required locations parameter.</li>
-</ol>
+<h5><a id="user-content-1-only-use-the-required-locations-parameter" class="anchor" aria-hidden="true" href="#1-only-use-the-required-locations-parameter"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Only use the required locations parameter</h5>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
 - <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
   <span class="pl-ent">plan</span>:
@@ -242,9 +309,7 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
   - <span class="pl-ent">put</span>: <span class="pl-s">cf-flyway</span>
     <span class="pl-ent">params</span>:
       <span class="pl-ent">locations</span>: <span class="pl-s">filesystem:my-app-package/DB/Schema</span></pre></div>
-<ol start="2">
-<li>Add a flyway configuration file.</li>
-</ol>
+<h5><a id="user-content-2-add-a-flyway-configuration-file" class="anchor" aria-hidden="true" href="#2-add-a-flyway-configuration-file"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Add a flyway configuration file</h5>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
 - <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
   <span class="pl-ent">plan</span>:
@@ -253,9 +318,7 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
     <span class="pl-ent">params</span>:
       <span class="pl-ent">locations</span>: <span class="pl-s">filesystem:my-app-package/DB/Schema</span>
       <span class="pl-ent">flyway_conf</span>: <span class="pl-s">my-app-package/DB/flyway.config</span></pre></div>
-<ol start="3">
-<li>Add inline flyway configuration.</li>
-</ol>
+<h5><a id="user-content-3-add-inline-flyway-configuration" class="anchor" aria-hidden="true" href="#3-add-inline-flyway-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Add inline flyway configuration</h5>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
 - <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
   <span class="pl-ent">plan</span>:
@@ -266,9 +329,7 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
       <span class="pl-ent">flyway_conf</span>: <span class="pl-s">|</span>
 <span class="pl-s">        flyway.schemas=dbo</span>
 <span class="pl-s">        flyway.connectRetries=2</span></pre></div>
-<ol start="4">
-<li>Use a command sequence.</li>
-</ol>
+<h5><a id="user-content-4-use-a-command-sequence" class="anchor" aria-hidden="true" href="#4-use-a-command-sequence"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Use a command sequence</h5>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
 - <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
   <span class="pl-ent">plan</span>:
@@ -277,9 +338,7 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
     <span class="pl-ent">params</span>:
       <span class="pl-ent">locations</span>: <span class="pl-s">filesystem:my-app-package/DB/Schema</span>
       <span class="pl-ent">commands</span>: <span class="pl-s">[info, validate]</span></pre></div>
-<ol start="5">
-<li>Use Flyway <strong>Pro</strong> feature.</li>
-</ol>
+<h5><a id="user-content-5-use-flyway-pro-feature" class="anchor" aria-hidden="true" href="#5-use-flyway-pro-feature"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Use Flyway <strong>Pro</strong> feature</h5>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
 - <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
   <span class="pl-ent">plan</span>:
@@ -290,9 +349,7 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
       <span class="pl-ent">commands</span>: <span class="pl-s">[info, undo, info]</span>
       <span class="pl-ent">flyway_conf</span>: <span class="pl-s">|</span>
 <span class="pl-s">        flyway.licenseKey=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</span></pre></div>
-<ol start="6">
-<li>Use jdbc_builder.</li>
-</ol>
+<h5><a id="user-content-6-use-jdbc_builder" class="anchor" aria-hidden="true" href="#6-use-jdbc_builder"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Use jdbc_builder</h5>
 <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
 - <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
   <span class="pl-ent">plan</span>:
@@ -302,14 +359,25 @@ flyway.cleanDisabled=true                           # Overwritten by clean_disab
       <span class="pl-ent">locations</span>: <span class="pl-s">filesystem:my-app-package/DB/Schema</span>
       <span class="pl-ent">jdbc_builder</span>: <span class="pl-s">|</span>
 <span class="pl-s">        echo jdbc:postgresql://$(echo $1 | jq -r '.uri' | grep -Poh '(?&lt;=@).*')</span></pre></div>
+<h5><a id="user-content-7-use-run-task-and-delete-application-when-migration-is-complete" class="anchor" aria-hidden="true" href="#7-use-run-task-and-delete-application-when-migration-is-complete"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Use run-task and delete application when migration is complete</h5>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">my-app-package</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">cf-flyway</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">run-task</span>: <span class="pl-c1">true</span>
+      <span class="pl-ent">delete-application</span>: <span class="pl-c1">true</span>
+      <span class="pl-ent">locations</span>: <span class="pl-s">filesystem:my-app-package/DB/Schema</span></pre></div>
 <h3><a id="user-content-version-2" class="anchor" aria-hidden="true" href="#version-2"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>version</h3>
 <p>The <strong>out</strong> script always returns a new version number.</p>
 <h3><a id="user-content-metadata-1" class="anchor" aria-hidden="true" href="#metadata-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>metadata</h3>
 <p>Read service information from the cf api to produce metadata.</p>
-<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">metadata_url </span>: <span class="pl-s">/v2/service_instances/fe7f0258-5b6f-7b26-2cb2-79ad6f2a7454</span>
-<span class="pl-ent">pcf_api </span>: <span class="pl-s">https://my.api.endpoint.com</span>
-<span class="pl-ent">pcf_org </span>: <span class="pl-s">organization-name</span>
-<span class="pl-ent">pcf_space </span>: <span class="pl-s">space-name</span>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">cf_api </span>: <span class="pl-s">https://my.api.endpoint.com</span>
+<span class="pl-ent">cf_org </span>: <span class="pl-s">organization-name</span>
+<span class="pl-ent">cf_space </span>: <span class="pl-s">space-name</span>
+<span class="pl-ent">dashboard_url </span>: <span class="pl-s">https://{hostname}/service-instances/53rv1c30-1n5t-aNc3-Gu1d-000000000000/</span>
+<span class="pl-ent">metadata_url </span>: <span class="pl-s">/v2/service_instances/53rv1c30-1n5t-aNc3-Gu1d-000000000000</span>
 <span class="pl-ent">service_instance </span>: <span class="pl-s">cf-db-service-instance-name</span>
 <span class="pl-ent">service_label </span>: <span class="pl-s">cf-db-service-name</span>
 <span class="pl-ent">service_plan </span>: <span class="pl-s">cf-db-service-plan</span></pre></div>
