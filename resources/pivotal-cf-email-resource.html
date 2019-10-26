@@ -169,8 +169,11 @@ But for literals you need to surround it with quotes.</p>
 <li><code>body_text</code>: <em>Optional.</em> The email body as text. Either <code>body</code> or <code>body_text</code> required. <code>body_text</code> takes precedence.</li>
 <li><code>send_empty_body</code>: <em>Optional.</em> If true, send the email even if the body is empty (defaults to <code>false</code>).</li>
 <li><code>to</code>: <em>Optional.</em> Path to plain text file containing recipients which could be determined at build time. You can run a task before, which figures out the email of the person who committed last to a git repository (<code>git -C $source_path --no-pager show $(git -C $source_path rev-parse HEAD) -s --format='%ae' &gt; output/email.txt</code>).  This file can contain <code>,</code> delimited list of email address if wanting to send to multiples.</li>
+<li><code>to_text</code>: <em>Optional.</em> The <code>,</code> delimited list of to addresses. <code>to_text</code> appends to any <code>to</code> in params or source</li>
 <li><code>cc</code>: <em>Optional.</em> Path to plain text file containing recipients which could be determined at build time. This file can contain <code>,</code> delimited list of email address if wanting to send to multiples.</li>
+<li><code>cc_text</code>: <em>Optional.</em> The <code>,</code> delimited list of cc addresses. <code>cc_text</code> appends to any <code>cc</code> in params or source</li>
 <li><code>bcc</code>: <em>Optional.</em> Path to plain text file containing recipients which could be determined at build time. This file can contain <code>,</code> delimited list of email address if wanting to send to multiples.</li>
+<li><code>bcc_text</code>: <em>Optional.</em> The <code>,</code> delimited list of bcc addresses. <code>bcc_text</code> appends to any <code>bcc</code> in params or source</li>
 <li><code>debug</code>: <em>Optional.</em> If set to <code>true</code> additional information send to stderr</li>
 <li><code>attachment_globs:</code> <em>Optional.</em> If provided will attach any file to the email that matches the glob path(s)</li>
 </ul>
