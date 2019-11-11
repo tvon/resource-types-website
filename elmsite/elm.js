@@ -77,7 +77,7 @@ function A9(fun, a, b, c, d, e, f, g, h, i) {
   return fun.a === 9 ? fun.f(a, b, c, d, e, f, g, h, i) : fun(a)(b)(c)(d)(e)(f)(g)(h)(i);
 }
 
-console.warn('Compiled in DEBUG mode. Follow the advice at https://elm-lang.org/0.19.1/optimize for better performance and smaller assets.');
+console.warn('Compiled in DEV mode. Follow the advice at https://elm-lang.org/0.19.1/optimize for better performance and smaller assets.');
 
 
 var _JsArray_empty = [];
@@ -4377,7 +4377,7 @@ var $author$project$Banner$Styles$body = _List_fromArray(
 		A2($elm$html$Html$Attributes$style, 'justify-content', 'center'),
 		A2($elm$html$Html$Attributes$style, 'font-family', 'Barlow'),
 		A2($elm$html$Html$Attributes$style, 'color', '#FFFFFF'),
-		A2($elm$html$Html$Attributes$style, 'grid-template-columns', 'minmax(auto,400px)'),
+		A2($elm$html$Html$Attributes$style, 'grid-template-columns', 'minmax(auto, 400px)'),
 		A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
 		A2($elm$html$Html$Attributes$style, 'line-height', '24px')
 	]);
@@ -4403,21 +4403,17 @@ var $author$project$Banner$Styles$title = _List_fromArray(
 	]);
 var $author$project$Banner$View$view = A2(
 	$elm$html$Html$div,
-	_Utils_ap(
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('banner-container')
-			]),
+	A2(
+		$elm$core$List$cons,
+		$elm$html$Html$Attributes$class('banner-container'),
 		$author$project$Banner$Styles$container),
 	_List_fromArray(
 		[
 			A2(
 			$elm$html$Html$div,
-			_Utils_ap(
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('banner-title')
-					]),
+			A2(
+				$elm$core$List$cons,
+				$elm$html$Html$Attributes$class('banner-title'),
 				$author$project$Banner$Styles$title),
 			_List_fromArray(
 				[
@@ -4425,11 +4421,9 @@ var $author$project$Banner$View$view = A2(
 				])),
 			A2(
 			$elm$html$Html$div,
-			_Utils_ap(
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('banner-body')
-					]),
+			A2(
+				$elm$core$List$cons,
+				$elm$html$Html$Attributes$class('banner-body'),
 				$author$project$Banner$Styles$body),
 			_List_fromArray(
 				[
@@ -4441,8 +4435,7 @@ var $author$project$Main$view = A2(
 	_List_fromArray(
 		[
 			$elm$html$Html$Attributes$class('wrapper'),
-			A2($elm$html$Html$Attributes$style, 'margin', '0 auto'),
-			A2($elm$html$Html$Attributes$style, 'font-face', 'Roboto Slab')
+			A2($elm$html$Html$Attributes$style, 'margin', '0 auto')
 		]),
 	_List_fromArray(
 		[$author$project$Banner$View$view]));
