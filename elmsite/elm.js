@@ -4427,7 +4427,7 @@ var $author$project$Banner$View$view = A2(
 				$author$project$Banner$Styles$body),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt')
+					$elm$html$Html$text('Lorem James ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt')
 				]))
 		]));
 var $author$project$Main$view = A2(
