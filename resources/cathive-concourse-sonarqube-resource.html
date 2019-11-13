@@ -191,6 +191,13 @@ branch to sync the issues from a branch other than the Main Branch.
 details)</p>
 </li>
 <li>
+<p><code>decorate_pr</code>: If set to <code>true</code> it will try to fetch the pull request id and the head branch name from
+the pull request resource. It works for <code>telia-oss/github-pr-resource</code> and <code>jtarchie/github-pullrequest-resource</code>. It will enable <code>sonar.pullrequest.key</code> and <code>sonar.pullrequest.branch</code> flags when performing your analysis.</p>
+<blockquote>
+<p><em>In order to use this feature you must be using <code>SonarCloud</code> or <code>SonarQube Developer</code> edition.</em></p>
+</blockquote>
+</li>
+<li>
 <p><code>sources</code>: A list of paths to directories containing source files.</p>
 </li>
 <li>
