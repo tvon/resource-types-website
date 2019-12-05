@@ -139,7 +139,9 @@ on the cluster.</p>
 the array is a map containing a key and a value or path. Value is set directly while path reads the contents of
 the file in that path. A <code>hide: true</code> parameter ensures that the value is not logged and instead replaced with <code>***HIDDEN***</code>.
 A <code>type: string</code> parameter makes sure Helm always treats the value as a string (uses the <code>--set-string</code> option to Helm; useful if the value varies
-and may look like a number, eg. if it's a Git commit hash).</li>
+and may look like a number, eg. if it's a Git commit hash).
+A <code>verbatim: true</code> parameter escapes backslashes so the value is passed as-is to the Helm chart (useful for <code>((credentials))</code>).
+The default behaviour of backslashes in <code>--set</code> is to quote the next character so <code>val\ue</code> is treated as <code>value</code> by Helm.</li>
 <li><code>token_path</code>: <em>Optional.</em> Path to file containing the bearer token for Kubernetes.  This, 'token' or <code>admin_key</code>/<code>admin_cert</code> are required if <code>cluster_url</code> is https.</li>
 <li><code>version</code>: <em>Optional</em> Chart version to deploy, can be a file or a value. Only applies if <code>chart</code> is not a file.</li>
 <li><code>delete</code>: <em>Optional.</em> Deletes the release instead of installing it. Requires the <code>name</code>. (Default: false)</li>

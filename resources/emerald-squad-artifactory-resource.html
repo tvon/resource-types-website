@@ -97,16 +97,16 @@
 </ul>
 <h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
 <p>Resource Type Configuration:</p>
-<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>: 
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resource_types</span>:
   - <span class="pl-ent">name</span>: <span class="pl-s">artifactory</span>
     <span class="pl-ent">type</span>: <span class="pl-s">docker-image</span>
-    <span class="pl-ent">source</span>: 
+    <span class="pl-ent">source</span>:
       <span class="pl-ent">repository</span>: <span class="pl-s">emeraldsquad/artifactory-resource</span></pre></div>
 <p>Resource configuration for an artifact:</p>
-<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>: 
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
   - <span class="pl-ent">name</span>: <span class="pl-s">my-artifact</span>
     <span class="pl-ent">type</span>: <span class="pl-s">artifactory</span>
-    <span class="pl-ent">source</span>: 
+    <span class="pl-ent">source</span>:
       <span class="pl-ent">api_key</span>: <span class="pl-s">&lt;API KEY&gt;</span>
       <span class="pl-ent">artifact_id</span>: <span class="pl-s">wonderful-artifact</span>
       <span class="pl-ent">group_id</span>: <span class="pl-s">emerald.squad</span>
@@ -115,27 +115,64 @@
 <p>Retreiving artifacts:</p>
 <div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">my-artifact</span></pre></div>
 <div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">my-artifact</span>
-  <span class="pl-ent">params</span>: 
+  <span class="pl-ent">params</span>:
     <span class="pl-ent">qualifiers</span>: <span class="pl-s">[sources,javadoc]</span></pre></div>
 <p>Pushing local commits to the repo:</p>
 <div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">my-artifact</span>
   <span class="pl-ent">params</span>:
     <span class="pl-ent">path</span>: <span class="pl-s">artifacts</span></pre></div>
+<p>Publish build information: <em>(using default build_publish params)</em></p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">my-artifact</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">path</span>: <span class="pl-s">artifacts</span>
+    <span class="pl-ent">build_upload</span>: <span class="pl-c1">true</span></pre></div>
+<p>Publish build information: <em>(use all optional params)</em></p>
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">put</span>: <span class="pl-s">my-artifact</span>
+  <span class="pl-ent">params</span>:
+    <span class="pl-ent">path</span>: <span class="pl-s">artifacts</span>
+    <span class="pl-ent">build_upload</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">build_publish</span>:
+      <span class="pl-ent">build_name</span>: <span class="pl-s">wonderful-artifact-build</span>
+      <span class="pl-ent">git_url</span>: <span class="pl-s">&lt;GIT URL&gt;</span>
+      <span class="pl-ent">git_rev</span>: <span class="pl-s">artifacts/revision</span>
+      <span class="pl-ent">env_include</span>: <span class="pl-s"><span class="pl-pds">"</span>BUILD|ATC<span class="pl-pds">"</span></span>
+      <span class="pl-ent">env_exclude</span>: <span class="pl-s"><span class="pl-pds">"</span>API_KEY<span class="pl-pds">"</span></span></pre></div>
 <h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
-<h3><a id="user-content-check-check-for-new-artifacts" class="anchor" aria-hidden="true" href="#check-check-for-new-artifacts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new artifacts.</h3>
+<h3><a id="user-content-check-check-for-new-artifacts" class="anchor" aria-hidden="true" href="#check-check-for-new-artifacts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new artifacts</h3>
 <p>The resource searches for folders under <code>http(s)://&lt;host&gt;/&lt;repository_id&gt;/&lt;group_id&gt;/&lt;artifact_id&gt;</code>. It expects to get a list of valid maven versions (See <a href="https://cwiki.apache.org/confluence/display/MAVENOLD/Versioning" rel="nofollow">https://cwiki.apache.org/confluence/display/MAVENOLD/Versioning</a> for details). All subsequent versions of the given ref are returned. If no version is provided, the resource returns only the latest.</p>
-<h3><a id="user-content-in-download-the-artifacts-at-the-given-ref" class="anchor" aria-hidden="true" href="#in-download-the-artifacts-at-the-given-ref"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Download the artifacts at the given ref.</h3>
+<h3><a id="user-content-in-download-the-artifacts-at-the-given-ref" class="anchor" aria-hidden="true" href="#in-download-the-artifacts-at-the-given-ref"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Download the artifacts at the given ref</h3>
 <p>Download the artifacts of the given ref to the destination. It will return the same given ref as version.</p>
 <h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
 <ul>
 <li><code>qualifiers</code>: <em>Optional.</em> The artifacts classifiers ex: [source,javadoc]. If specified, the resource will only retreive the qualified artifacts.</li>
 </ul>
-<h3><a id="user-content-out-push-the-artifacts-to-the-repository" class="anchor" aria-hidden="true" href="#out-push-the-artifacts-to-the-repository"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Push the artifacts to the repository.</h3>
+<h3><a id="user-content-out-push-the-artifacts-to-the-repository" class="anchor" aria-hidden="true" href="#out-push-the-artifacts-to-the-repository"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Push the artifacts to the repository</h3>
 <p>Push the artifacts from the given path to the Artifactory maven repository. The resource will push every files presents in the folder specified in the <strong>path</strong> parameter. The version parameter is optionnal but the resource expect at least a version file containing a version in the format of a valid maven versions (See <a href="https://cwiki.apache.org/confluence/display/MAVENOLD/Versioning" rel="nofollow">https://cwiki.apache.org/confluence/display/MAVENOLD/Versioning</a> for details).</p>
+<p>Optionally upload build information by setting the <code>build_upload</code> flag to <code>true</code>. The resource will produce a build.json file and <a href="https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API#ArtifactoryRESTAPI-BuildUpload" rel="nofollow">upload it to artifactory</a>. The build name will default to <code>&lt;source.artifact_id&gt;-build</code> and the build number will be set to <a href="https://concourse-ci.org/implementing-resource-types.html#resource-metadata" rel="nofollow">concourse's <code>$BUILD_ID</code> metadata value</a>.</p>
 <h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
 <ul>
-<li><code>path</code>: <em>Required.</em> The path of the files to push to the repository.</li>
-<li><code>version</code>: <em>Optional.</em> The path to a version file. Defaults to <code>&lt;path parameter&gt;/version</code>.</li>
+<li><code>path</code>: <em>(required).</em> The path of the files to push to the repository.</li>
+<li><code>version</code>: <em>(optional).</em> The path to a version file. Defaults to <code>&lt;path parameter&gt;/version</code>.</li>
+<li><code>build_upload</code>: <em>(optional)</em> Whether or not to upload build info. Defaults to <code>false</code>.</li>
+<li><code>build_publish</code>: <em>(optional)</em> Upload build info parameters.
+<ul>
+<li><code>build_name</code> : <em>(optional)</em> The build name. Defaults to <code>&lt;source.artifact_id&gt;-build</code>.</li>
+<li><code>git_url</code>: <em>(optional)</em> One of:
+<ul>
+<li>The git url of the source of the artifact.</li>
+<li>Path to a file containing the git url of the source of the artifact.</li>
+</ul>
+</li>
+<li><code>git_rev</code>: <em>(optional)</em> One of:
+<ul>
+<li>The git revision of the source of the artifact.</li>
+<li>Path to a file containing the git revision of the source of the artifact.</li>
+</ul>
+</li>
+<li><code>env_include</code> : <em>(optional)</em> List of case insensitive patterns in the form of <code>"pattern1|pattern2|..."</code> Only environment variables match those patterns will be included. Default to <code>"."</code></li>
+<li><code>env_exclude</code> : <em>(optional)</em> List of case insensitive patterns in the form of <code>"pattern1|pattern2|..."</code>. Environment variables match those patterns will be excluded. Default to <code>"password|pword|pwd|secret|key|token"</code></li>
+</ul>
+</li>
 </ul>
 </article></div>
     </section>
