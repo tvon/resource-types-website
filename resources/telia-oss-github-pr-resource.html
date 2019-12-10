@@ -83,7 +83,7 @@
     </section>
     <section id="github-readme">
         <h3>Read Me</h3>
-        <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h2><a id="user-content-github-pr-resource" class="anchor" aria-hidden="true" href="#github-pr-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Github PR resource</h2>
+        <div id="readme" class="md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h2><a id="user-content-github-pr-resource" class="anchor" aria-hidden="true" href="#github-pr-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Github PR resource</h2>
 <p><a href="https://travis-ci.org/telia-oss/github-pr-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/84d5ca09d75267bcb990e569b01b19e0daa591b1/68747470733a2f2f7472617669732d63692e6f72672f74656c69612d6f73732f6769746875622d70722d7265736f757263652e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/telia-oss/github-pr-resource.svg?branch=master" style="max-width:100%;"></a>
 <a href="https://goreportcard.com/report/github.com/telia-oss/github-pr-resource" rel="nofollow"><img src="https://camo.githubusercontent.com/697bd3039e12b635e08b8999179e1ca7b98b40da/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f6769746875622e636f6d2f74656c69612d6f73732f6769746875622d70722d7265736f75726365" alt="Go Report Card" data-canonical-src="https://goreportcard.com/badge/github.com/telia-oss/github-pr-resource" style="max-width:100%;"></a>
 <a href="https://hub.docker.com/r/teliaoss/github-pr-resource/" rel="nofollow"><img src="https://camo.githubusercontent.com/a916b749bbe7baec53a6f0533651c9499e502b21/68747470733a2f2f696d672e736869656c64732e696f2f646f636b65722f6175746f6d617465642f74656c69616f73732f6769746875622d70722d7265736f757263652e737667" alt="Docker Automated build" data-canonical-src="https://img.shields.io/docker/automated/teliaoss/github-pr-resource.svg" style="max-width:100%;"></a></p>
@@ -401,19 +401,20 @@ See <a href="https://concourse-ci.org/implementing-resource-types.html#resource-
       <span class="pl-ent">path</span>: <span class="pl-s">pull-request</span>
       <span class="pl-ent">status</span>: <span class="pl-s">success</span></pre></div>
 <h2><a id="user-content-costs" class="anchor" aria-hidden="true" href="#costs"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Costs</h2>
-<p>The Github API(s) have a rate limit of 5000 requests per hour (per user). This resource will incur the following costs:</p>
+<p>The Github API(s) have a rate limit of 5000 requests per hour (per user). For the V3 API this essentially
+translates to 5000 requests, whereas for the V4 API (GraphQL)  the calculation is more involved:
+<a href="https://developer.github.com/v4/guides/resource-limitations/#calculating-a-rate-limit-score-before-running-the-call">https://developer.github.com/v4/guides/resource-limitations/#calculating-a-rate-limit-score-before-running-the-call</a></p>
+<p>Ref the above, here are some examples of running <code>check</code> against large repositories and the cost of doing so:</p>
 <ul>
-<li><code>check</code>: Minimum 1, max 1 per 100th <em>open</em> pull request.</li>
-<li><code>in</code>: Fixed cost of 1. Fetches the pull request at the given commit.</li>
-<li><code>out</code>: Minimum 1, max 3 (1 for each of <code>status</code>, <code>comment</code> and <code>comment_file</code>).</li>
+<li><a href="https://github.com/concourse/concourse">concourse/concourse</a>: 51 open pull requests at the time of testing. Cost 2.</li>
+<li><a href="https://github.com/torvalds/linux">torvalds/linux</a>: 305 open pull requests. Cost 8.</li>
+<li><a href="https://github.com/kubernetes/kubernetes">kubernetes/kubernetes</a>: 1072 open pull requests. Cost: 22.</li>
 </ul>
-<p>E.g., typical use for a repository with 125 open pull requests will incur the following costs for every commit:</p>
+<p>For the other two operations the costing is a bit easier:</p>
 <ul>
-<li><code>check</code>: 2 (paginate 125 PR's with 100 per page)</li>
-<li><code>in</code>: 1 (fetch the pull request at the given commit ref)</li>
-<li><code>out</code>: 1 (set status on the commit)</li>
+<li><code>get</code>: Fixed cost of 1. Fetches the pull request at the given commit.</li>
+<li><code>put</code>: Uses the V3 API and has a min cost of 1, +1 for each of <code>status</code>, <code>comment</code> and <code>comment_file</code> etc.</li>
 </ul>
-<p>With a rate limit of 5000 per hour, it could handle 1250 commits between all of the 125 open pull requests in the span of that hour.</p>
 <h2><a id="user-content-migrating" class="anchor" aria-hidden="true" href="#migrating"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Migrating</h2>
 <p>If you are coming from <a href="https://github.com/jtarchie/github-pullrequest-resource">jtarchie/github-pullrequest-resource</a>, its important to know that this resource is inspired by <em>but not a drop-in replacement for</em> the original. Here are some important differences:</p>
 <h4><a id="user-content-new-parameters" class="anchor" aria-hidden="true" href="#new-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New parameters:</h4>

@@ -10297,12 +10297,13 @@ var $author$project$Common$Common$white = {alpha: 1, blue: 255, green: 255, red:
 var $author$project$Banner$Styles$bodyColor = $author$project$Common$Common$white;
 var $author$project$Banner$Styles$bodyFont = 'Barlow';
 var $author$project$Banner$Styles$bodySize = 16;
-var $author$project$Banner$Styles$bodyWidth = 400;
+var $author$project$Common$Common$gridSize = 8;
+var $author$project$Banner$Styles$bodyWidth = $author$project$Common$Common$gridSize * 50;
 var $author$project$Banner$Banner$body = {color: $author$project$Banner$Styles$bodyColor, font: $author$project$Banner$Styles$bodyFont, size: $author$project$Banner$Styles$bodySize, text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', width: $author$project$Banner$Styles$bodyWidth};
-var $author$project$Common$Common$darkGrey = {alpha: 1, blue: 57, green: 50, red: 42};
-var $author$project$Banner$Styles$backgroundColor = $author$project$Common$Common$darkGrey;
+var $author$project$Common$Common$bannerBackgroundColor = {alpha: 1, blue: 57, green: 50, red: 42};
+var $author$project$Banner$Styles$backgroundColor = $author$project$Common$Common$bannerBackgroundColor;
 var $author$project$Banner$Styles$backgroundImage = 'banner-background.png';
-var $author$project$Banner$Styles$bannerHeight = 176;
+var $author$project$Banner$Styles$bannerHeight = $author$project$Common$Common$gridSize * 22;
 var $author$project$Banner$Banner$container = {backgroundColor: $author$project$Banner$Styles$backgroundColor, backgroundImage: $author$project$Banner$Styles$backgroundImage, height: $author$project$Banner$Styles$bannerHeight};
 var $author$project$Banner$Styles$titleColor = $author$project$Common$Common$white;
 var $author$project$Banner$Styles$titleFont = 'Roboto Slab';
@@ -10526,10 +10527,26 @@ var $author$project$Banner$View$view = function () {
 			]));
 }();
 var $author$project$Main$banner = $author$project$Banner$View$view;
-var $author$project$ResourceList$Styles$maxWidth = 888;
-var $author$project$ResourceList$Styles$paddingVertical = 75;
-var $author$project$ResourceList$Styles$spacing = 16;
-var $author$project$ResourceList$ResourceList$container = {maxWidth: $author$project$ResourceList$Styles$maxWidth, paddingVertical: $author$project$ResourceList$Styles$paddingVertical, spacing: $author$project$ResourceList$Styles$spacing};
+var $author$project$Card$Styles$containerWidth = $author$project$Common$Common$gridSize * 35;
+var $author$project$ResourceList$Styles$maxCards = 4;
+var $author$project$ResourceList$Styles$outsideMargin = $author$project$Common$Common$gridSize * 10;
+var $author$project$ResourceList$Styles$spacing = $author$project$Common$Common$gridSize * 2;
+var $author$project$ResourceList$Styles$maxWidth = (($author$project$Card$Styles$containerWidth + $author$project$ResourceList$Styles$spacing) * $author$project$ResourceList$Styles$maxCards) + ($author$project$ResourceList$Styles$outsideMargin * 2);
+var $author$project$ResourceList$Styles$paddingVertical = $author$project$Common$Common$gridSize * 10;
+var $author$project$ResourceList$ResourceList$container = {maxWidth: $author$project$ResourceList$Styles$maxWidth, outsideMargin: $author$project$ResourceList$Styles$outsideMargin, paddingVertical: $author$project$ResourceList$Styles$paddingVertical, spacing: $author$project$ResourceList$Styles$spacing};
+var $author$project$Common$Overrides$grid = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'display', 'grid')),
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'grid-gap', '16px')),
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'justify-content', 'center')),
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'grid-template-columns', 'repeat(auto-fill, 280px)')),
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'margin', '75px auto'))
+	]);
 var $mdgriffith$elm_ui$Internal$Model$Max = F2(
 	function (a, b) {
 		return {$: 'Max', a: a, b: b};
@@ -10538,15 +10555,85 @@ var $mdgriffith$elm_ui$Element$maximum = F2(
 	function (i, l) {
 		return A2($mdgriffith$elm_ui$Internal$Model$Max, i, l);
 	});
-var $author$project$Card$Styles$borderRadius = 4;
-var $author$project$Card$Styles$height = 160;
-var $author$project$Common$Common$greyishRed = {alpha: 0.4, blue: 85, green: 85, red: 98};
-var $author$project$Card$Styles$hoverShadow = {blur: 8, color: $author$project$Common$Common$greyishRed, offsetX: 1, offsetY: 3, size: 1};
-var $author$project$Card$Styles$shadow = {blur: 3, color: $author$project$Common$Common$greyishRed, offsetX: 0, offsetY: 2, size: 1};
-var $author$project$Card$Styles$spacing = 16;
-var $author$project$Card$Styles$width = 280;
-var $author$project$Card$Card$container = {borderRadius: $author$project$Card$Styles$borderRadius, height: $author$project$Card$Styles$height, hoverShadow: $author$project$Card$Styles$hoverShadow, shadow: $author$project$Card$Styles$shadow, spacing: $author$project$Card$Styles$spacing, width: $author$project$Card$Styles$width};
-var $author$project$Card$Card$card = {container: $author$project$Card$Card$container};
+var $mdgriffith$elm_ui$Element$paddingXY = F2(
+	function (x, y) {
+		return _Utils_eq(x, y) ? A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				'p-' + $elm$core$String$fromInt(x),
+				x,
+				x,
+				x,
+				x)) : A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+				y,
+				x,
+				y,
+				x));
+	});
+var $author$project$Card$Styles$containerBorderRadius = 4;
+var $author$project$Card$Styles$containerHeight = $author$project$Common$Common$gridSize * 20;
+var $author$project$Common$Common$shadowColor = {alpha: 0.2, blue: 85, green: 85, red: 98};
+var $author$project$Card$Styles$containerHoverShadow = {blur: 8, color: $author$project$Common$Common$shadowColor, offsetX: 1, offsetY: 3, size: 1};
+var $author$project$Card$Styles$containerPaddingLeft = $author$project$Common$Common$gridSize * 2;
+var $author$project$Card$Styles$containerShadow = {blur: 3, color: $author$project$Common$Common$shadowColor, offsetX: 0, offsetY: 2, size: 1};
+var $author$project$Card$Styles$containerSpacing = $author$project$Common$Common$gridSize * 2;
+var $author$project$Card$Card$container = {borderRadius: $author$project$Card$Styles$containerBorderRadius, height: $author$project$Card$Styles$containerHeight, hoverShadow: $author$project$Card$Styles$containerHoverShadow, paddingLeft: $author$project$Card$Styles$containerPaddingLeft, shadow: $author$project$Card$Styles$containerShadow, spacing: $author$project$Card$Styles$containerSpacing, width: $author$project$Card$Styles$containerWidth};
+var $author$project$Common$Common$cardDescriptionColor = {alpha: 1, blue: 85, green: 85, red: 90};
+var $author$project$Card$Styles$descriptionColor = $author$project$Common$Common$cardDescriptionColor;
+var $author$project$Card$Styles$descriptionFont = 'Barlow';
+var $author$project$Card$Styles$descriptionMaxHeight = $author$project$Common$Common$gridSize * 7;
+var $author$project$Card$Styles$descriptionMaxWidth = $author$project$Card$Styles$containerWidth - ($author$project$Card$Styles$containerSpacing * 2);
+var $author$project$Card$Styles$descriptionPaddingTop = $author$project$Common$Common$gridSize * 3;
+var $author$project$Card$Styles$descriptionSize = 12;
+var $author$project$Card$Styles$descriptionSpacing = $author$project$Card$Styles$descriptionSize - $author$project$Common$Common$gridSize;
+var $author$project$Card$Card$description = {color: $author$project$Card$Styles$descriptionColor, font: $author$project$Card$Styles$descriptionFont, maxHeight: $author$project$Card$Styles$descriptionMaxHeight, maxWidth: $author$project$Card$Styles$descriptionMaxWidth, paddingTop: $author$project$Card$Styles$descriptionPaddingTop, size: $author$project$Card$Styles$descriptionSize, spacing: $author$project$Card$Styles$descriptionSpacing};
+var $author$project$Card$Styles$githubImageHeight = $author$project$Common$Common$gridSize * 2;
+var $author$project$Card$Styles$githubImageName = 'github-logo.png';
+var $author$project$Card$Styles$githubImagePaddingTop = $author$project$Common$Common$gridSize * 3;
+var $author$project$Card$Styles$githubImageWidth = $author$project$Common$Common$gridSize * 2;
+var $author$project$Card$Card$github = {imageHeight: $author$project$Card$Styles$githubImageHeight, imageName: $author$project$Card$Styles$githubImageName, imageWidth: $author$project$Card$Styles$githubImageWidth, paddingTop: $author$project$Card$Styles$githubImagePaddingTop};
+var $author$project$Common$Common$cardTitleColor = {alpha: 2, blue: 41, green: 41, red: 42};
+var $author$project$Card$Styles$nameColor = $author$project$Common$Common$cardTitleColor;
+var $author$project$Card$Styles$nameFont = 'Roboto Slab';
+var $author$project$Card$Styles$nameMaxWidth = $author$project$Card$Styles$containerWidth - ($author$project$Card$Styles$containerSpacing * 2);
+var $author$project$Card$Styles$namePaddingTop = $author$project$Common$Common$gridSize * 3;
+var $author$project$Card$Styles$nameSize = 20;
+var $author$project$Card$Card$name = {color: $author$project$Card$Styles$nameColor, font: $author$project$Card$Styles$nameFont, maxWidth: $author$project$Card$Styles$nameMaxWidth, paddingTop: $author$project$Card$Styles$namePaddingTop, size: $author$project$Card$Styles$nameSize};
+var $author$project$Card$Card$resourceType = {description: $author$project$Card$Card$description, github: $author$project$Card$Card$github, name: $author$project$Card$Card$name};
+var $author$project$Card$Card$card = {container: $author$project$Card$Card$container, resourceType: $author$project$Card$Card$resourceType};
+var $mdgriffith$elm_ui$Element$rgba255 = F4(
+	function (red, green, blue, a) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, a);
+	});
+var $author$project$Card$View$cardHoverShadow = function () {
+	var hoverShadow = $author$project$Card$Card$card.container.hoverShadow;
+	return {
+		blur: hoverShadow.blur,
+		color: A4($mdgriffith$elm_ui$Element$rgba255, hoverShadow.color.red, hoverShadow.color.blue, hoverShadow.color.green, hoverShadow.color.alpha),
+		offset: _Utils_Tuple2(hoverShadow.offsetX, hoverShadow.offsetY),
+		size: hoverShadow.size
+	};
+}();
+var $author$project$Card$View$cardShadow = function () {
+	var shadow = $author$project$Card$Card$card.container.shadow;
+	return {
+		blur: shadow.blur,
+		color: A4($mdgriffith$elm_ui$Element$rgba255, shadow.color.red, shadow.color.blue, shadow.color.green, shadow.color.alpha),
+		offset: _Utils_Tuple2(shadow.offsetX, shadow.offsetY),
+		size: shadow.size
+	};
+}();
+var $mdgriffith$elm_ui$Internal$Flag$overflow = $mdgriffith$elm_ui$Internal$Flag$flag(20);
+var $mdgriffith$elm_ui$Element$clip = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.clip);
+var $mdgriffith$elm_ui$Element$clipY = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.clipY);
+var $author$project$Card$View$edges = {bottom: 0, left: 0, right: 0, top: 0};
 var $mdgriffith$elm_ui$Element$el = F2(
 	function (attrs, child) {
 		return A4(
@@ -10563,6 +10650,75 @@ var $mdgriffith$elm_ui$Element$el = F2(
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
 				_List_fromArray(
 					[child])));
+	});
+var $author$project$Common$Overrides$ellipsis = _List_fromArray(
+	[
+		A2($elm$html$Html$Attributes$style, 'text-overflow', 'ellipsis'),
+		A2($elm$html$Html$Attributes$style, 'white-space', 'nowrap'),
+		A2($elm$html$Html$Attributes$style, 'overflow', 'hidden'),
+		A2($elm$html$Html$Attributes$style, 'height', '26px')
+	]);
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $mdgriffith$elm_ui$Internal$Model$unstyled = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Unstyled, $elm$core$Basics$always);
+var $mdgriffith$elm_ui$Element$html = $mdgriffith$elm_ui$Internal$Model$unstyled;
+var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $mdgriffith$elm_ui$Element$image = F2(
+	function (attrs, _v0) {
+		var src = _v0.src;
+		var description = _v0.description;
+		var imageAttributes = A2(
+			$elm$core$List$filter,
+			function (a) {
+				switch (a.$) {
+					case 'Width':
+						return true;
+					case 'Height':
+						return true;
+					default:
+						return false;
+				}
+			},
+			attrs);
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.imageContainer),
+				attrs),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[
+						A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asEl,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('img'),
+						_Utils_ap(
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$src(src)),
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$alt(description))
+								]),
+							imageAttributes),
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
+					])));
 	});
 var $mdgriffith$elm_ui$Internal$Model$Hover = {$: 'Hover'};
 var $mdgriffith$elm_ui$Internal$Model$PseudoSelector = F2(
@@ -10586,11 +10742,6 @@ var $mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
 		return {$: 'TransformComponent', a: a, b: b};
 	});
 var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $mdgriffith$elm_ui$Internal$Model$map = F2(
 	function (fn, el) {
@@ -10723,10 +10874,77 @@ var $mdgriffith$elm_ui$Element$mouseOver = function (decs) {
 			$mdgriffith$elm_ui$Internal$Model$Hover,
 			$mdgriffith$elm_ui$Internal$Model$unwrapDecorations(decs)));
 };
-var $mdgriffith$elm_ui$Element$rgba255 = F4(
-	function (red, green, blue, a) {
-		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, a);
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $mdgriffith$elm_ui$Element$newTabLink = F2(
+	function (attrs, _v0) {
+		var url = _v0.url;
+		var label = _v0.label;
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$Attr(
+					$elm$html$Html$Attributes$href(url)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Internal$Model$Attr(
+						$elm$html$Html$Attributes$rel('noopener noreferrer')),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Internal$Model$Attr(
+							$elm$html$Html$Attributes$target('_blank')),
+						A2(
+							$elm$core$List$cons,
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+							A2(
+								$elm$core$List$cons,
+								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+								A2(
+									$elm$core$List$cons,
+									$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
+									attrs)))))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[label])));
 	});
+var $mdgriffith$elm_ui$Internal$Model$paddingName = F4(
+	function (top, right, bottom, left) {
+		return 'pad-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left)))))));
+	});
+var $mdgriffith$elm_ui$Element$paddingEach = function (_v0) {
+	var top = _v0.top;
+	var right = _v0.right;
+	var bottom = _v0.bottom;
+	var left = _v0.left;
+	return (_Utils_eq(top, right) && (_Utils_eq(top, bottom) && _Utils_eq(top, left))) ? A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			'p-' + $elm$core$String$fromInt(top),
+			top,
+			top,
+			top,
+			top)) : A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			A4($mdgriffith$elm_ui$Internal$Model$paddingName, top, right, bottom, left),
+			top,
+			right,
+			bottom,
+			left));
+};
 var $mdgriffith$elm_ui$Internal$Flag$borderRound = $mdgriffith$elm_ui$Internal$Flag$flag(17);
 var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
 	return A2(
@@ -10762,38 +10980,124 @@ var $mdgriffith$elm_ui$Element$Border$shadow = function (almostShade) {
 			'box-shadow',
 			$mdgriffith$elm_ui$Internal$Model$formatBoxShadow(shade)));
 };
+var $author$project$Card$View$testModel = {description: 'Sends alerts to Pagerduty. This resource can now send log output of failing Concourse task(s) to Pagerduty, as well as the standard description and incident_key fields.', name: 'Pager Duty goes on and on and on', url: 'https://github.com/FidelityInternational/concourse-pagerduty-notification-resource'};
 var $author$project$Card$View$view = function () {
-	var style = $author$project$Card$Card$card.container;
+	var name = $author$project$Card$Card$card.resourceType.name;
+	var github = $author$project$Card$Card$card.resourceType.github;
+	var description = $author$project$Card$Card$card.resourceType.description;
+	var container = $author$project$Card$Card$card.container;
 	return A2(
 		$mdgriffith$elm_ui$Element$el,
 		_List_fromArray(
 			[
 				$mdgriffith$elm_ui$Element$width(
-				$mdgriffith$elm_ui$Element$px(style.width)),
+				$mdgriffith$elm_ui$Element$px(container.width)),
 				$mdgriffith$elm_ui$Element$height(
-				$mdgriffith$elm_ui$Element$px(style.height)),
-				$mdgriffith$elm_ui$Element$Border$rounded(style.borderRadius),
-				$mdgriffith$elm_ui$Element$spacing(16),
+				$mdgriffith$elm_ui$Element$px(container.height)),
+				$mdgriffith$elm_ui$Element$Border$rounded(container.borderRadius),
+				$mdgriffith$elm_ui$Element$paddingEach(
+				_Utils_update(
+					$author$project$Card$View$edges,
+					{left: container.paddingLeft})),
 				$mdgriffith$elm_ui$Element$mouseOver(
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$Border$shadow(
-						{
-							blur: style.hoverShadow.blur,
-							color: A4($mdgriffith$elm_ui$Element$rgba255, style.hoverShadow.color.red, style.hoverShadow.color.blue, style.hoverShadow.color.green, style.hoverShadow.color.alpha),
-							offset: _Utils_Tuple2(style.hoverShadow.offsetX, style.hoverShadow.offsetY),
-							size: style.hoverShadow.size
-						})
+						$mdgriffith$elm_ui$Element$Border$shadow($author$project$Card$View$cardHoverShadow)
 					])),
-				$mdgriffith$elm_ui$Element$Border$shadow(
-				{
-					blur: style.shadow.blur,
-					color: A4($mdgriffith$elm_ui$Element$rgba255, style.shadow.color.red, style.shadow.color.blue, style.shadow.color.green, style.shadow.color.alpha),
-					offset: _Utils_Tuple2(style.shadow.offsetX, style.shadow.offsetY),
-					size: style.shadow.size
-				})
+				$mdgriffith$elm_ui$Element$Border$shadow($author$project$Card$View$cardShadow)
 			]),
-		$mdgriffith$elm_ui$Element$text(''));
+		A2(
+			$mdgriffith$elm_ui$Element$newTabLink,
+			_List_Nil,
+			{
+				label: A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Font$size(name.size),
+									$mdgriffith$elm_ui$Element$Font$family(
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$Font$typeface(name.font)
+										])),
+									$mdgriffith$elm_ui$Element$Font$color(
+									$mdgriffith$elm_ui$Element$fromRgb255(name.color)),
+									$mdgriffith$elm_ui$Element$width(
+									A2($mdgriffith$elm_ui$Element$maximum, name.maxWidth, $mdgriffith$elm_ui$Element$fill)),
+									$mdgriffith$elm_ui$Element$paddingEach(
+									_Utils_update(
+										$author$project$Card$View$edges,
+										{top: name.paddingTop})),
+									$mdgriffith$elm_ui$Element$clip
+								]),
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$html(
+									A2(
+										$elm$html$Html$div,
+										$author$project$Common$Overrides$ellipsis,
+										_List_fromArray(
+											[
+												$elm$html$Html$text($author$project$Card$View$testModel.name)
+											])))
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Font$size(description.size),
+									$mdgriffith$elm_ui$Element$Font$family(
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$Font$typeface(description.font)
+										])),
+									$mdgriffith$elm_ui$Element$Font$color(
+									$mdgriffith$elm_ui$Element$fromRgb255(description.color)),
+									$mdgriffith$elm_ui$Element$width(
+									A2($mdgriffith$elm_ui$Element$maximum, description.maxWidth, $mdgriffith$elm_ui$Element$fill)),
+									$mdgriffith$elm_ui$Element$height(
+									A2($mdgriffith$elm_ui$Element$maximum, description.maxHeight, $mdgriffith$elm_ui$Element$fill)),
+									$mdgriffith$elm_ui$Element$spacing(description.spacing),
+									$mdgriffith$elm_ui$Element$paddingEach(
+									_Utils_update(
+										$author$project$Card$View$edges,
+										{top: description.paddingTop})),
+									$mdgriffith$elm_ui$Element$clipY
+								]),
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text($author$project$Card$View$testModel.description)
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$paddingEach(
+									_Utils_update(
+										$author$project$Card$View$edges,
+										{top: github.paddingTop}))
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$image,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$height(
+											$mdgriffith$elm_ui$Element$px(github.imageHeight)),
+											$mdgriffith$elm_ui$Element$width(
+											$mdgriffith$elm_ui$Element$px(github.imageWidth))
+										]),
+									{description: '', src: github.imageName})
+								]))
+						])),
+				url: $author$project$Card$View$testModel.url
+			}));
 }();
 var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
 var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
@@ -10852,35 +11156,6 @@ var $mdgriffith$elm_ui$Internal$Model$extractSpacingAndPadding = function (attrs
 			}),
 		_Utils_Tuple2($elm$core$Maybe$Nothing, $elm$core$Maybe$Nothing),
 		attrs);
-};
-var $mdgriffith$elm_ui$Internal$Model$paddingName = F4(
-	function (top, right, bottom, left) {
-		return 'pad-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left)))))));
-	});
-var $mdgriffith$elm_ui$Element$paddingEach = function (_v0) {
-	var top = _v0.top;
-	var right = _v0.right;
-	var bottom = _v0.bottom;
-	var left = _v0.left;
-	return (_Utils_eq(top, right) && (_Utils_eq(top, bottom) && _Utils_eq(top, left))) ? A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$padding,
-		A5(
-			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-			'p-' + $elm$core$String$fromInt(top),
-			top,
-			top,
-			top,
-			top)) : A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$padding,
-		A5(
-			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-			A4($mdgriffith$elm_ui$Internal$Model$paddingName, top, right, bottom, left),
-			top,
-			right,
-			bottom,
-			left));
 };
 var $mdgriffith$elm_ui$Element$wrappedRow = F2(
 	function (attrs, children) {
@@ -10996,23 +11271,16 @@ var $mdgriffith$elm_ui$Element$wrappedRow = F2(
 	});
 var $author$project$ResourceList$View$view = A2(
 	$mdgriffith$elm_ui$Element$wrappedRow,
+	_Utils_ap(
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				A2($mdgriffith$elm_ui$Element$maximum, $author$project$ResourceList$ResourceList$container.maxWidth, $mdgriffith$elm_ui$Element$fill)),
+				A2($mdgriffith$elm_ui$Element$paddingXY, $author$project$ResourceList$ResourceList$container.outsideMargin, 0)
+			]),
+		$author$project$Common$Overrides$grid),
 	_List_fromArray(
-		[
-			$mdgriffith$elm_ui$Element$width(
-			A2($mdgriffith$elm_ui$Element$maximum, $author$project$ResourceList$ResourceList$container.maxWidth, $mdgriffith$elm_ui$Element$fill)),
-			$mdgriffith$elm_ui$Element$htmlAttribute(
-			A2($elm$html$Html$Attributes$style, 'display', 'grid')),
-			$mdgriffith$elm_ui$Element$htmlAttribute(
-			A2($elm$html$Html$Attributes$style, 'grid-gap', '16px')),
-			$mdgriffith$elm_ui$Element$htmlAttribute(
-			A2($elm$html$Html$Attributes$style, 'justify-content', 'center')),
-			$mdgriffith$elm_ui$Element$htmlAttribute(
-			A2($elm$html$Html$Attributes$style, 'grid-template-columns', 'repeat(auto-fill, 280px)')),
-			$mdgriffith$elm_ui$Element$htmlAttribute(
-			A2($elm$html$Html$Attributes$style, 'margin', '75px auto'))
-		]),
-	_List_fromArray(
-		[$author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view]));
+		[$author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view, $author$project$Card$View$view]));
 var $author$project$Main$resourceList = $author$project$ResourceList$View$view;
 var $author$project$Main$layout = A2(
 	$mdgriffith$elm_ui$Element$column,
