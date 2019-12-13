@@ -10631,7 +10631,6 @@ var $author$project$Card$View$cardShadow = function () {
 	};
 }();
 var $mdgriffith$elm_ui$Internal$Flag$overflow = $mdgriffith$elm_ui$Internal$Flag$flag(20);
-var $mdgriffith$elm_ui$Element$clip = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.clip);
 var $mdgriffith$elm_ui$Element$clipY = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.clipY);
 var $author$project$Card$View$edges = {bottom: 0, left: 0, right: 0, top: 0};
 var $mdgriffith$elm_ui$Element$el = F2(
@@ -11032,8 +11031,7 @@ var $author$project$Card$View$view = function () {
 									$mdgriffith$elm_ui$Element$paddingEach(
 									_Utils_update(
 										$author$project$Card$View$edges,
-										{top: name.paddingTop})),
-									$mdgriffith$elm_ui$Element$clip
+										{top: name.paddingTop}))
 								]),
 							_List_fromArray(
 								[
