@@ -265,6 +265,9 @@ If you only need <code>build-info.json</code> you can set this to <code>false</c
 <li>
 <p><code>download_checksums</code>: If artifact checksum files should be downloaded (default <code>true</code>).</p>
 </li>
+<li>
+<p><code>threads</code>: Number of threads to use when downloading artifacts (default <code>1</code>).</p>
+</li>
 </ul>
 </div>
 </div>
@@ -311,6 +314,9 @@ Uploaded artifacts will have <code>build.name</code> and <code>build.number</cod
 </li>
 <li>
 <p><code>disable_checksum_uploads</code>: If checksum based uploads should be disabled (useful to prevent artifactory from associating the wrong resource with a snapshot version).</p>
+</li>
+<li>
+<p><code>threads</code>: Number of threads to use when deploying artifacts (defaults to <code>1</code>).</p>
 </li>
 <li>
 <p><code>artifact_set</code>: Additional configuration for a subset of the artifacts (see below).</p>

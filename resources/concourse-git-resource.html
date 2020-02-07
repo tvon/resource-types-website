@@ -142,6 +142,17 @@ the <code>branch</code>. Patterns are <a href="http://man7.org/linux/man-pages/m
 compatible (as in, bash compatible).</p>
 </li>
 <li>
+<p><code>submodule_credentials</code>: <em>Optional.</em> List of credentials for HTTP(s) auth when pulling/pushing private git submodules which are not stored in the same git server as the container repository.
+Example:</p>
+<pre><code>submodule_credentials:
+- host: github.com
+  username: git-user
+  password: git-password
+- &lt;another-configuration&gt;
+</code></pre>
+<p>Note that <code>host</code> is specified with no protocol extensions.</p>
+</li>
+<li>
 <p><code>git_config</code>: <em>Optional.</em> If specified as (list of pairs <code>name</code> and <code>value</code>)
 it will configure git global options, setting each name with each value.</p>
 <p>This can be useful to set options like <code>credential.helper</code> or similar.</p>
@@ -218,6 +229,23 @@ skipped</li>
       <span class="pl-ent">proxy_port</span>: <span class="pl-c1">3128</span>
       <span class="pl-ent">proxy_user</span>: <span class="pl-s">myuser</span>
       <span class="pl-ent">proxy_password</span>: <span class="pl-s">myverysecurepassword</span></pre></div>
+<p>Resource configuration for a private repo with a private submodule from different git server:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">source-code</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">git@github.com:concourse/git-resource.git</span>
+    <span class="pl-ent">branch</span>: <span class="pl-s">master</span>
+    <span class="pl-ent">submodule_credentials</span>:
+    - <span class="pl-ent">host</span>: <span class="pl-s">some.other.git.server</span>
+      <span class="pl-ent">username</span>: <span class="pl-s">user</span>
+      <span class="pl-ent">password</span>: <span class="pl-s">verysecurepassword</span>
+    <span class="pl-ent">private_key</span>: <span class="pl-s">|</span>
+<span class="pl-s">      -----BEGIN RSA PRIVATE KEY-----</span>
+<span class="pl-s">      MIIEowIBAAKCAQEAtCS10/f7W7lkQaSgD/mVeaSOvSF9ql4hf/zfMwfVGgHWjj+W</span>
+<span class="pl-s">      &lt;Lots more text&gt;</span>
+<span class="pl-s">      DWiJL+OFeg9kawcUL6hQ8JeXPhlImG6RTUffma9+iGQyyBMCGd1l</span>
+<span class="pl-s">      -----END RSA PRIVATE KEY-----</span></pre></div>
 <p>Fetching a repo with only 100 commits of history:</p>
 <div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">source-code</span>
   <span class="pl-ent">params</span>: <span class="pl-s">{depth: 100}</span></pre></div>

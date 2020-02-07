@@ -149,6 +149,26 @@ it gets even simpler:</p>
       <span class="pl-ent">commands</span>:
       - <span class="pl-ent">command</span>: <span class="pl-s">create-org</span>
       - <span class="pl-ent">command</span>: <span class="pl-s">create-space</span></pre></div>
+<h2><a id="user-content-cf_home" class="anchor" aria-hidden="true" href="#cf_home"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CF_HOME</h2>
+<p>The standard way to authenticate the <code>cf-cli-resource</code> with a target Cloud Foundry environment is to either use <code>username</code> and <code>password</code> or <code>client_id</code> and <code>client_secret</code>, which will save a <code>$CF_HOME/.cf/config.json</code> file containing the API endpoint, and access token.  For some pipeline workflows, it is necessary to authenticate using alternative methods and then supply the pre-configured <code>config.json</code> to the <code>cf-cli-resource</code>.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">cf-prod</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">cf-cli-resource</span>
+
+<span class="pl-ent">jobs</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">deploy</span>
+  <span class="pl-ent">plan</span>:
+  - <span class="pl-ent">get</span>: <span class="pl-s">my-repo</span>
+  - <span class="pl-ent">task</span>: <span class="pl-s">authenticate</span>
+    <span class="pl-ent">file</span>: <span class="pl-s">my-repo/some-script-that-authenticates-and-creates-a-cf-config-json.yml</span>
+  - <span class="pl-ent">put</span>: <span class="pl-s">cf-prod</span>
+    <span class="pl-ent">params</span>:
+      <span class="pl-ent">cf_home</span>: <span class="pl-s">authenticate-task-output</span>
+      <span class="pl-ent">commands</span>:
+      - <span class="pl-ent">command</span>: <span class="pl-s">push</span>
+        <span class="pl-ent">path</span>: <span class="pl-s">my-repo/myapp</span>
+        <span class="pl-ent">manifest</span>: <span class="pl-s">my-repo/manifest.yml</span></pre></div>
 <h2><a id="user-content-command-via-file-input" class="anchor" aria-hidden="true" href="#command-via-file-input"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Command via file input</h2>
 <p>This resource supports file inputs.  This allows the pipeline to parameterize and generate commands during pipeline execution.</p>
 <ul>
@@ -751,6 +771,7 @@ it gets even simpler:</p>
 <li><code>docker_password</code>: <em>Optional.</em> This should be the users password when authenticating against a protected docker registry</li>
 <li><code>manifest</code>: <em>Optional.</em> Path to manifest</li>
 <li><code>hostname</code>: <em>Optional.</em> Hostname (e.g. my-subdomain)</li>
+<li><code>domain</code>: <em>Optional.</em> Domain to use instead of the default (e.g. apps.internal, subdomain.example.com)</li>
 <li><code>instances</code>: <em>Optional.</em> Number of instances</li>
 <li><code>disk_quota</code>: <em>Optional.</em> Disk limit (e.g. 256M, 1024M, 1G)</li>
 <li><code>memory</code>: <em>Optional.</em> Memory limit (e.g. 256M, 1024M, 1G)</li>
